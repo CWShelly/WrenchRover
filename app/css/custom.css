@@ -483,6 +483,10 @@ color: #3acec2;
 
 @media (min-width: 768px){
 
+  [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+   display: none !important;
+ }
+
   .mapListBidPrice {color:#ff6600;
     font-size:16pt;
     margin-right: 0;
