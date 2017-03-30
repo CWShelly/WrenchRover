@@ -14,7 +14,43 @@ module.exports = function(app) {
 
     if (localStorage.getItem('token') != undefined || null) {
       this.token = localStorage.getItem('token');
+
     }
+
+    // ////
+    if (localStorage.getItem('stringChosen')) {
+      console.log('chosen');
+      this.arrChosen = JSON.parse(localStorage.getItem('stringChosen'));
+
+      console.log(this.arrChosen);
+
+      this.removeStringChosen = function(value) {
+        var index = this.arrChosen.indexOf(value);
+        this.arrChosen.splice(index, 1);
+
+      };
+
+
+    } else {
+      this.chosen = 'a';
+    }
+    if (localStorage.getItem('stringDash')) {
+      console.log('dash chosen');
+      this.dashChosen = JSON.parse(localStorage.getItem('stringDash'));
+
+    } else {
+      this.dashChosen = 'b';
+    }
+
+    if (localStorage.getItem('describeIssue')) {
+      console.log('describe issue');
+      this.describeIssue = localStorage.getItem('describeIssue');
+
+    } else {
+      this.describeIssue = 'c';
+    }
+
+    // ////
 
 
     this.previouslyEntered = localStorage.getItem('describeIssue');

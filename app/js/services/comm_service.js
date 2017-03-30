@@ -34,6 +34,7 @@ module.exports = function(app) {
         this.oilChosen = that.oilChosen;
         window.localStorage.oilChosen = this.oilChosen;
 
+
       },
 
 
@@ -52,6 +53,7 @@ module.exports = function(app) {
         this.chosen = that.chosen;
         console.log(that.nextCount);
         window.localStorage.chosen = this.chosen;
+        window.localStorage.stringChosen = JSON.stringify(this.chosen);
         this.nextCount = that.nextCount;
       },
 
@@ -113,6 +115,7 @@ module.exports = function(app) {
         this.dashChosen = that.dashChosen;
         this.dashCount = that.dashCount;
         window.localStorage.dashChosen = this.dashChosen;
+        window.localStorage.stringDash = JSON.stringify(this.dashChosen);
         this.dashCount = that.dashCount;
 
       },
