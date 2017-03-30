@@ -8,15 +8,14 @@
   <tbody>
     <tr ng-repeat="dashlights in describe.dashChild">
 
-
-   <td><a ng-click ="describe.dashSelect(dashlights.name)" ng-model="a"><img src="{{dashlights.imageSrc}}" alt="" class="warning">
+   <td><a ng-click ="describe.checkedSelected(dashlights.name)" ng-model="a"><img src="{{dashlights.imageSrc}}" alt="" class="warning">
    </a></td>
 
-   <td><a ng-click ="describe.dashSelect(dashlights.name2)" ng-model="a"><img src="{{dashlights.imageSrc2}}" alt="" class="warning">
+   <td><a ng-click ="describe.checkedSelected(dashlights.name2)" ng-model="a"><img src="{{dashlights.imageSrc2}}" alt="" class="warning">
    </a></td>
-   <td><a ng-click ="describe.dashSelect(dashlights.name3)" ng-model="a"><img src="{{dashlights.imageSrc3}}" alt="" class="warning">
+   <td><a ng-click ="describe.checkedSelected(dashlights.name3)" ng-model="a"><img src="{{dashlights.imageSrc3}}" alt="" class="warning">
    </a></td>
-   <td><a ng-click ="describe.dashSelect(dashlights.name4)" ng-model="a"><img src="{{dashlights.imageSrc4}}" alt="" class="warning">
+   <td><a ng-click ="describe.checkedSelected(dashlights.name4)" ng-model="a"><img src="{{dashlights.imageSrc4}}" alt="" class="warning">
    </a></td>
     </tr>
   </tbody>

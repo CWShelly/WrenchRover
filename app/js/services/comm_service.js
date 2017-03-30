@@ -49,29 +49,6 @@ module.exports = function(app) {
         }
       },
 
-      dashSelect: function(y) {
-        console.log(y);
-        this.chosenDashlight = y;
-        this.dashChosen = that.dashChosen;
-        if (dashChosen.indexOf(y) == -1) {
-          dashChosen.push(y);
-          that.dashCount = 9;
-        } else {
-
-          var index = dashChosen.indexOf(y);
-          dashChosen.splice(index, 1);
-          if (dashChosen.length === 0) {
-            that.dashCount = 0;
-          }
-
-
-        }
-
-        this.dashCount = that.dashCount;
-        window.localStorage.dashChosen = this.dashChosen;
-        console.log(this.chosenDashlight);
-      },
-
 
       nextPage: function() {
         console.log('next page');
