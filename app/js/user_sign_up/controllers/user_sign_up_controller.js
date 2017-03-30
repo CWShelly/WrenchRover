@@ -56,6 +56,13 @@ module.exports = function(app) {
     });
 
 
+    if (localStorage.getItem('user_name')) {
+      modalService.user_name = localStorage.getItem('user_name');
+    } else {
+      modalService.user_name = 'Sign in';
+    }
+
+
     this.storedVehicle = JSON.parse(localStorage.getItem('vehicle'));
 
     var remote = new Resource(this.users, this.errors, baseUrl + 'users', { errMessages: { create: 'create error' } });
@@ -244,6 +251,8 @@ module.exports = function(app) {
         $http.get(baseUrl + 'users/' + this.user_id )
         .then((res) => {
           console.log(res);
+          console.log(res.data.user_name);
+          window.localStorage.user_name = res.data.user_name;
           console.log(res.data.service_centers.length);
           if (res.data.service_centers.length != 0) {
             console.log('service center person');
@@ -263,14 +272,20 @@ then((res) => {
       console.log(this.signedInUser);
       window.localStorage.user_id = res.data[i].id;
       window.localStorage.service_center_id = res.data[i].id;
+      window.localStorage.user_name = res.data[i].service_name;
     } else {
       console.log('no');
     }
   }
 })
 .then(() => {
-  // $state.go('sc_portal_view.pending_view');
-  $state.go('sc_portal_view');
+  $state.go('sc_portal_view')
+  .then(() => {
+    console.log('reloading');
+    $window.location.reload();
+  });
+
+
 });
 
 
@@ -283,7 +298,11 @@ then((res) => {
             console.log(res.data.service_requests[0].work_request);
 
             window.localStorage.service_requests = JSON.stringify(res.data.service_requests[0].work_request);
-            $state.go('user_dashboard');
+            $state.go('user_dashboard')
+            .then(() => {
+              console.log('reloading');
+              $window.location.reload();
+            });
 
           }
         });
@@ -318,7 +337,12 @@ then((res) => {
       $http.defaults.headers.common.Authorization = '';
       localStorage.clear();
       this.closeDropDown();
-      $state.go('vehicle_dropdown_selection');
+      $state.go('vehicle_dropdown_selection')
+      .then(() => {
+        $window.location.reload();
+
+      });
+
     };
 
   }]);

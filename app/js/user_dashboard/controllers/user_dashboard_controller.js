@@ -15,6 +15,9 @@ module.exports = exports = function(app) {
     this.service_requests_count = 0;
     this.modalService = modalService;
     this.message = 'temp';
+    console.log('USHER DASH BOARDS');
+
+    modalService.user_name = 'Sign in';
 
 
     if (!localStorage.getItem('token')) {
@@ -187,6 +190,7 @@ module.exports = exports = function(app) {
          this.userObject = res.data;
          this.userObject.memberSince = memberDate;
          this.user_id_mini = this.userObject.user_name;
+
 
          console.log(this.userObject);
          if (res.data.service_requests.length > 0) {
