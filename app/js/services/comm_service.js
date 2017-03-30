@@ -1,10 +1,9 @@
+/* eslint-disable prefer-arrow-callback */
 module.exports = function(app) {
   app.factory('cmService', ['$http', function($http) {
     this.url = 'https://wrenchroverapi.herokuapp.com/service_requests';
     this.chosenService = null;
     this.chosenDashlight = null;
-    var chosen = [];
-    this.chosen = chosen;
     var oilChosen = [];
     this.oilChosen = oilChosen;
     var dashChosen = [];
@@ -15,47 +14,30 @@ module.exports = function(app) {
     this.dashCount = 0;
     this.textInput = null;
 
+
     console.log(this.count);
 
     return {
-      chosen: chosen,
-
-      oilSelected: function(value, second) {
-        this.chosenService = second;
-        if (value && that.count === 0) {
-          that.count = 5;
-          oilChosen.push(second);
-        } else {
-          that.count = 0;
-          var index = oilChosen.indexOf(second);
-          oilChosen.splice(index);
-        }
-        this.count = that.count;
-        this.oilChosen = that.oilChosen;
-        window.localStorage.oilChosen = this.oilChosen;
-
+    //   chosen: chosen,
+      chosen: [],
+      checkedSelected: function(value) {
+        console.log(this.chosen);
+        // console.log(value);
+        this.chosen.push(value);
+        // console.log(chosen);
+        window.localStorage.chosen = JSON.stringify(this.chosen);
 
       },
 
 
-      checkedSelected: function(value, second) {
-        this.chosenService = second;
-        if (value) {
-          that.nextCount = 7;
-          chosen.push(second);
-        } else {
-          var index = chosen.indexOf(second);
-          chosen.splice(index, 1);
-          if (chosen.length === 0) {
-            that.nextCount = 0;
-          }
-        }
-        this.chosen = that.chosen;
-        console.log(that.nextCount);
-        window.localStorage.chosen = this.chosen;
-        window.localStorage.stringChosen = JSON.stringify(this.chosen);
-        this.nextCount = that.nextCount;
+      remove: function(value) {
+        console.log(value);
+        var index = this.chosen.indexOf(value);
+        this.chosen.splice(index, 1);
+        console.log(this.chosen);
+        window.localStorage.chosen = JSON.stringify(this.chosen);
       },
+
 
       textAreaFunc: function(value) {
         this.textInput = value;
@@ -91,49 +73,6 @@ module.exports = function(app) {
       },
 
 
-      removeChosenService: function(x) {
-        console.log(x);
-        var index = chosen.indexOf(x);
-        chosen.splice(index, 1);
-        console.log(chosen);
-        if (chosen.length === 0) {
-          that.nextCount = 0;
-        }
-        this.chosen = that.chosen;
-        this.nextCount = that.nextCount;
-        window.localStorage.chosen = this.chosen;
-        this.nextCount = that.nextCount;
-      },
-
-      removeChosenDash: function(x) {
-        console.log(x);
-        var index = dashChosen.indexOf(x);
-        dashChosen.splice(index, 1);
-        if (dashChosen.length === 0) {
-          that.dashCount = 0;
-        }
-        this.dashChosen = that.dashChosen;
-        this.dashCount = that.dashCount;
-        window.localStorage.dashChosen = this.dashChosen;
-        window.localStorage.stringDash = JSON.stringify(this.dashChosen);
-        this.dashCount = that.dashCount;
-
-      },
-
-      removeChosenOil: function(x) {
-
-        var index = oilChosen.indexOf(x);
-
-        oilChosen.splice(index, 1);
-        if (oilChosen.length === 0) {
-          that.count = 0;
-        }
-        this.oilChosen = that.oilChosen;
-        this.count = that.count;
-        window.localStorage.oilChosen = this.oilChosen;
-        this.oilCount = that.oilCount;
-
-      },
       nextPage: function() {
         console.log('next page');
       },
