@@ -10,6 +10,9 @@ module.exports = function(app) {
     };
     this.service = modalService;
 
+    // console.log(modalService.user_name);
+    this.user_name = modalService.user_name;
+    console.log(modalService.user_name);
     this.serviceCenter = false;
     // this.activeButton = function() {
     //   this.serviceCenter = !this.serviceCenter;
@@ -20,6 +23,14 @@ module.exports = function(app) {
 
     };
 
+
+    if (!localStorage.getItem('user_name')) {
+      this.user_name = 'Sign in';
+      console.log('THERE IS A PERSON!');
+    } else {
+      this.user_name = localStorage.getItem('user_name');
+      console.log(this.user_name);
+    }
 
     this.toggled = function(open) {
 

@@ -9,6 +9,7 @@ module.exports = function(app) {
 
     this.indexNumberA = 99;
     this.indexNumberB = 999;
+    this.user_name = 'Sign in';
 
     console.log(this.indexNumberA);
     console.log(this.indexNumberB);
