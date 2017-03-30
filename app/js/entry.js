@@ -31,7 +31,7 @@ require('./componentCtrl')(wrApp);
 require('./mega')(wrApp);
 
 
-wrApp.config(($stateProvider, $urlRouterProvider) => {
+wrApp.config( ($stateProvider, $urlRouterProvider) => {
   $stateProvider
 .state('user_sign_up_form_view_page_one', {
   url: '/sign_up',
