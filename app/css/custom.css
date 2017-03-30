@@ -481,6 +481,17 @@ color: #3acec2;
   /*border: 1px solid red;*/
 }
 
+
+.no-spinners [type='number'] {
+-moz-appearance:textfield;
+}
+
+.no-spinners::-webkit-outer-spin-button,
+.no-spinners::-webkit-inner-spin-button {
+-webkit-appearance: none;
+margin: 0;
+}
+
 @media (min-width: 768px){
 
   [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {

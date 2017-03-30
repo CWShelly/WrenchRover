@@ -31,6 +31,7 @@
           <br>{{describe.storedVehicle.trim.name}}
           <br>{{describe.storedVehicle.engine}}
           <br>Mileage:  {{describe.storedVehicle.miles}}
+          <a style="color: red;"  ng-controller="vehicleModalController as $ctrl" ng-click ="$ctrl.open()">Edit</a>
         </div>
         <!-- displays chosen list of services -->
         <div class="col-md-12 col-sm-12 carHeader">
@@ -43,20 +44,30 @@
 </ul>
 <!-- displays chosen list of services -->
 <ul>
+
 <chosen-service data-ng-repeat="chosenservice in describe.service.chosen" data-chosenservice="chosenservice">
 
 </chosen-service>
+
+<!-- <li ng-repeat="chosen in describe.arrChosen">{{chosen}}<button ng-click="describe.removeStringChosen(chosen)">x</button></li> -->
+
+
+  <!-- <button ng-click = "describe.removeChosenService(chosenservice)" ng-init=" describe.service.chosenService === '{{chosenservice}}'" class = "btn btn-default">X</button> -->
 </ul>
 
 <ul>
+
 <chosen-dash data-ng-repeat="chosendash in describe.service.dashChosen" data-chosendash = "chosendash" style="list-style:none;"></chosen-dash>
+
+<!-- <li ng-repeat="dash in describe.dashChosen"> {{dash}}</li> -->
 
 </ul>
 
 <p ng-class="{'text-primary': describe.service.textInput || describe.service.textInput !== '', 'hidden': !describe.service.textInput || describe.service.textInput === ''}">You wrote:</p>
 
 <!-- displays user described issue in the shopping cart -->
-<div ng-class="{'temporaryInsideDiv': describe.service.textInput, 'hidden': !describe.service.textInput}">
+<div ng-class="{'temporaryInsideDiv': describe.service.textInput, 'hidden': !describe.service.textInput}" ng-show="describe.describeIssue == 'c'">
+
 {{describe.service.textInput}}
 
 <button ng-click="describe.editThis()"  ng-disabled="describe.service.textInput === '' || !describe.service.textInput" ng-class="{'btn btn-primary': describe.service.textInput || describe.service.textInput !== '', 'hidden': !describe.service.textInput || describe.service.textInput === ''}">X</button>
