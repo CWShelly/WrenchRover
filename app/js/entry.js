@@ -1,4 +1,4 @@
-const angular = require('angular');
+var angular = require('angular');
 require('ngmap');
 require('angular-ui-router');
 require('angular-ui-bootstrap');
@@ -8,7 +8,7 @@ require('gm.datepicker-multi-select');
 var config = require('../config.js');
 
 
-const wrApp = angular.module('wrApp', ['wrApp.config', require('angular-route'), 'ngAnimate', 'ngSanitize', 'ui.bootstrap', 'gm.datepickerMultiSelect', 'ui.router', 'ngMap']);
+var wrApp = angular.module('wrApp', ['wrApp.config', require('angular-route'), 'ngAnimate', 'ngSanitize', 'ui.bootstrap', 'gm.datepickerMultiSelect', 'ui.router', 'ngMap']);
 
 require('./services')(wrApp);
 require('./maps')(wrApp);
