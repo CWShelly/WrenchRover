@@ -1,6 +1,6 @@
 <!-- <section> -->
 
-  <div class="container">
+  <div class="container" ng-init="describe.getReqLS()">
     <div class="row">
 
   <div>
@@ -37,22 +37,19 @@
         <div class="col-md-12 col-sm-12 carHeader">
           Your Services
         </div>
-<ul>
-  <chosen-oil data-ng-repeat="chosenoil in describe.service.oilChosen" data-chosenoil="chosenoil">
-  </chosen-oil>
 
-</ul>
 <!-- displays chosen list of services -->
 <ul>
 
-<chosen-service data-ng-repeat="chosenservice in describe.service.chosen" data-chosenservice="chosenservice">
-
-</chosen-service>
-
-<!-- <li ng-repeat="chosen in describe.arrChosen">{{chosen}}<button ng-click="describe.removeStringChosen(chosen)">x</button></li> -->
 
 
-  <!-- <button ng-click = "describe.removeChosenService(chosenservice)" ng-init=" describe.service.chosenService === '{{chosenservice}}'" class = "btn btn-default">X</button> -->
+ <li ng-repeat="x in describe.service.chosen">{{x}}
+<button class="btn btn-primary btn-xs" ng-click="describe.remove(x)">X</button>
+
+ </li>
+
+
+
 </ul>
 
 <ul>

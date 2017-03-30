@@ -1,4 +1,4 @@
-
+/* eslint-disable prefer-arrow-callback */
 var baseUrl = require('../../config').baseUrl;
 
 module.exports = function(app) {
@@ -10,47 +10,14 @@ module.exports = function(app) {
     this.oils = [];
     this.service = cmService;
     this.selection = null;
+    this.chosenService = [];
+    this.chosenArr = [];
 
 
     if (localStorage.getItem('token') != undefined || null) {
       this.token = localStorage.getItem('token');
 
     }
-
-    // ////
-    if (localStorage.getItem('stringChosen')) {
-      console.log('chosen');
-      this.arrChosen = JSON.parse(localStorage.getItem('stringChosen'));
-
-      console.log(this.arrChosen);
-
-      this.removeStringChosen = function(value) {
-        var index = this.arrChosen.indexOf(value);
-        this.arrChosen.splice(index, 1);
-
-      };
-
-
-    } else {
-      this.chosen = 'a';
-    }
-    if (localStorage.getItem('stringDash')) {
-      console.log('dash chosen');
-      this.dashChosen = JSON.parse(localStorage.getItem('stringDash'));
-
-    } else {
-      this.dashChosen = 'b';
-    }
-
-    if (localStorage.getItem('describeIssue')) {
-      console.log('describe issue');
-      this.describeIssue = localStorage.getItem('describeIssue');
-
-    } else {
-      this.describeIssue = 'c';
-    }
-
-    // ////
 
 
     this.previouslyEntered = localStorage.getItem('describeIssue');
@@ -132,18 +99,36 @@ module.exports = function(app) {
 
     });
 
-    this.oilSelected = function(x, y) {
-      var value = this.value;
-      cmService.oilSelected(value, y);
+
+// ///button version for choosing the service from cm begins///
+
+    this.getReqLS = function() {
+      if (localStorage.getItem('chosen')) {
+        this.locallyStoredReqs = JSON.parse(localStorage.getItem('chosen'));
+        console.log(this.locallyStoredReqs);
+
+
+        cmService.chosen = this.locallyStoredReqs;
+        console.log(cmService.chosen);
+      } else {
+        console.log('No requests in LS');
+      }
     };
 
-    this.checkedSelected = function(x, y) {
-    //   console.log('(else)parenthetical checkSelcted values: ' + x);
-      var value = this.value;
-      cmService.checkedSelected(value, y);
-      console.log(cmService.chosen);
+    this.checkedSelected = function(value) {
 
+      console.log(value);
+      cmService.checkedSelected(value);
+      that.chosenService = cmService.chosen;
+      this.getReqLS();
     };
+
+    this.remove = function(value) {
+      cmService.remove(value);
+    };
+
+
+// ///button version for choosing the service from cm end///
 
 
     this.textAreaFunc = function(x) {
@@ -174,6 +159,7 @@ module.exports = function(app) {
       var x = z;
       cmService.removeChosenService(x);
     };
+
 
     this.removeChosenDash = function(value) {
       var x = value;

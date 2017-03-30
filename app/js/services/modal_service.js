@@ -68,12 +68,10 @@ module.exports = function(app) {
 
       pickTimes: function(value) {
 
-
         this.timesArr.push(value);
 
         this.apptArr.push(this.the_month + '/' + this.date + ' at ' + value);
         console.log(this.apptArr);
-
 
         return this.apptArr;
       }
