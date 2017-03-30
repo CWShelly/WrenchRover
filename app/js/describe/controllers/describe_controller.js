@@ -155,23 +155,6 @@ module.exports = function(app) {
     };
 
 
-    this.removeChosenService = function(z) {
-      var x = z;
-      cmService.removeChosenService(x);
-    };
-
-
-    this.removeChosenDash = function(value) {
-      var x = value;
-      cmService.removeChosenDash(x);
-    };
-
-    this.removeChosenOil = function(value) {
-      console.log(value);
-      var x = value;
-      cmService.removeChosenOil(x);
-    };
-
     this.autoX = function() {
       cmService.autoX();
     };
