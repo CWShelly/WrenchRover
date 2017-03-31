@@ -12,23 +12,18 @@ module.exports = function(app) {
     this.count = 0;
     this.nextCount = 0;
     this.dashCount = 0;
-    this.textInput = null;
 
 
     console.log(this.count);
-
+    this.editDescribeIssue = false;
     return {
-    //   chosen: chosen,
       chosen: [],
+
       checkedSelected: function(value) {
         console.log(this.chosen);
-        // console.log(value);
         this.chosen.push(value);
-        // console.log(chosen);
         window.localStorage.chosen = JSON.stringify(this.chosen);
-
       },
-
 
       remove: function(value) {
         console.log(value);
@@ -38,21 +33,17 @@ module.exports = function(app) {
         window.localStorage.chosen = JSON.stringify(this.chosen);
       },
 
-
       textAreaFunc: function(value) {
-        this.textInput = value;
-        if (value === undefined) {
-          window.localStorage.removeItem('describeIssue');
-
-        } else {
-          window.localStorage.describeIssue = this.textInput;
-        }
+        console.log(value);
+        this.message = value;
+        console.log(this.message);
+        window.localStorage.describeIssue = this.message;
       },
 
-
-      nextPage: function() {
-        console.log('next page');
+      done: function(value) {
+        console.log('value');
       },
+
       autoX: function() {
         this.storedVehicle = JSON.parse(localStorage.getItem('vehicle'));
 
