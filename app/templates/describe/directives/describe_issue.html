@@ -1,29 +1,38 @@
 
 <form data-ng-submit="describeIt(description)">
   <div class="probHeader">
-                    <h2 style="margin:0px">Describe your issue</h2>
-                    <p>Tell us in your own words whats wrong.</p>
-                  </div>
+    <h2 style="margin:0px">Describe your issue</h2>
+    <p>Tell us in your own words whats wrong.</p>
+  </div>
 
-<!-- ////// -->
 
-<div class="form-group row">
+
+      <div class="form-group row">
           <form>
           <div class="col-md-12 col-sm-12" style="margin:15px;">
             <div class="alert alert-dismissible alert-info" style="width:95%">
               <button type="button" class="close" data-dismiss="alert">x</button>
               <strong>Example:</strong> "While driving, when I press my brakes and my car pulls to the right. It only occurs if I am driving upwards of 30 mph and brake hard."
             </div>
-            <!-- <p><textarea class="form-control" style="width:95%;height:100px;" placeholder="Please be as descriptive as possible"></textarea></p> -->
+<!-- ng-init="value=describe.previouslyEntered" -->
 
-              <p><textarea name="describe" id="" class="form-control" style="width:95%;height:100px" ng-model="value" placeholder={{describe.placeholder}} ng-init="value=describe.previouslyEntered"></textarea></p>
+              <p><textarea name="describe" id="" class="form-control" style="width:95%;height:100px" ng-model="value" placeholder={{describe.placeholder}}
+
+              ></textarea></p>
           </div>
         </div>
         <div class="form-group row text-center">
           <div class="col-md-12 col-sm-12">
             <!-- <button type="submit" class="btn btn-primary" style="width:auto;">ADD TO SERVICES</button> -->
 
-            <button type="submit" class="btn btn-primary" ng-click="textAreaFunc(value)" tyle="width:auto;">Add to Services</button>
+            <button  ng-show="describe.service.editDescribeIssue != true" type="submit" class="btn btn-primary" ng-click="textAreaFunc(value)" style="width:auto;">{{buttonText}}</button>
+
+             <!-- <button ng-show="describe.service.editDescribeIssue == true">Update</button> -->
+
+            <button  ng-show="describe.service.editDescribeIssue == true" type="submit" class="btn btn-primary" ng-click="textAreaFunc(value)" style="width:auto;">Update</button>
+
+              <button  ng-show="describe.service.editDescribeIssue == true" type="submit" class="btn btn-primary" ng-click="doneEditing(value);" style="width:auto;">Cancel</button>
+
           </div>
         </div>
         </form>

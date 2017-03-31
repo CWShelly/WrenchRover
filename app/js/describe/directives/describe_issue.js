@@ -1,5 +1,5 @@
 module.exports = function(app) {
-  app.directive('describeIssue', function() {
+  app.directive('describeIssue', () => {
     return {
       restrict: 'EAC',
       controller: 'describeController',
@@ -20,6 +20,7 @@ module.exports = function(app) {
         scope.save = actions[scope.action];
         scope.describeIt = controller.describeIt;
         scope.textAreaFunc = controller.textAreaFunc;
+        scope.doneEditing = controller.doneEditing;
         scope.beginIt = controller.beginIt;
       }
     };

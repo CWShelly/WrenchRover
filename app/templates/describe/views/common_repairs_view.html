@@ -1,6 +1,6 @@
 <!-- <section> -->
 
-  <div class="container" ng-init="describe.getReqLS()">
+  <div class="container" ng-init="describe.getReqLS()"  >
     <div class="row">
 
   <div>
@@ -16,7 +16,7 @@
         </nav>
       </div>
       <div class = "probContainer col-md-7 col-sm-12"
-           style="overflow-y:scroll; border: 2px solid #FF6600;">
+           style="overflow-y:scroll; border: 2px solid #FF6600;" id="bottom">
 
         <ui-view></ui-view>
       </div>
@@ -39,35 +39,19 @@
         </div>
 
 <!-- displays chosen list of services -->
-<ul>
-
-
-
- <li ng-repeat="x in describe.service.chosen">{{x}}
-<button class="btn btn-primary btn-xs" ng-click="describe.remove(x)">X</button>
-
- </li>
-
-
-
+<ul id="shoppingCart">
+   <li ng-repeat="x in describe.service.chosen">{{x}}
+    <button class="btn btn-primary btn-xs" ng-click="describe.remove(x)">X</button>
+   </li>
 </ul>
 
-<ul>
 
-<chosen-dash data-ng-repeat="chosendash in describe.service.dashChosen" data-chosendash = "chosendash" style="list-style:none;"></chosen-dash>
+<span ng-hide="!describe.service.message "><p style="color: blue;">You wrote:{{describe.service.message}} </p> <button class="btn btn-primary btn-xs" ng-click="describe.goTo()">edit</button></span>
 
-<!-- <li ng-repeat="dash in describe.dashChosen"> {{dash}}</li> -->
 
-</ul>
+<a ng-click="describe.keepAdding()">Add more requests</a>
 
-<p ng-class="{'text-primary': describe.service.textInput || describe.service.textInput !== '', 'hidden': !describe.service.textInput || describe.service.textInput === ''}">You wrote:</p>
 
-<!-- displays user described issue in the shopping cart -->
-<div ng-class="{'temporaryInsideDiv': describe.service.textInput, 'hidden': !describe.service.textInput}" ng-show="describe.describeIssue == 'c'">
-
-{{describe.service.textInput}}
-
-<button ng-click="describe.editThis()"  ng-disabled="describe.service.textInput === '' || !describe.service.textInput" ng-class="{'btn btn-primary': describe.service.textInput || describe.service.textInput !== '', 'hidden': !describe.service.textInput || describe.service.textInput === ''}">X</button>
 </div>
 </div>
 

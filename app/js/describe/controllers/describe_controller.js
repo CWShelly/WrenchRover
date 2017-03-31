@@ -2,7 +2,7 @@
 var baseUrl = require('../../config').baseUrl;
 
 module.exports = function(app) {
-  app.controller('describeController', ['cmService', '$http', function( cmService, $http) {
+  app.controller('describeController', ['cmService', '$http', '$anchorScroll', '$location', '$state', function( cmService, $http, $anchorScroll, $location, $state) {
     this.descriptions = [];
     this.childrens = [];
     this.errors = [];
@@ -12,7 +12,8 @@ module.exports = function(app) {
     this.selection = null;
     this.chosenService = [];
     this.chosenArr = [];
-
+    this.message = cmService.message;
+    this.editDescribeIssue = false;
 
     if (localStorage.getItem('token') != undefined || null) {
       this.token = localStorage.getItem('token');
@@ -21,15 +22,19 @@ module.exports = function(app) {
 
 
     this.previouslyEntered = localStorage.getItem('describeIssue');
-    this.localStorageOil = localStorage.getItem('oilChosen');
-    this.localStorageDash = localStorage.getItem('dashChosen');
+
+    if (localStorage.getItem('describeIssue')) {
+      cmService.message = localStorage.getItem('describeIssue');
+    }
+
+
     this.localStorageChosen = localStorage.getItem('chosen');
 
     this.storedVehicle = JSON.parse(localStorage.getItem('vehicle'));
 
 
     var that = this;
-    that.value = this.value;
+    // that.value = this.value;
     this.placeholder = "Tell us what's happening with your car.";
     this.button = 'Enter';
     this.button = that.button;
@@ -99,8 +104,38 @@ module.exports = function(app) {
 
     });
 
+    this.goTo = function() {
+      cmService.editDescribeIssue = true;
+      console.log(cmService.editDescribeIssue);
 
-// ///button version for choosing the service from cm begins///
+      if ($location.path() == '/common_repairs/describe_issue') {
+        console.log('you are on describe');
+        $location.hash('bottom');
+        $anchorScroll();
+      } else {
+        $state.go('common_repairs_view.describe_issue');
+        $location.hash('bottom');
+        $anchorScroll();
+      }
+    };
+
+    this.doneEditing = function(value) {
+      console.log(value);
+
+      this.value = localStorage.getItem('describeIssue');
+
+      console.log('going back to the cart');
+      $location.hash('shoppingCart');
+      $anchorScroll();
+    };
+
+
+    this.keepAdding = function() {
+      $state.go('common_repairs_view.get_started');
+      $location.hash('keepAdding');
+      $anchorScroll();
+    };
+
 
     this.getReqLS = function() {
       if (localStorage.getItem('chosen')) {
@@ -114,6 +149,7 @@ module.exports = function(app) {
         console.log('No requests in LS');
       }
     };
+
 
     this.checkedSelected = function(value) {
 
@@ -132,28 +168,16 @@ module.exports = function(app) {
 
 
     this.textAreaFunc = function(x) {
-      var value = this.value;
-      this.value = 'Thank you';
-      cmService.textAreaFunc(value);
-    };
-
-    this.editThis = function() {
-      var value = '';
-      this.placeholder = 'Update?';
-      this.textAreaFunc();
-    };
-
-    this.changeText = function() {
-      that.button = 'x';
-    };
-
-    this.dashSelect = function(x) {
       console.log(x);
-      var value = x;
-      cmService.dashSelect(value);
+      this.placeholder = 'Thank you';
+
+
+      that.message = x;
+      cmService.textAreaFunc(x);
+      that.doneEditing();
+      this.value = localStorage.getItem('describeIssue');
 
     };
-
 
     this.autoX = function() {
       cmService.autoX();
