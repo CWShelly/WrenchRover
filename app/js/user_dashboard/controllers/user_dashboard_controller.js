@@ -14,7 +14,7 @@ module.exports = exports = function(app) {
     this.acceptedObject = {};
     this.service_requests_count = 0;
     this.modalService = modalService;
-    this.message = 'temp';
+    this.message = 'We are currently digging for offers';
     console.log('USHER DASH BOARDS');
     this.localCorrection = 'Seattle, WA';
     // this.local = [0, 0];
@@ -164,12 +164,11 @@ module.exports = exports = function(app) {
          vm.localCorrection = JSON.stringify(res.data.user_zip);
 
 
-         if (this.local[0] == 0 && this.local[1] == 0 && res.data.user_zip != null) {
+         if (this.local[0] == 0 && this.local[1] == 0 && res.data.user_zip == null) {
            console.log("you're in the middle of the ocean");
            vm.local = vm.localCorrection;
-         } else {
-           vm.local = 'Seattle, WA';
          }
+
 
          console.log(vm.localCorrection);
          console.log(res);
