@@ -5,7 +5,7 @@
 
     <h3 class="panel-title">Sign in</h3>
   </div>
-<div>
+    <div>
   <div>
 
 <div ng-hide="x" ng-controller="userSignUpController as userctrl">
@@ -21,7 +21,7 @@ ng-hide = "y"
 
 </user-sign-in-form>
 
-<p class="center" ng-hide="y"> Don't have an awesome account? <a ng-click = "y=!y">Click here to create one</a></p>
+<p class="center" ng-hide="y"> Don't have an account? <a ng-click = "y=!y">Click here to create one</a></p>
 
 
 <user-sign-up-form-page-one
@@ -40,27 +40,16 @@ ng-hide = "y"
   data-action="create"
   data-xuser="userctrl.newUser">
   </user-sign-up-form-page-one>
+
+  <p class="center" ng-hide="!y">Already have an account? <a ng-click = "y=!y">Click here to log-in</a></p>
 </div>
 
-<div class="checkbox center">
-        <label>
-        <input type="checkbox"  class="center" ng-model="x"> I am a Service Center.
-        </label>
-      </div>
 
 
-<p class="center" ng-hide="y">Already have an account? <a ng-click = "y=!y">Click here to log-in</a></p>
+<!-- <p class="center" ng-hide="!y">Already have an account? <a ng-click = "y=!y">Click here to log-in</a></p> -->
 
-<!-- mechanic sign in -->
 
-<div ng-hide="!x" ng-controller="mechanicSignUpController as mech">
-  <mechanic-sign-in
-    data-action= "create"
-      data-button-text="Mechanic Log-in"
-        data-mech="mech">
-    </mechanic-sign-in>
 
-</div>
 
 
 <button class="btn btn-primary" type="button" ng-click="userctrl.close()">Cancel</button>
