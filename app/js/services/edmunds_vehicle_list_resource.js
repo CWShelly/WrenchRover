@@ -48,7 +48,8 @@ module.exports = exports = function(app) {
         }
       }
       if (this.vehicleListOptions.engineList.length === 0) {
-        this.vehicleListOptions.engineList.push('N/A');
+        console.log(this.vehicleListOptions.engineList);
+        this.vehicleListOptions.engineList.push('Default');
       }
       if (this.vehicleListOptions.engineList.length > 1) {
         this.vehicleListOptions.engineList.sort();
