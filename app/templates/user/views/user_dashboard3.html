@@ -48,7 +48,7 @@
 					<div class="row" >
 						  	<div class="col-md-6 col-sm-6" id="mapDiv">
 										<span  map-lazy-load="https://maps.googleapis.com/maps/api/js?key={{UserDashCtrl.key}}" id = "map_canvas">
-										 		<ng-map  default-style="true" zoom="11" center="{{UserDashCtrl.local}}">
+										 		<ng-map  default-style="true" zoom="15" center="{{UserDashCtrl.local}}">
 												<marker position = "{{UserDashCtrl.local}}" animation="Animation.BOUNCE"  centered="true"> </marker>
 												<marker id='{{p.id}}' position="{{p.pos}}"
 												 ng-repeat="p in UserDashCtrl.positions"
