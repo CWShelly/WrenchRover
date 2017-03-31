@@ -187,11 +187,8 @@ module.exports = exports = function(app) {
       };
 
       this.disableMe = function(id) {
-
         console.log(this.vehicleObject.mileage);
-
         document.getElementById(id).disabled = true;
-
         console.log(id);
       };
 

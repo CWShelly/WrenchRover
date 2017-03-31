@@ -50,6 +50,7 @@
                     data-ng-model="VehicleInfoController.vehicleObject.trim"
                     ng-change="VehicleInfoController.newTrimSelected();
                                VehicleInfoController.getVehicleEngines();
+                               VehicleInfoController.showMe('Vmileage1');
                                VehicleInfoController.showMe('e')"
                     ng-options="trim.name for trim in VehicleInfoController.vehicleListOptions.trimList"
                     disabled>
