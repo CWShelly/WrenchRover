@@ -26,13 +26,16 @@
              Your Vehicle:
         </div>
         <div class="col-md-12 col-sm-12 carData">
-          <strong>{{describe.storedVehicle.year}} {{describe.storedVehicle.make.name}}
-          {{describe.storedVehicle.model.name}}</strong>
-          <br>{{describe.storedVehicle.trim.name}}
-          <br>{{describe.storedVehicle.engine}}
-          <br>Mileage:  {{describe.storedVehicle.miles}}
-          <a style="color: red;"  ng-controller="vehicleModalController as $ctrl" ng-click ="$ctrl.open()">Edit</a>
+          <strong>{{describe.service.storedVehicle.year}} {{describe.service.storedVehicle.make.name}}
+          {{describe.service.storedVehicle.model.name}}</strong>
+          <br>{{describe.service.storedVehicle.trim.name}}
+          <br>{{describeservice.storedVehicle.engine}}
+          <br>Mileage:  {{describe.service.storedVehicle.miles}}
+          <!-- <a style="color: red;"  ng-controller="vehicleModalController as $ctrl" ng-click ="$ctrl.open()">Edit</a> -->
+
+                <a style="color: red;"  ng-click ="describe.open()">Edit</a>
         </div>
+
         <!-- displays chosen list of services -->
         <div class="col-md-12 col-sm-12 carHeader">
           Your Services
@@ -89,5 +92,5 @@
         <br>
 
       </div>
-  </div>
+
 </div>

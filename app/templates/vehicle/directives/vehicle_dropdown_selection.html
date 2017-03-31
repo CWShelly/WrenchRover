@@ -10,12 +10,13 @@
             <select class="form-control"
                     id="a"
                     data-ng-model="VehicleInfoController.vehicleObject.year"
+
                     ng-change="VehicleInfoController.newYearSelected();
                                VehicleInfoController.getVehicleMakes();
                                VehicleInfoController.showMe('b');
                                VehicleInfoController.disableMe('Vvin')"
                     ng-options="year for year in VehicleInfoController.vehicleListOptions.yearsList">
-              <option value="">Year</option>
+              <option value="">{{VehicleInfoController.year}}</option>
             </select>
           </div>
           <div class="col-md-6 col-sm-12">
@@ -27,7 +28,7 @@
                                VehicleInfoController.showMe('c')"
                     ng-options="make.name for make in VehicleInfoController.vehicleListOptions.makeList"
                     disabled>
-              <option value="">Make</option>
+              <option value="">{{VehicleInfoController.make}}</option>
             </select>
           </div>
         </div>
@@ -41,7 +42,7 @@
                                VehicleInfoController.showMe('d')"
                     ng-options="model.name for model in VehicleInfoController.vehicleListOptions.modelList"
                     disabled>
-              <option value="">Model</option>
+              <option value="">{{VehicleInfoController.model}}</option>
             </select>
           </div>
           <div class="col-md-6 col-sm-12">
@@ -54,7 +55,7 @@
                                VehicleInfoController.showMe('e')"
                     ng-options="trim.name for trim in VehicleInfoController.vehicleListOptions.trimList"
                     disabled>
-              <option value="">Trim</option>
+              <option value="">{{VehicleInfoController.trim}}</option>
             </select>
           </div>
         </div>
@@ -66,7 +67,7 @@
                     ng-change="VehicleInfoController.showMe('Vmileage1')"
                     ng-options="engine for engine in VehicleInfoController.vehicleListOptions.engineList"
                     disabled>
-              <option value="">Engine</option>
+              <option value="">{{VehicleInfoController.engine}}</option>
             </select>
           </div>
           <div class="col-md-6 col-sm-12">
@@ -76,7 +77,7 @@
                    max="999999"
                    class="form-control no-spinners"
                    id="Vmileage1"
-                   placeholder="Mileage"
+                   placeholder="{{VehicleInfoController.mileage}}"
                    data-ng-model="VehicleInfoController.vehicleObject.miles"
                    disabled>
           </div>
@@ -88,8 +89,18 @@
                 <button class="btn btn-primary"
                         type="submit"
                         ng-disabled="!VehicleInfoController.cookies"
-                        ng-click="VehicleInfoController.saveToLocalStorage()"
+                        ng-click="VehicleInfoController.update()"
                         >
+
+                        Update
+                </button>
+
+
+                <button class="btn btn-primary"
+                        type="submit"
+                        ng-disabled="!VehicleInfoController.cookies"
+                        ng-click="VehicleInfoController.saveToLocalStorage()"
+>
                         {{buttonText}}
                 </button>
               </div>
@@ -149,4 +160,7 @@
 
 
       </form>
+    <!-- {{VehicleInfoController.commService.storedVehicle}}xxx -->
+
+      <ng-transclude></ng-transclude>
     </section>

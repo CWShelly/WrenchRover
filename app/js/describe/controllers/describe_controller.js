@@ -2,7 +2,7 @@
 var baseUrl = require('../../config').baseUrl;
 
 module.exports = function(app) {
-  app.controller('describeController', ['cmService', '$http', '$anchorScroll', '$location', '$state', function( cmService, $http, $anchorScroll, $location, $state) {
+  app.controller('describeController', ['cmService', '$http', '$anchorScroll', '$location', '$state', '$uibModal', 'modalService', function( cmService, $http, $anchorScroll, $location, $state, $uibModal, modalService) {
     this.descriptions = [];
     this.childrens = [];
     this.errors = [];
@@ -14,6 +14,32 @@ module.exports = function(app) {
     this.chosenArr = [];
     this.message = cmService.message;
     this.editDescribeIssue = false;
+
+
+    // ////modal
+    this.open = function(parentSelector) {
+      this.modalObj = {
+        templateUrl: 'templates/modal/directives/add_vehicle.html'
+      };
+
+      var modalInstance = $uibModal.open(
+        {
+          templateUrl: 'templates/modal/directives/add_vehicle.html',
+          controller: 'VehicleInfoController',
+          controllerAs: 'VehicleInfoController'
+        }
+
+      );
+      this.pass = function(modalInstance) {
+        modalService.pass(modalInstance);
+      };
+
+
+      this.pass(modalInstance);
+
+    };
+
+    // ////modal
 
     if (localStorage.getItem('token') != undefined || null) {
       this.token = localStorage.getItem('token');
@@ -31,6 +57,7 @@ module.exports = function(app) {
     this.localStorageChosen = localStorage.getItem('chosen');
 
     this.storedVehicle = JSON.parse(localStorage.getItem('vehicle'));
+    cmService.storedVehicle = this.storedVehicle;
 
 
     var that = this;
