@@ -15,33 +15,23 @@
 data-button-text="Log-In"
 data-login="login"
 data-action = "create"
-ng-hide = "y"
+ng-show = "y"
 
 >
 
 </user-sign-in-form>
 
-<p class="center" ng-hide="y"> Don't have an account? <a ng-click = "y=!y">Click here to create one</a></p>
+<p class="center" ng-show="y"> Don't have an account? <a ng-click = "y=!y">Click here to create one</a></p>
 
-
-<user-sign-up-form-page-one
-    ng-if = "!userctrl.storedVehicle"
-    ng-hide="!y"
-    data-button-text="Sign up v 2!"
-    data-xuser="userctrl.newUser"
-    data-action="createAlt">
- </user-sign-up-form-page-one>
 
   <user-sign-up-form-page-one
-    ng-if = "userctrl.storedVehicle"
-  ng-hide="!y"
-
+  ng-show="!y"
   data-button-text="Join today!"
   data-action="create"
   data-xuser="userctrl.newUser">
   </user-sign-up-form-page-one>
 
-  <p class="center" ng-hide="!y">Already have an account? <a ng-click = "y=!y" style=>Click here to log-in</a></p>
+  <p class="center" ng-show="!y">Already have an account? <a ng-click = "y=!y" style=>Click here to log-in</a></p>
 </div>
 
 
