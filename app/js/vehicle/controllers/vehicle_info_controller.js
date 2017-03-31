@@ -1,8 +1,8 @@
 
 var baseUrl = require('../../config').baseUrl;
 module.exports = exports = function(app) {
-  app.controller('VehicleInfoController', ['edmundsVehicleListResource', 'vicClearSelections', '$state', '$http', 'modalService', '$window', '$uibModal',
-    function(Resource, ClearSelections, $state, $http, modalService, $window, $uibModal) {
+  app.controller('VehicleInfoController', ['edmundsVehicleListResource', 'vicClearSelections', '$state', '$http', 'modalService', '$window', '$uibModal', 'cmService',
+    function(Resource, ClearSelections, $state, $http, modalService, $window, $uibModal, cmService) {
       this.cookies = navigator.cookieEnabled;
     // console.log('the thing is:');
 
@@ -11,7 +11,7 @@ module.exports = exports = function(app) {
       console.log(modalService.thing);
       var that = this;
 
-
+      this.service = modalService;
       this.vehicleObject = {
         year: '',
         make: '',
@@ -22,17 +22,41 @@ module.exports = exports = function(app) {
         vin: '',
         vinMiles: ''
       };
+      console.log(localStorage.getItem('vehicle'));
+
+      if (localStorage.getItem('vehicle')) {
+        this.storedVehicle = JSON.parse(localStorage.getItem('vehicle'));
+      }
+      if (!localStorage.getItem('vehicle')) {
+        this.year = 'Year';
+        this.make = 'Make';
+        this.model = 'Model';
+        this.trim = 'Trim';
+        this.engine = 'Engine';
+        this.mileage = 'Mileage';
+      } else {
+        this.year = this.storedVehicle.year;
+        this.make = this.storedVehicle.make.name;
+        this.model = this.storedVehicle.model.name;
+        this.trim = this.storedVehicle.trim.name;
+        this.engine = this.storedVehicle.engine;
+        this.mileage = this.storedVehicle.miles;
+      }
+      this.commService = cmService;
+
+      modalService.vehicleObject = this.vehicleObject;
       this.vehicleListOptions = {
         yearsList: [1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
           2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011,
-          2012, 2013, 2014, 2015, 2016],
+          2012, 2013, 2014, 2015, 2016, 2017],
         makeList: [],
+
         modelList: [],
         trimList: [],
         engineList: []
       };
       this.errors = [];
-      this.service = modalService;
+
 
       // /////open begins//////
       this.open = function(parentSelector) {
@@ -122,14 +146,41 @@ module.exports = exports = function(app) {
       this.newModelSelected = clearSelections.newModelSelected.bind(clearSelections);
       this.newTrimSelected = clearSelections.newTrimSelected.bind(clearSelections);
 
+      this.update = function() {
+        console.log(this.vehicleObject);
+        console.log('updating vehichle');
+        if (this.vehicleObject.miles === null) {
+          this.vehicleObject.miles = this.vehicleObject.vinMiles;
+        }
+        if (this.vehicleObject.engine === 'default' || this.vehicleObject.engine === 'Not Sure') {
+          this.vehicleObject.engine = '';
+        }
+        window.localStorage.vehicle = JSON.stringify(this.vehicleObject);
+        cmService.storedVehicle = JSON.parse(localStorage.getItem('vehicle'));
+
+        that.closeModal();
+        // .then(() => {
+        //
+        //   $window.location.reload();
+        // });
+      };
+
+      that.closeModal = function() {
+        console.log('closing from the vehicle controller');
+        modalService.instance.close();
+        // $window.location.reload();
+      };
+
       this.saveToLocalStorage = function() {
         console.log('save to local');
+        console.log(this.vehicleObject);
         if (this.vehicleObject.miles === null) {
           this.vehicleObject.miles = this.vehicleObject.vinMiles;
         }
         if (this.vehicleObject.engine === 'N/A' || this.vehicleObject.engine === 'Not Sure') {
           this.vehicleObject.engine = '';
         }
+
         window.localStorage.vehicle = JSON.stringify(this.vehicleObject);
         console.log(this.vehicleObject);
         console.log(localStorage.getItem('vehicle'));

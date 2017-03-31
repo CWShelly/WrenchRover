@@ -8,14 +8,21 @@ module.exports = exports = function(app) {
       transclude: true,
       scope: {
         buttonText: '@',
-        click: '@'
+        click: '@',
+        update: '@'
 
       },
       link: function(scope, element, attrs, controller) {
-        var clicks = {
-          localStorage: controller.saveToLocalStorage
-        };
-        scope.save = clicks[scope.click];
+    //     var clicks = [
+    //       save: controller.saveToLocalStorage,
+    //       update: controller.update
+    //   ]
+
+        scope.save = controller.saveToLocalStorage;
+        scope.update = controller.update;
+        // scope.save = clicks[scope.click];
+        // scope.save = controller.saveToLocalStorage;
+        // scope.update = controller.update;
       }
     };
   });

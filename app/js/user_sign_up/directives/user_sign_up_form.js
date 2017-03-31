@@ -15,17 +15,15 @@ module.exports = function(app) {
       },
       link: function(scope, element, attrs, controller) {
         var actions = {
-          create: controller.createUser,
-        //   createAlt: controller.createUserAlt
-          createAlt: controller.createUser2
+          create: controller.createUser
 
 
         //   auto: controller.autoX
         };
-        // scope.save = controller.createUser;
-        // scope.auto = controller.autoX;
-        scope.save = actions[scope.action];
-        // console.log(scope.save);
+        scope.save = controller.createUser;
+
+        // scope.save = actions[scope.action];
+
 
       }
     };

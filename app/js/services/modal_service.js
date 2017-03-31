@@ -18,6 +18,8 @@ module.exports = function(app) {
     console.log(this.status);
     return {
     //   indexNumberA: 5,
+      message: '',
+
       indexNumberB: 7,
       thing: 1,
       dashTest: true,

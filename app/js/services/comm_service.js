@@ -18,6 +18,7 @@ module.exports = function(app) {
     this.editDescribeIssue = false;
     return {
       chosen: [],
+      storedVehicle: JSON.parse(localStorage.getItem('vehicle')),
 
       checkedSelected: function(value) {
         console.log(this.chosen);

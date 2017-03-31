@@ -4,18 +4,6 @@
 <div class="panel panel-primary">
 
 
-  <!-- <div class="panel-heading"> -->
-<!--
-  <div>
-    <span> <h3 class="panel-title">Add a new Vehicle</h3>
-      <button class="btn btn-primary btn-sm"
-              type="button"
-              ng-click="userctrl.close()" style="float:right;">
-              X
-      </button></span>
-  </div> -->
-
-
 <div class="row">    <span>
 
 
@@ -23,7 +11,7 @@
 
       <button class="btn btn-primary btn-sm col-xs-1 col-sm-1 col-lg-1 col-md-1 pull-right"
               type="button"
-              ng-click="userctrl.close()">
+              ng-click="VehicleInfoController.closeModal()">
               X
       </button></span></div>
 
@@ -32,18 +20,21 @@
 
       <div ng-controller="VehicleInfoController as VehicleInfoController">
         <my-vehicle-select
-
               data-button-text="Add"
+              data-click =  "update"
 
-        ></my-vehicle-select>
+              >
 
+        </my-vehicle-select>
 
 
         <button class="btn btn-primary"
                 type="button"
-                  ng-click="userctrl.close()">
+                  ng-click="VehicleInfoController.closeModal()">
                 Close
         </button>
+
+
       </div>
     </div>
   </div>
