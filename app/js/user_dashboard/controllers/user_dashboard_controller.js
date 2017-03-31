@@ -16,8 +16,15 @@ module.exports = exports = function(app) {
     this.modalService = modalService;
     this.message = 'temp';
     console.log('USHER DASH BOARDS');
+    this.localCorrection = 'Seattle, WA';
+    // this.local = [0, 0];
+    this.local = 'current-location';
 
     modalService.user_name = 'Sign in';
+    // if (this.local[0] == 0 && this.local[1] == 0) {
+    //   console.log("you're in the middle of the ocean");
+    //   this.local = this.localCorrection;
+    // }
 
 
     if (!localStorage.getItem('token')) {
@@ -154,7 +161,17 @@ module.exports = exports = function(app) {
 
       $http.get(this.url + 'users/' + this.user_id)
        .then((res) => {
+         vm.localCorrection = JSON.stringify(res.data.user_zip);
 
+
+         if (this.local[0] == 0 && this.local[1] == 0 && res.data.user_zip != null) {
+           console.log("you're in the middle of the ocean");
+           vm.local = vm.localCorrection;
+         } else {
+           vm.local = 'Seattle, WA';
+         }
+
+         console.log(vm.localCorrection);
          console.log(res);
          if (localStorage.getItem('service_requests')) {
            vm.service_request_id = res.data.service_requests[0].id;
