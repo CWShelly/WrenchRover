@@ -21,11 +21,6 @@ module.exports = exports = function(app) {
     this.local = 'current-location';
 
     modalService.user_name = 'Sign in';
-    // if (this.local[0] == 0 && this.local[1] == 0) {
-    //   console.log("you're in the middle of the ocean");
-    //   this.local = this.localCorrection;
-    // }
-
 
     if (!localStorage.getItem('token')) {
       this.heading = 'Sign in';
@@ -42,11 +37,6 @@ module.exports = exports = function(app) {
     console.log(this.heading);
     console.log(this.li);
 
-
-    this.func = function() {
-      console.log('capturing url');
-      console.log($location.absUrl());
-    };
 
     this.closeDropDown = function() {
       console.log('closing the drop down');
@@ -118,7 +108,7 @@ module.exports = exports = function(app) {
     this.confirm = function(value, time) {
       console.log(value);
       console.log(time);
-    //   console.log(time.length);
+
 
       window.localStorage.confirmedAppt = JSON.stringify(value);
       if (time == undefined) {
@@ -127,7 +117,7 @@ module.exports = exports = function(app) {
 
       } else {
         console.log(typeof time);
-        // $window.location.reload();
+
         var timeString = time.toString();
       }
 
@@ -155,8 +145,41 @@ module.exports = exports = function(app) {
 
     };
 
+ // three functions begin
+    function one(str, arr) {
+      for (var i = 0; i < str.length; i++) {
+
+        if (str.charAt(i) != '"') {
+          arr.push(str.charAt(i));
+        }
+      }
+      return arr;
+    }
+    function two(arr) {
+      for (var i = 0; i < arr.length; i++) {
+        if (arr[i] == ',') {
+          arr[i] = ' | ';
+        }
+      }
+      return arr.join();
+    }
+
+    function three(str, empty) {
+      for (var i = 0; i < str.length; i++) {
+        if (str.charAt(i) != ',') {
+          empty += str.charAt(i);
+
+        }
+      }
+      return empty;
+    }
+
+ // three functions end
 
     this.getUserInfo = function() {
+
+      var newString = '';
+      var newArr = [];
       console.log('getting user info');
 
       $http.get(this.url + 'users/' + this.user_id)
@@ -212,29 +235,20 @@ module.exports = exports = function(app) {
          if (res.data.service_requests.length > 0) {
            var reqs = this.userObject.service_requests[0].work_request;
            console.log(reqs);
+           var di = reqs.slice(0, reqs.indexOf('['));
+           console.log(di);
 
-           var stringReqs = JSON.stringify(reqs);
-           console.log(stringReqs);
-           console.log(stringReqs.indexOf('['));
-           this.userObject.user_statement = stringReqs.slice(0, stringReqs.indexOf('['));
-           console.log(typeof reqs);
-           this.userObject.slicedRequests = reqs.slice(reqs.indexOf('[') + 1, reqs.indexOf(']'));
-           this.userObject.pipedRequests = this.userObject.slicedRequests.replace('o', '0');
-        //    console.log(this.userObject.slicedRequests);
-           console.log(this.userObject.pipedRequests);
+           var x = reqs.slice(reqs.indexOf('[') + 1, reqs.indexOf(']'));
+           console.log(x);
+           console.log(typeof x);
 
-           for (var i = 0; i < this.userObject.slicedRequests.length; i++) {
-             this.userObject.slicedRequests.replace('o', '0');
-             console.log(this.userObject.slicedRequests.replace('o', '0')
-             );
-           }
-
-
-           console.log(reqs.indexOf('['));
-           console.log(stringReqs.indexOf('['));
-           console.log(stringReqs.indexOf(']'));
-           console.log(this.userObject.pipedRequests);
-        //    this.userObject.pipedRequests = reqs.replace(',', ' | ');
+           var one1 = one(x, newArr);
+           var two2 = two(one1);
+           var three3 = three(two2, newString);
+           console.log(three3);
+        //    this.userObject.pipedRequests = three3;
+           this.userObject.pipedRequests = three3 + ' | ' + di;
+        //
            this.userObject.autos = res.data.autos;
            this.service_requests_count = res.data.service_requests.length;
            console.log(this.service_requests_count);
@@ -303,6 +317,7 @@ module.exports = exports = function(app) {
 
 
                if (res.data[i].accepted != null) {
+                 console.log(res.data[i]);
                  console.log('YOU HAVE ACCEPTED BIDS ');
 
                }
@@ -343,7 +358,7 @@ module.exports = exports = function(app) {
 
        // if statement on service requets length ends
        } else {
-         console.log('he met a girl out there with a tattoo, too');
+
          console.log('No service requests have been entered yet. part 2');
        }
 
