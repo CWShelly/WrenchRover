@@ -43,7 +43,7 @@
 
 <!-- displays chosen list of services -->
 <ul id="shoppingCart">
-   <li ng-repeat="x in describe.service.chosen">{{x}}
+   <li ng-repeat="x in describe.service.chosen track by $index" >{{x}}
     <button class="btn btn-primary btn-xs" ng-click="describe.remove(x)">X</button>
    </li>
 </ul>

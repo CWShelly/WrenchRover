@@ -12,20 +12,23 @@ module.exports = function(app) {
     this.count = 0;
     this.nextCount = 0;
     this.dashCount = 0;
-
+    this.chosen = [];
+    var chosen = this.chosen;
 
     console.log(this.count);
     this.editDescribeIssue = false;
     this.editVehicle = false;
 
     return {
-      chosen: [],
+    //   chosen: this.chosen,
       storedVehicle: JSON.parse(localStorage.getItem('vehicle')),
 
       checkedSelected: function(value) {
+        // prefer;
         console.log(this.chosen);
-        this.chosen.push(value);
-        window.localStorage.chosen = JSON.stringify(this.chosen);
+        chosen.push(value);
+        window.localStorage.chosen = JSON.stringify(chosen);
+        // window.localStorage.chosen = this.chosen;
       },
 
       remove: function(value) {
