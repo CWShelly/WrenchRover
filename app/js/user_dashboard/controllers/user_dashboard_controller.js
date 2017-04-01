@@ -211,10 +211,34 @@ module.exports = exports = function(app) {
          console.log(this.userObject);
          if (res.data.service_requests.length > 0) {
            var reqs = this.userObject.service_requests[0].work_request;
-           this.userObject.pipedRequests = reqs.replace(',', ' | ');
+           console.log(reqs);
+
+           var stringReqs = JSON.stringify(reqs);
+           console.log(stringReqs);
+           console.log(stringReqs.indexOf('['));
+           this.userObject.user_statement = stringReqs.slice(0, stringReqs.indexOf('['));
+           console.log(typeof reqs);
+           this.userObject.slicedRequests = reqs.slice(reqs.indexOf('[') + 1, reqs.indexOf(']'));
+           this.userObject.pipedRequests = this.userObject.slicedRequests.replace('o', '0');
+        //    console.log(this.userObject.slicedRequests);
+           console.log(this.userObject.pipedRequests);
+
+           for (var i = 0; i < this.userObject.slicedRequests.length; i++) {
+             this.userObject.slicedRequests.replace('o', '0');
+             console.log(this.userObject.slicedRequests.replace('o', '0')
+             );
+           }
+
+
+           console.log(reqs.indexOf('['));
+           console.log(stringReqs.indexOf('['));
+           console.log(stringReqs.indexOf(']'));
+           console.log(this.userObject.pipedRequests);
+        //    this.userObject.pipedRequests = reqs.replace(',', ' | ');
            this.userObject.autos = res.data.autos;
            this.service_requests_count = res.data.service_requests.length;
            console.log(this.service_requests_count);
+           console.log(this.userObject);
 
          } else {
            console.log('no service requests entered.');

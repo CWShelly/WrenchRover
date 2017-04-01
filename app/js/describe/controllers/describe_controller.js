@@ -168,7 +168,10 @@ module.exports = function(app) {
     this.getReqLS = function() {
       if (localStorage.getItem('chosen')) {
         this.locallyStoredReqs = JSON.parse(localStorage.getItem('chosen'));
+
         console.log(this.locallyStoredReqs);
+
+        // this.locallyStoredReqs = localStorage.getItem('chosen');
 
 
         cmService.chosen = this.locallyStoredReqs;

@@ -423,6 +423,8 @@ module.exports = function(app) {
 
          window.localStorage.service_requests = JSON.stringify(res.data.service_requests[0].work_request);
 
+        //  window.localStorage.service_requests = res.data.service_requests[0].work_request;
+
          console.log(that.storedVehicle);
          console.log(that.auto);
          that.auto.user_id = res.data.id;
@@ -434,11 +436,20 @@ module.exports = function(app) {
          that.new_auto_id = res.data.autos[0].id;
          that.auto.id = res.data.autos[0].id;
          that.auto.service_request_id = res.data.service_requests[0].id;
-         $http.put(baseUrl + 'autos' + '/' + that.new_auto_id, that.auto)
+         that.serviceRequests.id = res.data.service_requests[0].id;
+
+         $http.put(baseUrl + 'service_requests' + '/' + that.new_sr_id, that.serviceRequests)
          .then((res) => {
-           console.log('posting the auto');
            console.log(res);
+
+           $http.put(baseUrl + 'autos' + '/' + that.new_auto_id, that.auto)
+             .then((res) => {
+               console.log('posting the auto');
+               console.log(res);
+             });
+
          })
+
 
 //          $http.put(baseUrl + 'service_requests' + '/' + that.new_sr_id, that.serviceRequests)
 //             .then((res) => {
