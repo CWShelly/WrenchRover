@@ -15,13 +15,17 @@ module.exports = function(app) {
         theUser: '='
       },
       link: function(scope, element, attrs, controller) {
-        var actions = {
-        //   create: controller.createUser
-          create: controller.logIn
-        };
+        // var actions = {
+        //   create: controller.logIn,
+        //   hasVehicle: controller.gotVehicle,
+        //   testFunc: controller.testFunc
+        // };
+        //
+        // scope.save = actions[scope.action];
+        scope.logIn = controller.logIn;
 
-        scope.save = actions[scope.action];
-        // console.log(scope.save);
+        scope.replace = controller.replace;
+        scope.noReplace = controller.noReplace;
 
       }
     };

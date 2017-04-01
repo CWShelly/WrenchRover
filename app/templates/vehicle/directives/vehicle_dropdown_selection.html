@@ -90,6 +90,7 @@
                         type="submit"
                         ng-disabled="!VehicleInfoController.cookies"
                         ng-click="VehicleInfoController.update()"
+                        ng-show="VehicleInfoController.commService.editVehicle == true"
                         >
 
                         Update
@@ -98,6 +99,7 @@
 
                 <button class="btn btn-primary"
                         type="submit"
+                          ng-show="VehicleInfoController.commService.editVehicle != true"
                         ng-disabled="!VehicleInfoController.cookies"
                         ng-click="VehicleInfoController.saveToLocalStorage()"
 >
@@ -146,8 +148,6 @@
                     type="submit"
 
  ng-click= "VehicleInfoController.getVin(VehicleInfoController.vehicleObject.vin);"
-
-
 
                               >
                     Lookup Vehicle

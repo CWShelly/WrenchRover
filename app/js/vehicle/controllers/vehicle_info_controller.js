@@ -12,6 +12,7 @@ module.exports = exports = function(app) {
       var that = this;
 
       this.service = modalService;
+      this.commService = cmService;
       this.vehicleObject = {
         year: '',
         make: '',
@@ -42,7 +43,7 @@ module.exports = exports = function(app) {
         this.engine = this.storedVehicle.engine;
         this.mileage = this.storedVehicle.miles;
       }
-      this.commService = cmService;
+
 
       modalService.vehicleObject = this.vehicleObject;
       this.vehicleListOptions = {
@@ -84,7 +85,9 @@ module.exports = exports = function(app) {
 
 
       this.closeModal = function() {
+
         console.log('closing from the vehicle controller');
+        cmService.editVehicle = false;
         modalService.instance.close();
       };
 

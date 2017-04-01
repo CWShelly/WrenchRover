@@ -18,6 +18,7 @@ module.exports = function(app) {
 
     // ////modal
     this.open = function(parentSelector) {
+      cmService.editVehicle = true;
       this.modalObj = {
         templateUrl: 'templates/modal/directives/add_vehicle.html'
       };
