@@ -16,6 +16,8 @@ module.exports = function(app) {
 
     console.log(this.count);
     this.editDescribeIssue = false;
+    this.editVehicle = false;
+
     return {
       chosen: [],
       storedVehicle: JSON.parse(localStorage.getItem('vehicle')),

@@ -176,7 +176,7 @@ module.exports = exports = function(app) {
            vm.service_request_id = res.data.service_requests[0].id;
            console.log(vm.service_request_id);
          }
-
+         console.log(res.data.autos);
 
          if (res.data.autos.length > 0) {
            console.log(res.data.autos);

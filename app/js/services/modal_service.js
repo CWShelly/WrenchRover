@@ -16,10 +16,11 @@ module.exports = function(app) {
 
 
     console.log(this.status);
+    // this.hasVehicle = false;
     return {
     //   indexNumberA: 5,
+      hasVehicle: false,
       message: '',
-
       indexNumberB: 7,
       thing: 1,
       dashTest: true,
