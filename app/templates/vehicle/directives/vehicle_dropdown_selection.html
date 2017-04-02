@@ -54,6 +54,7 @@
                                VehicleInfoController.showMe('Vmileage1');
                                VehicleInfoController.showMe('e')"
                     ng-options="trim.name for trim in VehicleInfoController.vehicleListOptions.trimList"
+
                     disabled>
               <option value="">{{VehicleInfoController.trim}}</option>
             </select>
@@ -91,6 +92,7 @@
                         ng-disabled="!VehicleInfoController.cookies"
                         ng-click="VehicleInfoController.update()"
                         ng-show="VehicleInfoController.commService.editVehicle == true"
+
                         >
 
                         Update
@@ -100,7 +102,7 @@
                 <button class="btn btn-primary"
                         type="submit"
                           ng-show="VehicleInfoController.commService.editVehicle != true"
-                        ng-disabled="!VehicleInfoController.cookies"
+                       
                         ng-click="VehicleInfoController.saveToLocalStorage()"
 >
                         {{buttonText}}

@@ -1,7 +1,7 @@
 
 
 
-<div ng-init="portal.getPastBids()">
+<div ng-init="portal.getRequests()">
 <uib-tabset active="active">
   <h2 style="float:right;">{{portal.welcome}}</h2>
 
@@ -11,18 +11,21 @@
       <div id="mainPending" class="tab-pane fade in active">
     <section ng-init = "portal.getAll()">
 
-    <div class="container" ng-repeat="sample in portal.workrequests">
+
+    <div class="container" ng-repeat="sample in portal.workrequests track by $index">
     	<div class="row" >
     		<div class="col-md-12 col-sm-12">
-          <b>{{sample.convertedToString}}. {{sample.work_request}}</b>
+          <b>{{sample.convertedToString}} -- {{sample.array_request}}</b>
+          <strong>{{sample.id}}</strong>
     		</div>
         <div class="col-md-12 col-sm-12">
           <!-- {{sample}} -->
+
           Vehicle: {{sample.auto.year}} {{sample.auto.make}} {{sample.auto.model}} {{sample.auto.engine}} {{sample.auto.mileage}} miles
         </div>
     		<div class="col-md-12 col-sm-12">
           <!-- note: replace this with new obj property -->
-    			Customer notes: FILL THIS IN LATER
+    			Customer notes: {{sample.describe_issue}}
     		</div>
     	</div>
     	<div class="row" style="margin:10px 0 10px 0;">
@@ -66,11 +69,7 @@
 
       <!-- past bids will show up here -->
 {{sample}}
-<!--
-      <li ng-repeat="sample in portal.pastbids">
-      <br>
-      Created At: {{sample.created_at}}.   Mechanic's Notes: {{sample.quote_text}} Available slots: 1.{{sample.available_date_1}} 2.{{sample.available_date_2}} 3.{{sample.available_date_3}} Quote Cost: {{sample.quote_cost}}
-      </li> -->
+
 <!-- new styling -->
 <div class="container" ng-repeat="sample in portal.pastbids">
 	<div class="row">
