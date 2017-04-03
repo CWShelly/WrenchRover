@@ -15,8 +15,9 @@
     <div class="container" ng-repeat="sample in portal.workrequests track by $index">
     	<div class="row" >
     		<div class="col-md-12 col-sm-12">
-          <b>{{sample.convertedToString}} -- {{sample.array_request}}</b>
-          <strong>{{sample.id}}</strong>
+          <b>{{sample.convertedToString}} -- {{sample.piped}}</b>
+          <!-- <strong>{{sample.id}}</strong> -->
+
     		</div>
         <div class="col-md-12 col-sm-12">
           <!-- {{sample}} -->
@@ -25,6 +26,7 @@
         </div>
     		<div class="col-md-12 col-sm-12">
           <!-- note: replace this with new obj property -->
+          <!-- {{sample.parstring}} -->
     			Customer notes: {{sample.describe_issue}}
     		</div>
     	</div>
