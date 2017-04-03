@@ -19,6 +19,7 @@ module.exports = function(app) {
     // this.hasVehicle = false;
     return {
     //   indexNumberA: 5,
+      user_name: 'Sign in',
       hasVehicle: false,
       message: '',
       indexNumberB: 7,
