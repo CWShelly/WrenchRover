@@ -14,10 +14,8 @@ module.exports = function(app) {
     this.user_name = modalService.user_name;
     console.log(modalService.user_name);
     this.serviceCenter = false;
-    // this.activeButton = function() {
-    //   this.serviceCenter = !this.serviceCenter;
-    // };
-    this.items = ['Coffee', 'Tea', 'Red Bull'];
+
+    // this.items = ['Coffee', 'Tea', 'Red Bull'];
     this.status = {
       isopen: true
 

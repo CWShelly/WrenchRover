@@ -21,7 +21,13 @@ module.exports = exports = function(app) {
     // this.local = [0, 0];
     this.local = 'current-location';
 
-    modalService.user_name = 'Sign in';
+    // modalService.user_name = 'Sign in';
+
+    if (localStorage.getItem('user_name')) {
+      modalService.user_name = localStorage.getItem('user_name');
+    } else {
+      modalService.user_name = 'Sign in';
+    }
 
     if (!localStorage.getItem('token')) {
       this.heading = 'Sign in';

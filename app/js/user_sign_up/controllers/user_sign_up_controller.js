@@ -170,6 +170,8 @@ module.exports = function(app) {
       this.x = {
         user: resource
       };
+
+      window.localStorage.user_name = resource.user_name;
       $http.post(baseUrl + 'users', this.x)
       .then((res) => {
         console.log('1. posting to users');
@@ -177,6 +179,7 @@ module.exports = function(app) {
         this.auto.user_id = res.data.id;
         this.serviceRequests.user_id = res.data.id;
         window.localStorage.user_id = res.data.id;
+
       })
       .catch((error, data) => {
         console.log('oh no an error');
@@ -217,6 +220,7 @@ module.exports = function(app) {
         })
 
      .catch((error) => {
+       localStorage.removeItem('user_name');
        console.log('oh no an error');
        console.log('error');
        console.log(error);
