@@ -1,12 +1,12 @@
-  <div class="panel panel-primary" >
+<div class="panel panel-primary" >
 
-   <button class="btn btn-primary right" type="button" ng-click="userctrl.close()">X</button>
-  <div class="panel-heading">
+ <button class="btn btn-primary right" type="button" ng-click="userctrl.close()">X</button>
+<div class="panel-heading">
 
-    <h3 class="panel-title">Sign in</h3>
-  </div>
-    <div>
+  <h3 class="panel-title">Sign in</h3>
+</div>
   <div>
+<div>
 
 <div ng-hide="x" ng-controller="userSignUpController as userctrl">
 
@@ -15,33 +15,25 @@
 data-button-text="Log-In"
 data-login="login"
 data-action = "create"
+ng-show="y"
 
 >
 
 </user-sign-in-form>
 
-<!-- <user-sign-in-form
-data-button-text="Yes"
-data-login="login"
-data-action = "testFunc"
 
-ng-hide = "userctrl.service.hasVehicle == false"
-
->
-
-</user-sign-in-form> -->
 
 <p class="center" ng-show="y"> Don't have an account? <a ng-click = "y=!y">Click here to create one</a></p>
 
 
-  <user-sign-up-form-page-one
-  ng-show="!y"
-  data-button-text="Join today!!"
-  data-action="create"
-  data-xuser="userctrl.newUser">
-  </user-sign-up-form-page-one>
+<user-sign-up-form-page-one
+ng-show="!y"
+data-button-text="Join today!!"
+data-action="create"
+data-xuser="userctrl.newUser">
+</user-sign-up-form-page-one>
 
-  <p class="center" ng-show="!y">Already have an account? <a ng-click = "y=!y"  >Click here to log-in</a></p>
+<p class="center" ng-show="!y">Already have an account? <a ng-click = "y=!y"  >Click here to log-in</a></p>
 </div>
 
 
