@@ -20,7 +20,11 @@ module.exports = function(app) {
     this.message = cmService.message;
     this.editDescribeIssue = false;
 
-
+    this.toggleBtn = function(tube) {
+      console.log(tube);
+      console.log('toggling');
+      tube.toggled = !tube.toggled;
+    };
     // ////modal
     this.open = function(parentSelector) {
       cmService.editVehicle = true;
