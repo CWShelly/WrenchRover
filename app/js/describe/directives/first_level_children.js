@@ -1,7 +1,7 @@
 module.exports = function(app) {
-  app.directive('firstLevelChildren', function($compile) {
+  app.directive('firstLevelChildren', ($compile) => {
     return {
-      restrict: 'EAC',
+      restrict: 'E',
       replace: true,
       controller: 'describeController',
       controllerAs: 'describe',

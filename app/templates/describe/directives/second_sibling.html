@@ -3,8 +3,10 @@
 
 
 
-  <button ng-class="{'btn-on': secondsibling.toggled, 'btn-off': !secondsibling.toggled}" ng-click="describe.checkedSelected(secondsibling.name); describe.toggleBtn(secondsibling)">{{secondsibling.name}}</button>
+ <button ng-class="{'btn-on': secondsibling.toggled, 'btn-off': !secondsibling.toggled}" ng-click="describe.checkedSelected(secondsibling); describe.toggleBtn(secondsibling)">{{secondsibling.name}}</button>
 
+ <!-- <button ng-class="{'btn-on': secondsibling.toggled, 'btn-off': !secondsibling.toggled}" ng-click="describe.checkedSelected(secondsibling); describe.toggleBtn(secondsibling)">{{secondsibling.name}}</button> -->
 
+<ng-transclude></ng-transclude>
 
 </li>

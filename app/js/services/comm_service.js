@@ -2,13 +2,17 @@
 module.exports = function(app) {
   app.factory('cmService', ['$http', function($http) {
     this.url = 'https://wrenchroverapi.herokuapp.com/service_requests';
+    // var baseUrl = require('../../config').baseUrl;
+
+    var baseUrl = 'https://wrenchroverapi.herokuapp.com/';
+    var that = this;
     this.chosenService = null;
     this.chosenDashlight = null;
     var oilChosen = [];
     this.oilChosen = oilChosen;
     var dashChosen = [];
     this.dashChosen = dashChosen;
-    var that = this;
+
     this.count = 0;
     this.nextCount = 0;
     this.dashCount = 0;
@@ -18,17 +22,55 @@ module.exports = function(app) {
     console.log(this.count);
     this.editDescribeIssue = false;
     this.editVehicle = false;
+    this.childrens = [];
+    this.descriptions = [];
+    $http.get(baseUrl + 'categories')
+          .then((res) => {
+            this.descriptions = res.data;
+
+            for (var i = 0; i < res.data[0].children.length; i++) {
+              that.childrens.push(res.data[0].children[i]);
+            }
+            console.log('take');
+
+          });
+
 
     return {
+      description: this.descriptions,
+      childrens: this.childrens,
       chosen: this.chosen,
       storedVehicle: JSON.parse(localStorage.getItem('vehicle')),
 
-      checkedSelected: function(value) {
+      getCat: function() {
+        console.log('blood');
 
+        $http.get(baseUrl + 'categories')
+              .then((res) => {
+                this.descriptions = res.data;
+
+                for (var i = 0; i < res.data[0].children.length; i++) {
+
+                  that.childrens.push(res.data[0].children[i]);
+
+
+                }
+
+              });
+      },
+
+      checkedSelected: function(value) {
 
         console.log(value);
         console.log(this.chosen);
-        chosen.push(value);
+
+        if (chosen.indexOf(value) == -1) {
+          chosen.push(value);
+        } else {
+          var index = chosen.indexOf(value);
+          chosen.splice(index, 1);
+        }
+
         window.localStorage.chosen = JSON.stringify(chosen);
         // window.localStorage.chosen = this.chosen;
       },
