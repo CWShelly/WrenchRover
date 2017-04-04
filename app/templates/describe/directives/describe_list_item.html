@@ -1,7 +1,8 @@
-<li data-ng-mouseover="count = 'xxxxxxxxx'"  data-ng-mouseleave = "count='x'" ng-init="count='x'" >
 
-<ng-transclude></ng-transclude>
 
+<li >
+<!-- {{description.service.descriptions[0]}}
+sss -->
 
  <!-- <a ui-sref="common_repairs.{{description.label}}">{{description.name}}</a> -->
 
@@ -19,12 +20,12 @@
    ng-click="hover = !hover">
  </a> -->
 
- 
+<!-- {{description}} -->
  <a class="text-center tablink" ui-sref="common_repairs_view.{{description.label}}">
 
 <img src="../../../images/common_icons/{{description.label}}.png" alt=""
  class="propNavItem"><br>{{description.name}}
  </a>
 
-
+<ng-transclude></ng-transclude>
 </li>

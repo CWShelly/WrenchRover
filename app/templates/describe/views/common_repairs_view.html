@@ -1,8 +1,8 @@
 <!-- <section> -->
 
-  <!-- <div class="container" ng-init=" describe.getReqLS();"  > -->
+  <div class="container" ng-init="describe.service.getCat(); describe.getReqLS();"  >
 
-  <div class="container">
+  <!-- <div class="container"> -->
 
     <div class="row">
 
@@ -11,8 +11,12 @@
       <div class="col-md-2 col-sm-12" style="padding:0px;">
         <nav class="probSidenav">
           <!-- the three png icons  -->
-          <ul id = "descriptionList" class="list-unstyled">
-            <describe-item data-ng-repeat="description in describe. descriptions"
+          <ul id = "descriptionList" class="list-unstyled; margin: 0 auto;">
+
+            <!-- <li ng-repeat="x in describe.service.descriptions">{{x}}</li> -->
+
+         <!-- <describe-item data-description="description"></describe-item> -->
+        <describe-item data-ng-repeat="description in describe.service.descriptions"
                            data-description="description">
             </describe-item>
           </ul>

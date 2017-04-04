@@ -1,7 +1,7 @@
 module.exports = function(app) {
-  app.directive('describeItem', function() {
+  app.directive('describeItem', () => {
     return {
-      restrict: 'EAC',
+      restrict: 'E',
       replace: true,
       controller: 'describeController',
       controllerAs: 'describe',

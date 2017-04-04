@@ -24,27 +24,29 @@ module.exports = function(app) {
     this.editVehicle = false;
     this.childrens = [];
     this.descriptions = [];
-    $http.get(baseUrl + 'categories')
-          .then((res) => {
-            this.descriptions = res.data;
-
-            for (var i = 0; i < res.data[0].children.length; i++) {
-              that.childrens.push(res.data[0].children[i]);
-            }
-            console.log('take');
-
-          });
+    // $http.get(baseUrl + 'categories')
+    //       .then((res) => {
+    //         that.descriptions = res.data;
+    //
+    //         for (var i = 0; i < res.data[0].children.length; i++) {
+    //           that.childrens.push(res.data[0].children[i]);
+    //         }
+    //
+    //         console.log(this.descriptions);
+    //         // console.log(that.descriptions);
+    //       }
+    //
+    //   );
 
 
     return {
-      description: this.descriptions,
+      descriptions: this.descriptions,
       childrens: this.childrens,
       chosen: this.chosen,
       storedVehicle: JSON.parse(localStorage.getItem('vehicle')),
 
       getCat: function() {
-        console.log('blood');
-
+        console.log('getting categories');
         $http.get(baseUrl + 'categories')
               .then((res) => {
                 this.descriptions = res.data;
@@ -52,8 +54,6 @@ module.exports = function(app) {
                 for (var i = 0; i < res.data[0].children.length; i++) {
 
                   that.childrens.push(res.data[0].children[i]);
-
-
                 }
 
               });
