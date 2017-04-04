@@ -20,11 +20,13 @@ module.exports = function(app) {
     this.editVehicle = false;
 
     return {
-    //   chosen: this.chosen,
+      chosen: this.chosen,
       storedVehicle: JSON.parse(localStorage.getItem('vehicle')),
 
       checkedSelected: function(value) {
-        // prefer;
+
+
+        console.log(value);
         console.log(this.chosen);
         chosen.push(value);
         window.localStorage.chosen = JSON.stringify(chosen);

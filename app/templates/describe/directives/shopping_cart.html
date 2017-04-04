@@ -1,0 +1,8 @@
+<ul id="shoppingCart">
+
+  <li ng-repeat="x in describe.service.chosen track by $index" >{{x}}
+   <button class="btn btn-primary btn-xs" ng-click="describe.service.remove(x)">X</button>
+
+  </li>
+   	<ng-transclude></ng-transclude>
+</ul>

@@ -19,10 +19,11 @@ module.exports = function(app) {
     this.chosenArr = [];
     this.message = cmService.message;
     this.editDescribeIssue = false;
+    this.chosen = cmService.chosen;
 
     this.toggleBtn = function(tube) {
-      console.log(tube);
-      console.log('toggling');
+    //   console.log(tube);
+    //   console.log('toggling');
       tube.toggled = !tube.toggled;
     };
     // ////modal
@@ -178,6 +179,7 @@ module.exports = function(app) {
       if (localStorage.getItem('chosen')) {
 
         console.log(localStorage.getItem('chosen'));
+
         this.locallyStoredReqs = JSON.parse(localStorage.getItem('chosen'));
 
         console.log(this.locallyStoredReqs);
@@ -194,12 +196,15 @@ module.exports = function(app) {
 
       console.log(value);
       cmService.checkedSelected(value);
-      that.chosenService = cmService.chosen;
-      this.getReqLS();
+    //   that.chosenService = cmService.chosen;
+    //   console.log(that.chosenService);
+    //   window.localStorage.chosen = JSON.stringify(cmService.chosen);
+    //   this.getReqLS();
     };
 
     this.remove = function(value) {
       cmService.remove(value);
+    //   window.localStorage.chosen = JSON.stringify(cmService.chosen);
     };
 
 

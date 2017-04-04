@@ -1,6 +1,9 @@
 <!-- <section> -->
 
   <div class="container" ng-init="describe.getReqLS()"  >
+
+  <!-- <div class="container"> -->
+
     <div class="row">
 
   <div>
@@ -42,12 +45,8 @@
         </div>
 
 <!-- displays chosen list of services -->
-<ul id="shoppingCart">
-   <li ng-repeat="x in describe.service.chosen track by $index" >{{x}}
-    <button class="btn btn-primary btn-xs" ng-click="describe.remove(x)">X</button>
-   </li>
-</ul>
 
+<shopping-cart></shopping-cart>
 
 <span ng-hide="!describe.service.message "><p style="color: blue;">You wrote:{{describe.service.message}} </p> <button class="btn btn-primary btn-xs" ng-click="describe.goTo()">edit</button></span>
 
