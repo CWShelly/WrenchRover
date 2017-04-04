@@ -8,6 +8,7 @@ module.exports = function(app) {
       $state.go('vehicle_dropdown_selection');
     }
 
+
     this.descriptions = [];
     this.childrens = [];
     this.errors = [];
@@ -20,10 +21,11 @@ module.exports = function(app) {
     this.message = cmService.message;
     this.editDescribeIssue = false;
     this.chosen = cmService.chosen;
+    // this.service.getCat();
 
     this.toggleBtn = function(tube) {
-    //   console.log(tube);
-    //   console.log('toggling');
+      console.log(tube);
+      console.log('toggling');
       tube.toggled = !tube.toggled;
     };
     // ////modal
@@ -44,8 +46,6 @@ module.exports = function(app) {
       this.pass = function(modalInstance) {
         modalService.pass(modalInstance);
       };
-
-
       this.pass(modalInstance);
 
     };
@@ -127,20 +127,19 @@ module.exports = function(app) {
       this.dashChild.push(this.sbArr[0].children[i]);
     }
 
-
-    $http.get(baseUrl + 'categories')
-    .then((res) => {
-      this.descriptions = res.data;
-
-      for (var i = 0; i < res.data[0].children.length; i++) {
-        if (res.data[0].children[i].name != 'Oil Change') {
-          this.childrens.push(res.data[0].children[i]);
-        } else {
-          this.oils.push(res.data[0].children[i]);
-        }
-      }
-
-    });
+    //
+    // $http.get(baseUrl + 'categories')
+    // .then((res) => {
+    //   this.descriptions = res.data;
+    //
+    //   for (var i = 0; i < res.data[0].children.length; i++) {
+    //
+    //     this.childrens.push(res.data[0].children[i]);
+    //
+    //
+    //   }
+    // //   cmService.childrens = this.childrens;
+    // });
 
     this.goTo = function() {
       cmService.editDescribeIssue = true;
