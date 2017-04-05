@@ -31,7 +31,14 @@
 		</div>
 		<div class="col-md-3 col-sm-12" style="padding:0;">
 			<div class="apptHead">Services</div>
+
 			<div class="apptText">  <span  ng-if="UserDashCtrl.userObject.service_requests.length ==0">  <a style="color: white;" ng-click ="UserDashCtrl.addRequest()">Submit a request</a></span> {{UserDashCtrl.userObject.pipedRequests}}
+
+				<!-- <div class="apptText">  <span  ng-if="UserDashCtrl.userObject.service_requests.length ==0">  <a style="color: white;" ng-click ="UserDashCtrl.addRequest()">Submit a request</a></span> {{UserDashCtrl.userObject.updatedReqList}}/// {{UserDashCtrl.userObject.newPiped}} -->
+</div>
+				<div class="apptText">  <span  ng-if="UserDashCtrl.userObject.service_requests.length ==0">  <a style="color: white;" ng-click ="UserDashCtrl.addRequest()">Submit a request</a></span>new {{UserDashCtrl.userObject.newPiped}}
+
+					{{UserDashCtrl.userObject.updatedReqList}}
 			</div>
 		</div>
 	</div>

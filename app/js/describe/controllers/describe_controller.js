@@ -127,19 +127,6 @@ module.exports = function(app) {
       this.dashChild.push(this.sbArr[0].children[i]);
     }
 
-    //
-    // $http.get(baseUrl + 'categories')
-    // .then((res) => {
-    //   this.descriptions = res.data;
-    //
-    //   for (var i = 0; i < res.data[0].children.length; i++) {
-    //
-    //     this.childrens.push(res.data[0].children[i]);
-    //
-    //
-    //   }
-    // //   cmService.childrens = this.childrens;
-    // });
 
     this.goTo = function() {
       cmService.editDescribeIssue = true;
