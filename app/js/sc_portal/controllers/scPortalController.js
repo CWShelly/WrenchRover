@@ -23,37 +23,36 @@ module.exports = function(app) {
         }
 
         for (var i = 0; i < res.data.length; i++) {
+
+
           if (res.data[i].work_request.indexOf('[') != -1) {
 
-            if (res.data[i].work_request[0] != '[') {
-              res.data[i].describe_issue = res.data[i].work_request.slice(0, res.data[i].work_request.indexOf('[') - 1);
+            if (res.data[i].work_request[0] == '[' && res.data[i].work_request[1] == '[') {
+              res.data[i].describe_issue = '';
+              res.data[i].iron = res.data[i].work_request[0];
+              res.data[i].iron2 = res.data[i].work_request[1];
+
+              res.data[i].prePipe = res.data[i].work_request.slice(res.data[i].work_request.lastIndexOf('['));
+              res.data[i].midPipe = res.data[i].prePipe.slice(1, -2).replace(/"/g, '').replace(/,/g, ' | ');
+            } else {
+              var sliced = res.data[i].work_request.slice(1);
+
+
+              res.data[i].prePipe = res.data[i].work_request.slice(res.data[i].work_request.lastIndexOf('['));
+              res.data[i].midPipe = res.data[i].prePipe.slice(1, -2).replace(/"/g, '').replace(/,/g, ' | ');
+
+              res.data[i].describe_issue = sliced.slice(0, sliced.indexOf('[') - 1);
+
+
             }
-            res.data[i].parstring = '';
-            // res.data[i].arr = [];
 
-
-            console.log(res.data[i].arr);
-
-            res.data[i].array_request =
-          res.data[i].work_request.slice(res.data[i].work_request.indexOf('[') + 1,
-            res.data[i].work_request.indexOf(']') - 1)
-            ;
-            console.log(res.data[i].array_request);
-            res.data[i].parstring = '';
-
-            res.data[i].parstring = rq( res.data[i].work_request.slice(res.data[i].work_request.indexOf('[') + 1,
-                    res.data[i].work_request.indexOf(']') - 1), this.empty);
-            console.log('x');
-
-
-            res.data[i].piped = res.data[i].parstring.replace(/,/g, ' | ');
 
 // ....
             this.workrequests.push(res.data[i]);
           }
 
         }
-
+        console.log(this.workrequests);
         function two(arr) {
           for (var i = 0; i < arr.length; i++) {
             if (arr[i] == ',') {
