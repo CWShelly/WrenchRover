@@ -24,19 +24,6 @@ module.exports = function(app) {
     this.editVehicle = false;
     this.childrens = [];
     this.descriptions = [];
-    // $http.get(baseUrl + 'categories')
-    //       .then((res) => {
-    //         that.descriptions = res.data;
-    //
-    //         for (var i = 0; i < res.data[0].children.length; i++) {
-    //           that.childrens.push(res.data[0].children[i]);
-    //         }
-    //
-    //         console.log(this.descriptions);
-    //         // console.log(that.descriptions);
-    //       }
-    //
-    //   );
 
 
     return {

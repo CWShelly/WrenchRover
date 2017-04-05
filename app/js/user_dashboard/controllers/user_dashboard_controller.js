@@ -196,7 +196,6 @@ module.exports = exports = function(app) {
        .then((res) => {
          vm.localCorrection = JSON.stringify(res.data.user_zip);
 
-
          if (this.local[0] == 0 && this.local[1] == 0 && res.data.user_zip == null) {
            console.log("you're in the middle of the ocean");
            vm.local = vm.localCorrection;
@@ -243,8 +242,9 @@ module.exports = exports = function(app) {
 
          console.log(this.userObject);
          if (res.data.service_requests.length > 0) {
-           var reqs = this.userObject.service_requests[0].work_request;
-           console.log(reqs);
+           var reqs = this.userObject.service_requests[0].work_request.slice(1);
+
+           console.log(reqs.indexOf('['));
            var di = reqs.slice(0, reqs.indexOf('[') - 1);
            console.log(di);
 

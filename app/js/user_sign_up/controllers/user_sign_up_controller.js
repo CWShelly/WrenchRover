@@ -50,16 +50,25 @@ module.exports = function(app) {
 
 
     this.previouslyEntered = localStorage.getItem('describeIssue');
-    this.localStorageOil = localStorage.getItem('oilChosen');
-    this.localStorageDash = localStorage.getItem('dashChosen');
-    this.localStorageChosen = localStorage.getItem('chosen');
 
 
-    var arr = [this.previouslyEntered, this.localStorageOil, this.localStorageChosen, this.localStorageDash];
+    if (localStorage.getItem('chosen')) {
+      this.localStorageChosen = JSON.parse(localStorage.getItem('chosen'));
+      this.chosenArr = [];
+      for (var i = 0; i < this.localStorageChosen.length; i++) {
+        this.chosenArr.push(this.localStorageChosen[i].name);
 
-    var arrFilter = arr.filter((z) => {
-      return z != null;
-    });
+      }
+
+      console.log(this.chosenArr);
+    }
+
+
+    // var arr = [this.previouslyEntered ];
+
+    // var arrFilter = arr.filter((z) => {
+    //   return z != null;
+    // });
 
 
     if (localStorage.getItem('user_name')) {
@@ -84,11 +93,6 @@ module.exports = function(app) {
         service_request_id: null
       };
       this.new_auto_id = null;
-
-    //   console.log(this.storedVehicle);
-    //   console.log(this.auto);
-
-
     }
 
 
@@ -97,9 +101,7 @@ module.exports = function(app) {
       work_request: null
     };
 
-
     this.closeModal = function() {
-
       modalService.instance.close();
     };
 
@@ -115,57 +117,30 @@ module.exports = function(app) {
       this.closeDropDown();
     };
 
-    this.addServiceRequests = function() {
-      $http.defaults.headers.common.Authorization = localStorage.getItem('token');
-      console.log('service requesting');
-      this.previouslyEntered = localStorage.getItem('describeIssue');
-      this.localStorageOil = localStorage.getItem('oilChosen');
-      this.localStorageDash = localStorage.getItem('dashChosen');
-      this.localStorageChosen = localStorage.getItem('chosen');
-
-      var arr = [this.previouslyEntered, this.localStorageOil, this.localStorageChosen, this.localStorageDash];
-
-      var arrFilter = arr.filter((z) => {
-        console.log(z);
-        return z != null;
-      });
-      console.log(arr);
-      console.log(arrFilter);
-      this.requests = [];
-      for (var i = 0; i < arrFilter.length; i++) {
-        if (Array.isArray(arrFilter[i])) {
-          console.log(arrFilter[i]);
-          this.requests = this.requests.concat(flatten(arrFilter[i]));
-        } else this.requests.push(arrFilter[i]);
-        console.log(arrFilter[i]);
-      }
-      console.log(this.requests);
-
-      this.serviceRequests.work_request = this.requests.toString();
-      this.serviceRequests.user_id = localStorage.getItem('user_id');
-      console.log(this.serviceRequests.user_id);
-      this.serviceRequests.auto = {};
-      this.serviceRequests.auto.id = localStorage.getItem('auto_id');
-
-      console.log(this.serviceRequests);
-      $http.post(baseUrl + 'service_requests', this.serviceRequests)
-      .then((res) => {
-        console.log(res);
-        window.localStorage.service_requests = JSON.stringify(res.data.work_request);
-        $state.go('user_dashboard');
-      });
-
-    };
 
     this.createUser = function(resource) {
       this.requests = [];
-      for (var i = 0; i < arrFilter.length; i++) {
-        if (Array.isArray(arrFilter[i])) {
-          this.requests = this.requests.concat(flatten(arrFilter[i]));
-        } else this.requests.push(arrFilter[i]);
-      }
+      this.newRay = [];
 
-      this.serviceRequests.work_request = this.requests.toString();
+      if (localStorage.getItem('describeIssue')) {
+        this.requests.push(localStorage.getItem('describeIssue'));
+      }
+      if (localStorage.getItem('chosen')) {
+        var newArr = JSON.parse(localStorage.getItem('chosen'));
+        for (var i = 0; i < newArr.length; i++) {
+          this.newRay.push(newArr[i].name);
+        }
+
+        this.requests.push(this.newRay);
+
+      }
+      console.log(this.requests);
+      console.log(JSON.stringify(this.requests));
+      console.log(this.requests.toString());
+    //   this.serviceRequests.work_request = this.requests.toString();
+      this.serviceRequests.work_request = JSON.stringify(this.requests);
+
+      console.log(this.serviceRequests.work_request);
 
       this.x = {
         user: resource
@@ -231,7 +206,9 @@ module.exports = function(app) {
         .then(() => {
           $http.post(baseUrl + 'service_requests', this.serviceRequests)
           .then((res) => {
-            window.localStorage.service_requests = JSON.stringify(res.data.work_request);
+
+            window.localStorage.service_requests = JSON.stringify(this.requests);
+
             this.auto.service_request_id = res.data.id;
             window.localStorage.service_request_id = res.data.id;
           })
@@ -240,6 +217,7 @@ module.exports = function(app) {
             $http.post(baseUrl + 'autos', this.auto)
             .then((res) => {
               this.srthing = JSON.parse(localStorage.getItem('service_requests'));
+              console.log(this.srthing);
 
             });
           })
@@ -453,22 +431,6 @@ module.exports = function(app) {
              });
 
          })
-
-
-//          $http.put(baseUrl + 'service_requests' + '/' + that.new_sr_id, that.serviceRequests)
-//             .then((res) => {
-//               window.localStorage.service_requests = JSON.stringify(res.data.work_request);
-//               that.auto.service_request_id = res.data.id;
-//               window.localStorage.service_request_id = res.data.id;
-//               console.log(that.auto);
-//               $http.put(baseUrl + 'autos' + '/' + that.new_auto_id, that.auto)
-//                     .then((res) => {
-//                       console.log(res);
-//                       $state.go('user_dashboard');
-//                     });
-// })
-
-// /new service request id ends
 
 
            .then(() => {
