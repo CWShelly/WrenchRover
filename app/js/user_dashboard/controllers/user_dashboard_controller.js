@@ -18,10 +18,7 @@ module.exports = exports = function(app) {
     this.message = 'We are currently digging for offers';
     console.log('USHER DASH BOARDS');
     this.localCorrection = 'Seattle, WA';
-    // this.local = [0, 0];
     this.local = 'current-location';
-
-    // modalService.user_name = 'Sign in';
 
     if (localStorage.getItem('user_name')) {
       modalService.user_name = localStorage.getItem('user_name');
@@ -226,7 +223,6 @@ module.exports = exports = function(app) {
          } else {
            console.log('No car entered.');
          }
-    //    console.log(localStorage.getItem('token'));
        //  get user's date of signup:
          var month = parseInt(res.data.created_at.slice(5, 7), 10);
          var year = res.data.created_at.slice(0, 4);
@@ -245,8 +241,14 @@ module.exports = exports = function(app) {
            var reqs = this.userObject.service_requests[0].work_request.slice(1);
 
            console.log(reqs.indexOf('['));
-           var di = reqs.slice(0, reqs.indexOf('[') - 1);
-           console.log(di);
+
+           if (reqs.indexOf('[') != 0) {
+             var di = reqs.slice(0, reqs.indexOf('[') - 1);
+             console.log(di);
+           } else {
+             var sliced = reqs.slice(0);
+             var di = '';
+           }
 
            var x = reqs.slice(reqs.indexOf('[') + 1, reqs.indexOf(']'));
            console.log(x);
@@ -256,8 +258,15 @@ module.exports = exports = function(app) {
            var two2 = two(one1);
            var three3 = three(two2, newString);
            console.log(three3);
-        //    this.userObject.pipedRequests = three3;
-           this.userObject.pipedRequests = three3 + ' | ' + di;
+
+
+           if (di != '') {
+             console.log(di);
+             this.userObject.pipedRequests = three3 + ' | ' + di;
+           } else {
+             console.log(di);
+             this.userObject.pipedRequests = three3;
+           }
         //
            this.userObject.autos = res.data.autos;
            this.service_requests_count = res.data.service_requests.length;
