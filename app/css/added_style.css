@@ -2,10 +2,12 @@
 
 
 .btn-on {
- color: blue;
+ /*color: blue;*/
+ background: #FF6600;
 }
 .btn-off {
- color: red;
+ /*color: red;*/
+ background: #fff;
 }
 
 

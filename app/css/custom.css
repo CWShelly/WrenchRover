@@ -70,8 +70,11 @@ hr.vehicleHR:after {
 .probSidenav span {font-size:45pt;}
 .probSidenav .w3-dropdown-hover:hover,.probSidenav .w3-dropdown-hover:first-child,.probSidenav .w3-dropdown-click:hover,.w3-dropnav a:hover{background-color:#ccc;color:#000}
 .propNavItem {width:80px;}
+
 .warningClicked, img.warning:hover {filter: none;-webkit-filter: grayscale(0%);-moz-filter: grayscale(0%);-ms-filter: grayscale(0%);-o-filter: grayscale(0%);cursor: hand;}
 img.warning {filter: none;-webkit-filter: grayscale(100%);-moz-filter: grayscale(100%);-ms-filter: grayscale(100%);-o-filter: grayscale(100%);cursor: hand;transition: all 100ms ease;}
+
+
 .warnDescribe {width:95%;}
 .dropt img {width:20%; height:auto;}
 span.dropt span {position: absolute; left: -9999px; top: 450px; margin:0; padding: 5px; border:solid 1px #F26C1E;}
