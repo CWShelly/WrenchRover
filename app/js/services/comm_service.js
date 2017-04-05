@@ -24,9 +24,58 @@ module.exports = function(app) {
     this.editVehicle = false;
     this.childrens = [];
     this.descriptions = [];
+    this.sbArr = [];
+    // this.dashChild = [];
+    var sb = [
+      { imageSrc: '/../../../images/dashlights/001.png',
+        name: 'Oil Light'
+      },
+      { imageSrc: '../../../images/dashlights/002.png',
+        name: 'Battery Light' },
+      {
+        imageSrc: '../../../images/dashlights/003.png',
+        name: 'Encircled Exclamation Point'
+      },
+      { imageSrc: '../../../images/dashlights/004.png',
+        name: 'Airbag Light'
+      },
+      {
+        imageSrc: '../../../images/dashlights/005.png',
+        name: 'Temperature Light'
+      },
+      {
+        imageSrc: '../../../images/dashlights/010.png',
+        name: 'ABS Light'
+      },
+      {
+        imageSrc: '../../../images/dashlights/011.png',
+        name: 'Check Engine Light'
+      },
+      { imageSrc: '../../../images/dashlights/012.png',
+        name4: 'Sprocket Light'
+      },
+      {
+        imageSrc: '../../../images/dashlights/015.png',
+        name: 'Coily Light'
+      },
+      {
+        imageSrc: '../../../images/dashlights/016.png',
+        name: 'Hazard Light'
+      },
+      {
+        imageSrc: '../../../images/dashlights/017.png',
+        name: 'Tire Pressure Light'
+      },
+      {
+        imageSrc: '../../../images/dashlights/018.png',
+        name: 'Lightbulb Light'
+      }
 
+    ];
 
     return {
+      sbArr: this.sbArr,
+      dashChild: this.dashChild,
       descriptions: this.descriptions,
       childrens: this.childrens,
       chosen: this.chosen,
@@ -44,6 +93,17 @@ module.exports = function(app) {
                 }
 
               });
+      },
+
+      getDash: function() {
+        var dashChild = [];
+        for (var i = 0; i < sb.length; i++ ) {
+          if (i % 4 == 0) dashChild.push([]);
+          dashChild[dashChild.length - 1].push(sb[i]);
+        }
+        return this.dashChild = dashChild;
+
+
       },
 
       checkedSelected: function(value) {

@@ -4,9 +4,9 @@
 
 <table class="table">
 
-
+<!--
   <tbody>
-    <tr ng-repeat="dashlights in describe.dashChild">
+    <tr ng-repeat="dashlights in describe.service.dashChild">
 
    <td><a ng-click ="describe.checkedSelected(dashlights.name)" ng-model="a"><img src="{{dashlights.imageSrc}}" alt="" class="warning">
    </a></td>
@@ -18,6 +18,21 @@
    <td><a ng-click ="describe.checkedSelected(dashlights.name4)" ng-model="a"><img src="{{dashlights.imageSrc4}}" alt="" class="warning">
    </a></td>
     </tr>
-  </tbody>
+  </tbody> -->
+
+
+  <table cellspacing="0" cellpadding="0">
+       <colgroup span="7"></colgroup>
+       <tbody>
+
+         <tr ng-repeat="day in describe.service.dashChild">
+             <td ng-repeat="y in day">
+               <button ng-class="{'btn-on': y.toggled, 'btn-off': !y.toggled}"  ng-click="describe.toggleBtn(y); describe.checkedSelected(y)" ><img src="{{y.imageSrc}}" alt="the pic"   class="warning"></button>
+
+            </td>
+         </tr>
+     </tbody>
+     </table>
+
 
 </table>
