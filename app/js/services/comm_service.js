@@ -80,19 +80,30 @@ module.exports = function(app) {
       childrens: this.childrens,
       chosen: this.chosen,
       storedVehicle: JSON.parse(localStorage.getItem('vehicle')),
+      storedChildrens: JSON.parse(localStorage.getItem('childrens')),
+
 
       getCat: function() {
         console.log('getting categories');
-        $http.get(baseUrl + 'categories')
-              .then((res) => {
-                this.descriptions = res.data;
+        if (!localStorage.getItem('childrens')) {
+          console.log(' no childrens');
+          $http.get(baseUrl + 'categories')
+                  .then((res) => {
+                    this.descriptions = res.data;
+                    for (var i = 0; i < res.data[0].children.length; i++) {
+                      that.childrens.push(res.data[0].children[i]);
+                    }
 
-                for (var i = 0; i < res.data[0].children.length; i++) {
+                    console.log(that.childrens);
 
-                  that.childrens.push(res.data[0].children[i]);
-                }
+                    window.localStorage.childrens = JSON.stringify(that.childrens);
 
-              });
+                    this.storedChildrens = JSON.parse(localStorage.getItem('childrens'));
+                  });
+        } else {
+          console.log('childrens');
+        }
+
       },
 
       getDash: function() {
@@ -119,7 +130,9 @@ module.exports = function(app) {
         }
 
         window.localStorage.chosen = JSON.stringify(chosen);
-        // window.localStorage.chosen = this.chosen;
+        // window.localStorage.childrens = JSON.stringify(that.childrens);
+
+        // this.storedChildrens = JSON.parse(localStorage.getItem('childrens'));
       },
 
       remove: function(value) {
