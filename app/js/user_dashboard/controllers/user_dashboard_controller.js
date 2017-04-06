@@ -191,6 +191,7 @@ module.exports = exports = function(app) {
 
       $http.get(this.url + 'users/' + this.user_id)
        .then((res) => {
+         console.log(res.data);
          vm.localCorrection = JSON.stringify(res.data.user_zip);
 
          if (this.local[0] == 0 && this.local[1] == 0 && res.data.user_zip == null) {

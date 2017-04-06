@@ -121,7 +121,6 @@ module.exports = function(app) {
     this.createUser = function(resource) {
       this.requests = [];
       this.newRay = [];
-
       if (localStorage.getItem('describeIssue')) {
         this.requests.push(localStorage.getItem('describeIssue'));
       }
@@ -130,14 +129,12 @@ module.exports = function(app) {
         for (var i = 0; i < newArr.length; i++) {
           this.newRay.push(newArr[i].name);
         }
-
         this.requests.push(this.newRay);
-
       }
       console.log(this.requests);
       console.log(JSON.stringify(this.requests));
       console.log(this.requests.toString());
-    //   this.serviceRequests.work_request = this.requests.toString();
+
       this.serviceRequests.work_request = JSON.stringify(this.requests);
 
       console.log(this.serviceRequests.work_request);
@@ -307,7 +304,8 @@ module.exports = function(app) {
             console.log(this.signedInUser);
 
             if (localStorage.getItem('vehicle')) {
-              modalService.message = 'This user already has a vehicle stored. Do you want to replace it?';
+            //   modalService.message = 'This user already has a vehicle stored. Do you want to replace it?';
+              modalService.message = 'This user already has a vehicle stored. Add another?';
               console.log('user has vehicle already');
               modalService.hasVehicle = true;
             } else {
@@ -358,23 +356,27 @@ module.exports = function(app) {
 
     this.testFunc = function(resource) {
       console.log(resource);
-      console.log('burning bright');
     };
 
 
 // /////replace begins
 // //////////old login begins
     this.replace = function(email, password) {
-
-
-      that.requests = [];
-      for (var i = 0; i < arrFilter.length; i++) {
-        if (Array.isArray(arrFilter[i])) {
-          that.requests = that.requests.concat(flatten(arrFilter[i]));
-        } else that.requests.push(arrFilter[i]);
+      this.requests = [];
+      this.newRay = [];
+      if (localStorage.getItem('describeIssue')) {
+        this.requests.push(localStorage.getItem('describeIssue'));
       }
+      if (localStorage.getItem('chosen')) {
+        var newArr = JSON.parse(localStorage.getItem('chosen'));
+        for (var i = 0; i < newArr.length; i++) {
+          this.newRay.push(newArr[i].name);
+        }
+        this.requests.push(this.newRay);
+      }
+      that.serviceRequests.work_request = JSON.stringify(this.requests);
 
-      that.serviceRequests.work_request = that.requests.toString();
+
       console.log(email, password);
       console.log(this.logInObject);
       console.log('logging in');
@@ -401,30 +403,32 @@ module.exports = function(app) {
          window.localStorage.user_name = res.data.user_name;
          console.log(res.data.service_centers.length);
          console.log(this.signedInUser);
-         console.log(res.data.service_requests[0].work_request);
+        //  console.log(res.data.service_requests[0].work_request);
 
-         window.localStorage.service_requests = JSON.stringify(res.data.service_requests[0].work_request);
-
-        //  window.localStorage.service_requests = res.data.service_requests[0].work_request;
+        //  window.localStorage.service_requests = JSON.stringify(res.data.service_requests[0].work_request);
 
          console.log(that.storedVehicle);
          console.log(that.auto);
          that.auto.user_id = res.data.id;
 // //new service request id begins
-         console.log(this.serviceRequests);
+
          console.log(that.serviceRequests);
-         that.new_sr_id = res.data.service_requests[0].id;
+        //  that.new_sr_id = res.data.service_requests[0].id;
 
          that.new_auto_id = res.data.autos[0].id;
-         that.auto.id = res.data.autos[0].id;
-         that.auto.service_request_id = res.data.service_requests[0].id;
-         that.serviceRequests.id = res.data.service_requests[0].id;
+        //  that.auto.id = res.data.autos[0].id;
+        //  that.auto.service_request_id = res.data.service_requests[0].id;
+        //  that.serviceRequests.id = res.data.service_requests[0].id;
 
-         $http.put(baseUrl + 'service_requests' + '/' + that.new_sr_id, that.serviceRequests)
+         $http.post(baseUrl + 'service_requests' + '/', that.serviceRequests)
          .then((res) => {
            console.log(res);
 
-           $http.put(baseUrl + 'autos' + '/' + that.new_auto_id, that.auto)
+           that.auto.service_request_id = res.data.id;
+
+           $http.post(baseUrl + 'autos' + '/', that.auto)
+
+
              .then((res) => {
                console.log('posting the auto');
                console.log(res);
