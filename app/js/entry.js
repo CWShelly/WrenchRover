@@ -153,12 +153,6 @@ wrApp.config( function($stateProvider, $urlRouterProvider) {
   controller: 'UserDashboardController',
   controllerAs: 'UserDashCtrl'
 })
-// .state('pending', {
-//   url: '/resetpassword:token',
-//   templateUrl: 'templates/user/views/pending.html',
-//   controller: 'UserDashboardController',
-//   controllerAs: 'UserDashboardController'
-// })
 
 .state('pending', {
   url: '/Password/reset?token=jnsbbwbwbrbbb12nn888b-9292',
