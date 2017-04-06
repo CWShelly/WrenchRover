@@ -17,7 +17,7 @@ module.exports = function(app) {
     this.nextCount = 0;
     this.dashCount = 0;
     this.chosen = [];
-    var chosen = this.chosen;
+    // var chosen = this.chosen;
 
     console.log(this.count);
     this.editDescribeIssue = false;
@@ -80,10 +80,11 @@ module.exports = function(app) {
       childrens: this.childrens,
       chosen: this.chosen,
       storedVehicle: JSON.parse(localStorage.getItem('vehicle')),
-      storedChildrens: JSON.parse(localStorage.getItem('childrens')),
+    //   storedChildrens: JSON.parse(localStorage.getItem('childrens')),
 
 
       getCat: function() {
+
         console.log('getting categories');
         if (!localStorage.getItem('childrens')) {
           console.log(' no childrens');
@@ -94,11 +95,8 @@ module.exports = function(app) {
                       that.childrens.push(res.data[0].children[i]);
                     }
 
-                    console.log(that.childrens);
+                    // console.log(that.childrens);
 
-                    window.localStorage.childrens = JSON.stringify(that.childrens);
-
-                    this.storedChildrens = JSON.parse(localStorage.getItem('childrens'));
                   });
         } else {
           console.log('childrens');
@@ -117,31 +115,49 @@ module.exports = function(app) {
 
       },
 
-      checkedSelected: function(value) {
+      getReqLS: function() {
+        console.log('get the reqs ls');
+        if (localStorage.getItem('chosen')) {
 
-        console.log(value);
-        console.log(this.chosen);
+        //   this.chosen = [{ name: 'gigantic' }, { name: 'a big' }];
 
-        if (chosen.indexOf(value) == -1) {
-          chosen.push(value);
+          this.chosen = JSON.parse(localStorage.getItem('chosen'));
+        //   return this.chosen;
+          console.log(this.chosen);
+
         } else {
-          var index = chosen.indexOf(value);
-          chosen.splice(index, 1);
+          console.log('No requests in LS');
         }
+      },
 
-        window.localStorage.chosen = JSON.stringify(chosen);
-        // window.localStorage.childrens = JSON.stringify(that.childrens);
+      checkedSelected: function(value) {
+        console.log(this.chosen);
+        // var stored = this.getReqLS();
 
-        // this.storedChildrens = JSON.parse(localStorage.getItem('childrens'));
+        if (this.chosen.indexOf(value) == -1) {
+          this.chosen.push(value);
+        } else {
+          var index = this.chosen.indexOf(value);
+          this.chosen.splice(index, 1);
+        }
+        console.log(this.chosen);
+        console.log('pushed to chosen');
+
+        // var storedPlus = this.chosen.concat(stored);
+
+        window.localStorage.chosen = JSON.stringify(this.chosen);
+
+
       },
 
       remove: function(value) {
-        console.log(value);
+        // console.log(value);
         var index = this.chosen.indexOf(value);
         this.chosen.splice(index, 1);
         console.log(this.chosen);
         window.localStorage.chosen = JSON.stringify(this.chosen);
       },
+
 
       textAreaFunc: function(value) {
         console.log(value);
