@@ -27,6 +27,7 @@ module.exports = function(app) {
       console.log(tube);
       console.log('toggling');
       tube.toggled = !tube.toggled;
+      window.localStorage.storedChildrens = cmService.childrens;
     };
     // ////modal
     this.open = function(parentSelector) {

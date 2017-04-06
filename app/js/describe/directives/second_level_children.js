@@ -1,5 +1,5 @@
 module.exports = function(app) {
-  app.directive('secondLevelChildren', function($compile) {
+  app.directive('secondLevelChildren', ($compile) => {
     return {
       restrict: 'EAC',
       replace: true,
@@ -11,11 +11,14 @@ module.exports = function(app) {
       scope: {
 
         secondchild: '='
+
       },
       link: function(scope, element, attrs) {
+        // console.log(scope.secondchild);
 
 
       }
     };
+
   });
 };
