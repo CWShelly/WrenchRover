@@ -10,6 +10,7 @@ module.exports = exports = function(app) {
     var loc_obj = {};
     this.url = 'https://wrenchroverapi.herokuapp.com/';
     this.count = 0;
+    this.all = [];
 
     this.appointment = {};
     this.acceptedObject = {};
@@ -207,6 +208,13 @@ module.exports = exports = function(app) {
            console.log(vm.service_request_id);
          }
          console.log(res.data.autos);
+
+         for (var i = 0; i < res.data.autos.length; i++) {
+           this.all.push({ id: i.toString(), make: res.data.autos[i].make, request: res.data.service_requests[i].work_request });
+         }
+
+         this.demo = 0;
+         console.log(this.all);
 
          if (res.data.autos.length > 0) {
            console.log(res.data.autos);

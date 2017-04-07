@@ -3,11 +3,7 @@
 
 
 <main class="container" data-ng-controller="UserDashboardController as UserDashCtrl" ng-init="UserDashCtrl.getUserInfo()" id="ud_container" style="font-family: Helvetica;">
-<!--
-<main class="container" data-ng-controller="UserDashboardController as UserDashCtrl" ng-init="UserDashCtrl.getAll()" id="ud_container" style="font-family: Helvetica;"> -->
 
-
-<!-- <div class="container" style="margin-top:115px;" > -->
 <div class="containter">
 
 	<div class="row">
@@ -27,16 +23,37 @@
 		</div>
 		<div class="col-md-3 col-sm-12" style="padding:0;">
 			<div class="apptHead">Your Vehicle</div>
-			<div style="display:inline;" class="apptText"><span  ng-if="UserDashCtrl.userObject.autos.length ==0"> You haven't entered a car.<br><a style="color: white;"  ng-controller="vehicleModalController as $ctrl" ng-click ="$ctrl.open()">Add a vehicle</a></span>{{UserDashCtrl.userObject.autos[0].year}}<br>{{UserDashCtrl.userObject.autos[0].make}} {{UserDashCtrl.userObject.autos[0].model}}</div>
+			<div style="display:inline;" class="apptText"><span  ng-if="UserDashCtrl.userObject.autos.length ==0"> You haven't entered a car.<br><a style="color: white;"  ng-controller="vehicleModalController as $ctrl" ng-click ="$ctrl.open()">Add a vehicle</a></span>
+
+<!--
+				{{UserDashCtrl.userObject.autos[0].year}}<br>{{UserDashCtrl.userObject.autos[0].make}} {{UserDashCtrl.userObject.autos[0].model}} -->
+
+			</div>
+<!-- <p ng-repeat="car in UserDashCtrl.all">{{car}}</p> -->
+			<span ng-repeat="car in UserDashCtrl.all" style="display:inline; color: white;">
+             <a ng-class="{myColor: UserDashCtrl.demo == $index}" ng-click="UserDashCtrl.demo = $index" style="color:white;" >{{car.make}}</a>
+      </span>
+
+
+ <!-- <div ng-repeat= "car in UserDashCtrl.all">
+
+   <span ng-hide = "UserDashCtrl.demo != $index">
+ {{car.request}}
+ </span>
+
+ </div> -->
+
+
 		</div>
 		<div class="col-md-3 col-sm-12" style="padding:0;">
 			<div class="apptHead">Services</div>
 
-			<div class="apptText">  <span  ng-if="UserDashCtrl.userObject.service_requests.length ==0">  <a style="color: white;" ng-click ="UserDashCtrl.addRequest()">Submit a request</a></span> {{UserDashCtrl.userObject.pipedRequests}}
+			<!-- <div class="apptText">  <span  ng-if="UserDashCtrl.userObject.service_requests.length ==0">  <a style="color: white;" ng-click ="UserDashCtrl.addRequest()">Submit a request</a></span> {{UserDashCtrl.userObject.pipedRequests}}
+			</div> -->
 
-				<!-- <div class="apptText">  <span  ng-if="UserDashCtrl.userObject.service_requests.length ==0">  <a style="color: white;" ng-click ="UserDashCtrl.addRequest()">Submit a request</a></span> {{UserDashCtrl.userObject.updatedReqList}}/// {{UserDashCtrl.userObject.newPiped}} -->
-</div>
-				<div class="apptText">  <span  ng-if="UserDashCtrl.userObject.service_requests.length ==0">  <a style="color: white;" ng-click ="UserDashCtrl.addRequest()">Submit a request</a></span>new {{UserDashCtrl.userObject.newPiped}}
+			<div class="apptText" ng-repeat="car in UserDashCtrl.all">  <span  ng-if="UserDashCtrl.userObject.service_requests.length ==0">  <a style="color: white;" ng-click ="UserDashCtrl.addRequest()">Submit a request</a></span> <span ng-hide = "UserDashCtrl.demo != $index">{{car.request}}</span>
+			</div>
+				<div class="apptText">  <span  ng-if="UserDashCtrl.userObject.service_requests.length ==0">  <a style="color: white;" ng-click ="UserDashCtrl.addRequest()">Submit a request</a></span>{{UserDashCtrl.userObject.newPiped}}
 
 					{{UserDashCtrl.userObject.updatedReqList}}
 			</div>
