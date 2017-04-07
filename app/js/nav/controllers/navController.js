@@ -2,8 +2,7 @@
 module.exports = function(app) {
   app.controller('navController', ['modalService', function(modalService) {
     var that = this;
-    console.log('navbaring');
-    // this.isNavCollapsed = true;
+
     this.checkcookies = function() {
       console.log('initting cookie check');
       console.log(navigator.cookieEnabled);

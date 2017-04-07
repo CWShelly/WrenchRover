@@ -1,8 +1,4 @@
-<!-- <section> -->
-<!--
-  <div class="container" ng-init="describe.service.getCat(); describe.getReqLS(); "  > -->
-
-  <div class="container" ng-init="describe.service.getCat(); describe.service.getDash(); describe.service.getReqLS();">
+   <div class="container" ng-init="describe.service.getCat(); describe.service.getDash(); describe.service.getReqLS();">
 
     <div class="row">
 
@@ -68,6 +64,17 @@
 
 
 <button ng-if = "describe.token != undefined || this.token != null" ng-controller="userSignUpController as $ctrl" ng-click="$ctrl.addServiceRequests()" class="btn btn-primary">Add New Request</button>
+
+<span ng-if = "describe.token != undefined || this.token != null" ng-controller="userSignUpController as $ctrl">
+
+Which vehicle are you adding this request to?
+<p ng-repeat="auto in $ctrl.user_autos">
+  <a ng-click="$ctrl.addServiceRequests(auto)">{{auto.make}}</a></p>
+
+  <a ng-click="$ctrl.testFunc('yay')">Cancel</a>
+</span>
+
+
 
 </div>
 </div>
