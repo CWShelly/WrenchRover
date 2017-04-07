@@ -413,12 +413,10 @@ module.exports = function(app) {
 // //new service request id begins
 
          console.log(that.serviceRequests);
-        //  that.new_sr_id = res.data.service_requests[0].id;
 
-         that.new_auto_id = res.data.autos[0].id;
-        //  that.auto.id = res.data.autos[0].id;
-        //  that.auto.service_request_id = res.data.service_requests[0].id;
-        //  that.serviceRequests.id = res.data.service_requests[0].id;
+
+        //  that.new_auto_id = res.data.autos\[0].id;
+
 
          $http.post(baseUrl + 'service_requests' + '/', that.serviceRequests)
          .then((res) => {
