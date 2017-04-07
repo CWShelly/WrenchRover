@@ -6,9 +6,9 @@ var modalObj = require('../../modalObject').modalObj;
 module.exports = function(app) {
   app.controller('userSignUpController', ['wrResource', '$http', '$state', 'wrHandleError', 'modalService', '$uibModal', '$window', function(Resource, $http, $state, wrError, modalService, $uibModal, $window) {
     var that = this;
+    this.service = modalService;
     this.msg = 'Create New Account';
     this.errorMsg = null;
-    this.service = modalService;
     console.log('user sign up controller');
     console.log(this.token);
     console.log(modalService.heading);
@@ -18,7 +18,6 @@ module.exports = function(app) {
       this.signedIn = false;
       this.li = 'Sign in';
       this.heading2 = 'Sign in';
-      this.dashTest = 'xxx';
       modalService.indexNumberA = 2;
       modalService.indexNumberB = 3;
     } else {
@@ -29,35 +28,82 @@ module.exports = function(app) {
       this.signedIn = true;
       this.li = 'My Dash';
     //   this.heading2 = 'My Profile';
-      this.dashTest = 'yyy';
     }
+
+    this.user_autos = [];
+    this.user_requests = [];
+    this.all = [];
     console.log(modalService.heading);
 
-    // this.hasVehicle = modalService.hasVehicle;
+    if (localStorage.getItem('token')) {
+      $http.defaults.headers.common.Authorization = localStorage.getItem('token');
+
+      this.token = localStorage.getItem('token');
+    }
+
+    if (localStorage.getItem('user_autos')) {
+
+      this.user_autos = JSON.parse(localStorage.getItem('user_autos'));
+      console.log(this.user_autos);
+    }
+
+    if (localStorage.getItem('user_requests')) {
+      this.user_requests_arr = [];
+
+      this.user_requests = JSON.parse(localStorage.getItem('user_requests'));
+      console.log(this.user_requests);
+
+    }
+
+
+    this.combine = function() {
+      for (var i = 0; i < this.user_autos.length; i++) {
+        this.all.push({ auto_id: this.user_autos[i].id, model: this.user_autos[i].model, request: this.user_requests[i].work_request });
+
+      }
+      console.log(this.all);
+    };
+
+    if (localStorage.getItem('user_autos') && localStorage.getItem('user_requests')) {
+      this.combine();
+    }
     modalService.hasVehicle = false;
 
 
     this.users = [];
     this.errors = [];
-    this.allProblems = null;
-    this.previousItem;
-    this.localStorageOil;
-    this.localStorageDash;
     this.localStorageChosen;
     this.message = modalService.message;
     this.logInObject = {};
-    // this.logInObject.user_email = 'a'
+    this.serviceRequests = {
+      user_id: null,
+      work_request: null
+    };
+
+    this.storedVehicle = JSON.parse(localStorage.getItem('vehicle'));
+
+    if (this.storedVehicle) {
+      this.auto = {
+        year: this.storedVehicle.year,
+        make: this.storedVehicle.make.name,
+        model: this.storedVehicle.model.name,
+        trim: this.storedVehicle.trim.name,
+        engine: this.storedVehicle.engine,
+        mileage: this.storedVehicle.miles,
+        user_id: null,
+        service_request_id: null
+      };
+      this.new_auto_id = null;
+    }
 
 
     this.previouslyEntered = localStorage.getItem('describeIssue');
-
 
     if (localStorage.getItem('chosen')) {
       this.localStorageChosen = JSON.parse(localStorage.getItem('chosen'));
       this.chosenArr = [];
       for (var i = 0; i < this.localStorageChosen.length; i++) {
         this.chosenArr.push(this.localStorageChosen[i].name);
-
       }
 
       console.log(this.chosenArr);
@@ -76,30 +122,6 @@ module.exports = function(app) {
     } else {
       modalService.user_name = 'Sign in';
     }
-
-
-    var remote = new Resource(this.users, this.errors, baseUrl + 'users', { errMessages: { create: 'create error' } });
-
-    this.storedVehicle = JSON.parse(localStorage.getItem('vehicle'));
-    if (this.storedVehicle) {
-      this.auto = {
-        year: this.storedVehicle.year,
-        make: this.storedVehicle.make.name,
-        model: this.storedVehicle.model.name,
-        trim: this.storedVehicle.trim.name,
-        engine: this.storedVehicle.engine,
-        mileage: this.storedVehicle.miles,
-        user_id: null,
-        service_request_id: null
-      };
-      this.new_auto_id = null;
-    }
-
-
-    this.serviceRequests = {
-      user_id: null,
-      work_request: null
-    };
 
     this.closeModal = function() {
       modalService.instance.close();
@@ -131,13 +153,9 @@ module.exports = function(app) {
         }
         this.requests.push(this.newRay);
       }
-      console.log(this.requests);
-      console.log(JSON.stringify(this.requests));
-      console.log(this.requests.toString());
 
       this.serviceRequests.work_request = JSON.stringify(this.requests);
-
-      console.log(this.serviceRequests.work_request);
+      window.localStorage.service_requests = JSON.stringify(this.requests);
 
       this.x = {
         user: resource
@@ -146,22 +164,15 @@ module.exports = function(app) {
       window.localStorage.user_name = resource.user_name;
       $http.post(baseUrl + 'users', this.x)
       .then((res) => {
-        console.log('1. posting to users');
-        console.log(this.x);
         this.auto.user_id = res.data.id;
         this.serviceRequests.user_id = res.data.id;
         window.localStorage.user_id = res.data.id;
 
       })
-      .catch((error, data) => {
+      .catch((error) => {
         console.log('oh no an error');
-        console.log('error');
-        // that.message = 'something is wrong';
         modalService.message = 'This email address ' + error.data.user_email[0];
         console.log(error);
-     //    console.log(data);
-        this.data.error = { message: error, status: status };
-        console.log(this.data.error);
       })
 
       .then(() => {
@@ -170,21 +181,12 @@ module.exports = function(app) {
 
         .catch((error) => {
           console.log('oh no an error');
-          console.log('error');
-          that.message = 'something is wrong';
-          modalService.message = 'something is wrong';
+          modalService.message = 'Authentication error';
           console.log(error);
-       //    console.log(data);
-          this.data.error = { message: error, status: status };
-          console.log(this.data.error);
         })
         .then((res) => {
           console.log(res);
-
           modalService.message = 'Welcome';
-
-          console.log('2. posting to authenticate');
-          console.log(res);
           res.config.headers.Authorization = res.data.auth_token;
           this.token = res.data.auth_token;
           window.localStorage.token = this.token;
@@ -193,19 +195,14 @@ module.exports = function(app) {
 
      .catch((error) => {
        localStorage.removeItem('user_name');
-       console.log('oh no an error');
+       // remove token and reset headers
+
        console.log('error');
        console.log(error);
-    //    console.log(data);
-       this.data.error = { message: error, status: status };
-       console.log(this.data.error);
      })
         .then(() => {
           $http.post(baseUrl + 'service_requests', this.serviceRequests)
           .then((res) => {
-
-            window.localStorage.service_requests = JSON.stringify(this.requests);
-
             this.auto.service_request_id = res.data.id;
             window.localStorage.service_request_id = res.data.id;
           })
@@ -213,13 +210,10 @@ module.exports = function(app) {
           .then(() => {
             $http.post(baseUrl + 'autos', this.auto)
             .then((res) => {
-              this.srthing = JSON.parse(localStorage.getItem('service_requests'));
-              console.log(this.srthing);
-
+              console.log(res);
             });
           })
           .then(() => {
-            console.log('after autos');
             this.message = 'Thank you for signing up!';
             console.log(JSON.parse(localStorage.getItem('service_requests')));
             $state.go('user_dashboard');
@@ -230,17 +224,12 @@ module.exports = function(app) {
             console.log(modalService.thing);
             if (modalService.thing === 2) {
               that.closeModal();
-
             } else {
               that.closeDropDown();
             }
           });
-
         });
-
       });
-
-
     }.bind(this);
 
 // /////new login begins
@@ -249,9 +238,7 @@ module.exports = function(app) {
     this.logIn = function(email, password) {
       console.log(email, password);
       console.log(this.logInObject);
-    //   console.log(resource);
       console.log('logging in');
-      console.log(this.logInObject.user_email);
       var resource = this.logInObject;
       $http.post(baseUrl + 'authenticate', resource)
       .then((res) => {
@@ -268,12 +255,12 @@ module.exports = function(app) {
         $http.get(baseUrl + 'users/' + this.user_id )
         .then((res) => {
           console.log(res);
-          console.log(res.data.user_name);
           window.localStorage.user_name = res.data.user_name;
           console.log(res.data.service_centers.length);
           if (res.data.service_centers.length != 0) {
             console.log('service center person');
-            console.log(this.signedInUser);
+            // console.log(this.signedInUser);
+
             console.log(res.data.service_centers[0].service_name);
             window.localStorage.service_center_name = res.data.service_centers[0].service_name;
             $http.get(baseUrl + 'service_centers').
@@ -282,7 +269,7 @@ module.exports = function(app) {
                   for (var i = 0; i < res.data.length; i++) {
                     if (res.data[i].service_email === this.signedInUser) {
                       console.log(res.data[i].service_email);
-                      console.log(this.signedInUser);
+                    //   console.log(this.signedInUser);
                       window.localStorage.user_id = res.data[i].id;
                       window.localStorage.service_center_id = res.data[i].id;
                       window.localStorage.user_name = res.data[i].service_name;
@@ -301,7 +288,7 @@ module.exports = function(app) {
                 });
 
           } else {
-            console.log(this.signedInUser);
+            // console.log(this.signedInUser);
 
             if (localStorage.getItem('vehicle')) {
             //   modalService.message = 'This user already has a vehicle stored. Do you want to replace it?';
@@ -359,11 +346,16 @@ module.exports = function(app) {
     };
 
 
-// /////replace begins
-// //////////old login begins
     this.replace = function(email, password) {
+      this.logInObject = {};
+
+      this.logInObject.user_email = email;
+      this.logInObject.password = password;
+
       this.requests = [];
       this.newRay = [];
+
+
       if (localStorage.getItem('describeIssue')) {
         this.requests.push(localStorage.getItem('describeIssue'));
       }
@@ -376,47 +368,31 @@ module.exports = function(app) {
       }
       that.serviceRequests.work_request = JSON.stringify(this.requests);
 
-
-      console.log(email, password);
       console.log(this.logInObject);
-      console.log('logging in');
-      var resource = {};
-      resource.user_email = email;
-      resource.password = password;
+      var resource = this.logInObject;
       $http.post(baseUrl + 'authenticate', resource)
      .then((res) => {
        console.log(res);
        res.headers.Authorization = res.data.auth_token;
        this.token = res.data.auth_token;
        $http.defaults.headers.common.Authorization = this.token.toString();
+
+
        console.log($http.defaults.headers.common.Authorization);
        window.localStorage.token = this.token;
        window.localStorage.user_id = res.data.user_id;
-       this.signedInUser = resource.user_email;
        this.user_id = res.data.user_id;
 
        $http.get(baseUrl + 'users/' + this.user_id )
        .then((res) => {
          that.serviceRequests.user_id = res.data.id;
          console.log(res);
-         console.log(res.data.user_name);
          window.localStorage.user_name = res.data.user_name;
-         console.log(res.data.service_centers.length);
-         console.log(this.signedInUser);
-        //  console.log(res.data.service_requests[0].work_request);
-
-        //  window.localStorage.service_requests = JSON.stringify(res.data.service_requests[0].work_request);
-
          console.log(that.storedVehicle);
-         console.log(that.auto);
+
          that.auto.user_id = res.data.id;
-// //new service request id begins
-
+         console.log(that.auto);
          console.log(that.serviceRequests);
-
-
-        //  that.new_auto_id = res.data.autos\[0].id;
-
 
          $http.post(baseUrl + 'service_requests' + '/', that.serviceRequests)
          .then((res) => {
@@ -425,10 +401,7 @@ module.exports = function(app) {
            that.auto.service_request_id = res.data.id;
 
            $http.post(baseUrl + 'autos' + '/', that.auto)
-
-
              .then((res) => {
-               console.log('posting the auto');
                console.log(res);
              });
 
@@ -443,15 +416,13 @@ module.exports = function(app) {
        });
 
      })
-
-
      .catch((res) => {
        this.message = 'Sorry, either your email or your password was wrong. Try again.';
      })
 
      .then(() => {
        if (this.message === 'Sorry, either your email or your password was wrong. Try again.') {
-         console.log('sorry again');
+         console.log('sorry, but no');
        } else {
          console.log(modalService.thing);
          if (modalService.thing === 2) {
@@ -468,9 +439,7 @@ module.exports = function(app) {
 
 // //////////old login begins
     this.noReplace = function(email, password) {
-      console.log(email, password);
       console.log(this.logInObject);
-      console.log('logging in');
       var resource = this.logInObject;
       $http.post(baseUrl + 'authenticate', resource)
      .then((res) => {
@@ -481,16 +450,15 @@ module.exports = function(app) {
        console.log($http.defaults.headers.common.Authorization);
        window.localStorage.token = this.token;
        window.localStorage.user_id = res.data.user_id;
-       this.signedInUser = resource.user_email;
+    //    this.signedInUser = resource.user_email;
        this.user_id = res.data.user_id;
 
        $http.get(baseUrl + 'users/' + this.user_id )
        .then((res) => {
          console.log(res);
-         console.log(res.data.user_name);
          window.localStorage.user_name = res.data.user_name;
          console.log(res.data.service_centers.length);
-         console.log(this.signedInUser);
+        //  console.log(this.signedInUser);
          console.log(res.data.service_requests[0].work_request);
 
          window.localStorage.service_requests = JSON.stringify(res.data.service_requests[0].work_request);
@@ -523,7 +491,52 @@ module.exports = function(app) {
     };
 
 
-// //////////old login ends
+    this.addServiceRequests = function(value) {
+
+      this.requests = [];
+      this.newRay = [];
+      if (localStorage.getItem('describeIssue')) {
+        this.requests.push(localStorage.getItem('describeIssue'));
+      }
+      if (localStorage.getItem('chosen')) {
+        var newArr = JSON.parse(localStorage.getItem('chosen'));
+        for (var i = 0; i < newArr.length; i++) {
+          this.newRay.push(newArr[i].name);
+        }
+        this.requests.push(this.newRay);
+      }
+
+      for (var i = 0; i < this.user_autos.length; i++) {
+        if (value.service_request_id == this.user_requests[i].id) {
+          this.user_requests[i].work_request += this.requests;
+
+        }
+        var h = this.user_requests[i].work_request;
+        // var that.new_sr_id = value.service_request_id
+      }
+      console.log(h);
+
+      that.serviceRequests.work_request = JSON.stringify(h);
+
+
+      this.serviceRequests.user_id = localStorage.getItem('user_id');
+      console.log(this.serviceRequests.user_id);
+// bookmark
+      this.serviceRequests.auto = {};
+      this.serviceRequests.auto.id = value.id;
+      console.log(value);
+
+      console.log(this.serviceRequests);
+      console.log(that.serviceRequests);
+
+      $http.put(baseUrl + 'service_requests' + '/' + value.service_request_id, that.serviceRequests)
+          .then((res) => {
+            console.log(res);
+            $state.go('user_dashboard');
+          });
+
+    };
+
     this.logout = function() {
       console.log('logging out');
       $http.defaults.headers.common.Authorization = '';

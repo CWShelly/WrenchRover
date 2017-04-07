@@ -209,6 +209,10 @@ module.exports = exports = function(app) {
          }
          console.log(res.data.autos);
 
+         window.localStorage.user_autos = JSON.stringify(res.data.autos);
+
+         window.localStorage.user_requests = JSON.stringify(res.data.service_requests);
+
          for (var i = 0; i < res.data.autos.length; i++) {
            this.all.push({ id: i.toString(), make: res.data.autos[i].make, request: res.data.service_requests[i].work_request });
          }
@@ -294,13 +298,8 @@ module.exports = exports = function(app) {
      })
      .then(() => {
        if (this.service_requests_count > 0 ) {
-         console.log(vm.message);
-         console.log(this.message);
-         console.log(vm.pending_message);
-         console.log(this.pending_message);
 
          console.log(this.service_request_id);
-
 
          $http.get(this.url + 'service_requests/' + this.service_request_id)
         .then((res) => {
