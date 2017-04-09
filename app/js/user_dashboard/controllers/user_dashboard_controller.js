@@ -239,6 +239,9 @@ module.exports = exports = function(app) {
        //  get user's date of signup:
          var month = parseInt(res.data.created_at.slice(5, 7), 10);
          var year = res.data.created_at.slice(0, 4);
+         console.log(year);
+         // 4/8/17 --join year shows at 2016?? I mean, that would be cool if we got to do 2016 over.
+
          var monthsArray = ['January', 'February', 'March', 'April', 'May',
            'June', 'July', 'August', 'September', 'October',
            'November', 'December'];

@@ -140,45 +140,30 @@ module.exports = function(app) {
     };
 
 
-    this.createUser = function(resource) {
-      this.requests = [];
-      this.newRay = [];
-      if (localStorage.getItem('describeIssue')) {
-        this.requests.push(localStorage.getItem('describeIssue'));
-      }
-      if (localStorage.getItem('chosen')) {
-        var newArr = JSON.parse(localStorage.getItem('chosen'));
-        for (var i = 0; i < newArr.length; i++) {
-          this.newRay.push(newArr[i].name);
-        }
-        this.requests.push(this.newRay);
-      }
-
-      this.serviceRequests.work_request = JSON.stringify(this.requests);
-      window.localStorage.service_requests = JSON.stringify(this.requests);
-
+    this.altCreateUser = function(resource) {
+      console.log('alt user sign up');
       this.x = {
         user: resource
       };
-
       window.localStorage.user_name = resource.user_name;
+
       $http.post(baseUrl + 'users', this.x)
       .then((res) => {
-        this.auto.user_id = res.data.id;
-        this.serviceRequests.user_id = res.data.id;
+
+        console.log(that.auto);
+        that.auto.user_id = res.data.id;
+        that.serviceRequests.user_id = res.data.id;
         window.localStorage.user_id = res.data.id;
 
       })
       .catch((error) => {
         console.log('oh no an error');
-        modalService.message = 'This email address ' + error.data.user_email[0];
         console.log(error);
+        modalService.message = 'This email address ' + error.data.user_email[0];
+
       })
-
       .then(() => {
-        console.log(resource);
         $http.post(baseUrl + 'authenticate', resource)
-
         .catch((error) => {
           console.log('oh no an error');
           modalService.message = 'Authentication error';
@@ -192,17 +177,107 @@ module.exports = function(app) {
           window.localStorage.token = this.token;
           $http.defaults.headers.common.Authorization = localStorage.getItem('token');
         })
+        .catch((error) => {
+          localStorage.removeItem('user_name');
+          console.log(error);
+          console.log('error');
+        })
+        .then(() => {
+          console.log('begining recursivePost');
+          var newArr = JSON.parse(localStorage.getItem('chosen'));
+          recursivePost(newArr, baseUrl + 'service_requests');
+
+        })
+        .then(() => {
+          console.log(this.auto);
+          console.log(that.auto);
+          $http.post(baseUrl + 'autos', this.auto)
+            .then((res) => {
+              console.log(res);
+            });
+        })
+
+        .then(() => {
+          this.message = 'Thank you for signing up!';
+          // console.log(JSON.parse(localStorage.getItem('service_requests')));
+          $state.go('user_dashboard');
+        })
+        .then(() => {
+          console.log('closing');
+          console.log(modalService.thing);
+          if (modalService.thing === 2) {
+            that.closeModal();
+          } else {
+            that.closeDropDown();
+          }
+        });
+      });
+
+    };
+
+    this.createUser = function(resource) {
+
+      this.requests = [];
+      this.newRay = [];
+      if (localStorage.getItem('describeIssue')) {
+        this.requests.push(localStorage.getItem('describeIssue'));
+      }
+      if (localStorage.getItem('chosen')) {
+        console.log(localStorage.getItem('chosen')[0]);
+        var newArr = JSON.parse(localStorage.getItem('chosen'));
+        console.log(newArr[0]);
+        for (var i = 0; i < newArr.length; i++) {
+          this.newRay.push(newArr[i].name);
+        }
+        this.requests.push(this.newRay);
+      }
+
+      this.serviceRequests.work_request = JSON.stringify(this.requests);
+      window.localStorage.service_requests = JSON.stringify(this.requests);
+
+      this.x = {
+        user: resource
+      };
+      $http.post(baseUrl + 'users', this.x)
+      .catch((error) => {
+        console.log(error);
+        console.log('the eror');
+        modalService.message = error.data.user_email[0];
+      })
+      .then((res) => {
+        console.log(res);
+
+        console.log('1. posting to users');
+        console.log(this.x);
+        this.auto.user_id = res.data.id;
+        this.serviceRequests.user_id = res.data.id;
+        window.localStorage.user_id = res.data.id;
+      })
+
+      .then(() => {
+        console.log(resource);
+        $http.post(baseUrl + 'authenticate', resource)
+        .then((res) => {
+          console.log('2. posting to authenticate');
+          console.log(res);
+          res.config.headers.Authorization = res.data.auth_token;
+          this.token = res.data.auth_token;
+          window.localStorage.token = this.token;
+          $http.defaults.headers.common.Authorization = localStorage.getItem('token');
+        })
 
      .catch((error) => {
-       localStorage.removeItem('user_name');
-       // remove token and reset headers
-
        console.log('error');
        console.log(error);
+    //    console.log(data);
+       modalService.message = 'TAKEN';
+       this.data.error = { message: error, status: status };
+       console.log(this.data.error);
      })
         .then(() => {
           $http.post(baseUrl + 'service_requests', this.serviceRequests)
           .then((res) => {
+            window.localStorage.service_requests = JSON.stringify(res.data.work_request);
             this.auto.service_request_id = res.data.id;
             window.localStorage.service_request_id = res.data.id;
           })
@@ -210,10 +285,12 @@ module.exports = function(app) {
           .then(() => {
             $http.post(baseUrl + 'autos', this.auto)
             .then((res) => {
-              console.log(res);
+              this.srthing = JSON.parse(localStorage.getItem('service_requests'));
+
             });
           })
           .then(() => {
+            console.log('after autos');
             this.message = 'Thank you for signing up!';
             console.log(JSON.parse(localStorage.getItem('service_requests')));
             $state.go('user_dashboard');
@@ -224,12 +301,19 @@ module.exports = function(app) {
             console.log(modalService.thing);
             if (modalService.thing === 2) {
               that.closeModal();
+
             } else {
               that.closeDropDown();
             }
+
           });
+
+
         });
+
       });
+
+
     }.bind(this);
 
 // /////new login begins
@@ -345,6 +429,28 @@ module.exports = function(app) {
       console.log(resource);
     };
 
+
+    function recursivePost(arr, url) {
+      console.log('recursivePost');
+      if (arr.length == 0) {
+        console.log('empty');
+        return;
+      } else {
+        var value = arr.pop();
+        that.serviceRequests.work_request = JSON.stringify(value.name);
+
+        $http.post(url, that.serviceRequests)
+            .then((res) => {
+              console.log('posting');
+              console.log(res.data);
+            //   that.auto.service_request_id = res.data.id;
+            //   console.log(that.auto.service_request_id);
+
+            });
+
+        return recursivePost(arr, url);
+      }
+    }
 
     this.replace = function(email, password) {
       this.logInObject = {};
@@ -529,11 +635,17 @@ module.exports = function(app) {
       console.log(this.serviceRequests);
       console.log(that.serviceRequests);
 
-      $http.put(baseUrl + 'service_requests' + '/' + value.service_request_id, that.serviceRequests)
-          .then((res) => {
-            console.log(res);
-            $state.go('user_dashboard');
-          });
+    //   $http.put(baseUrl + 'service_requests' + '/' + value.service_request_id, that.serviceRequests)
+    //       .then((res) => {
+    //         console.log(res);
+    //         $state.go('user_dashboard');
+    //       });
+
+      $http.post(baseUrl + 'service_requests', that.serviceRequests)
+      .then((res) => {
+        console.log(res);
+        $state.go('user_dashboard');
+      });
 
     };
 

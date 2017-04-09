@@ -19,14 +19,14 @@ module.exports = function(app) {
         for (var i = 0; i < res.data.length; i++) {
           res.data[i].converted = new Date(res.data[i].created_at);
           res.data[i].convertedToString = res.data[i].converted.toString();
-   //   this.workrequests.push(res.data[i]);
         }
 
         for (var i = 0; i < res.data.length; i++) {
+          console.log(typeof res.data[i].work_request);
+        //   console.log(res.data[i].work_request);
 
 
-          if (res.data[i].work_request.indexOf('[') != -1) {
-
+          if (res.data[i].work_request != null && res.data[i].work_request.indexOf('[') != -1) {
             if (res.data[i].work_request[0] == '[' && res.data[i].work_request[1] == '[') {
               res.data[i].describe_issue = '';
               res.data[i].iron = res.data[i].work_request[0];
