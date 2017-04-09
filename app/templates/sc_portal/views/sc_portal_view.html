@@ -15,8 +15,11 @@
     <div class="container" ng-repeat="sample in portal.workrequests track by $index">
     	<div class="row" >
     		<div class="col-md-12 col-sm-12">
-          <b>{{sample.convertedToString}} -- {{sample.midPipe}}</b>
+          <!-- <b>{{sample.convertedToString}} -- {{sample.midPipe}}</b> -->
+            <b>{{sample.convertedToString}} -- {{sample.work_request}}</b>
           <!-- <strong>{{sample.id}}</strong> -->
+
+          <!-- {{sample}} -->
 
     		</div>
         <div class="col-md-12 col-sm-12">
