@@ -200,6 +200,18 @@ module.exports = function(app) {
                console.log(this.data.error);
              })
 
+        .then(() => {
+          $http.post(baseUrl + 'autos', that.auto)
+            .then((res) => {
+              console.log('POSTING THE AUTO');
+              console.log(res);
+              that.serviceRequests.auto_id = res.data.id;
+              this.serviceRequests.auto_id = res.data.id;
+              console.log(this.serviceRequests);
+              console.log(that.serviceRequests);
+            })
+        // })
+
 
                 .then(() => {
                   console.log('begining recursivePost');
@@ -225,7 +237,9 @@ module.exports = function(app) {
                     }
 
                   });
-              }
+
+        });
+              }//
         );
     }.bind(this);
 
@@ -281,33 +295,36 @@ module.exports = function(app) {
           $http.defaults.headers.common.Authorization = localStorage.getItem('token');
         })
 
-     .catch((error) => {
-       console.log('error');
-       console.log(error);
-    //    console.log(data);
-       modalService.message = 'TAKEN';
-       this.data.error = { message: error, status: status };
-       console.log(this.data.error);
-     })
+         .catch((error) => {
+           console.log('error');
+           console.log(error);
+           modalService.message = 'TAKEN';
+           this.data.error = { message: error, status: status };
+         })
         .then(() => {
-          $http.post(baseUrl + 'service_requests', this.serviceRequests)
-          .then((res) => {
-            console.log(res);
-            window.localStorage.service_requests = JSON.stringify(res.data.work_request);
-            this.auto.service_request_id = res.data.id;
-            window.localStorage.service_request_id = res.data.id;
-          })
 
-          .then(() => {
-            console.log(this.auto);
-            $http.post(baseUrl + 'autos', this.auto)
-            .then((res) => {
+            // .then(() => {
+          console.log(this.auto);
+          $http.post(baseUrl + 'autos', this.auto)
+              .then((res) => {
 
-              console.log(res);
-              this.srthing = JSON.parse(localStorage.getItem('service_requests'));
+                console.log(res);
+                // this.srthing = JSON.parse(localStorage.getItem('service_requests'));
+                this.serviceRequests.auto_id = res.data.id;
+                console.log(this.serviceRequests);
 
-            });
-          })
+              })
+             .then(() => {
+               $http.post(baseUrl + 'service_requests', this.serviceRequests)
+                .then((res) => {
+                  console.log(res);
+                  window.localStorage.service_requests = JSON.stringify(res.data.work_request);
+            // this.auto.service_request_id = res.data.id;
+
+                  window.localStorage.service_request_id = res.data.id;
+                });
+             })
+
           .then(() => {
             console.log('after autos');
             this.message = 'Thank you for signing up!';
@@ -454,35 +471,23 @@ module.exports = function(app) {
       if (arr.length == 0) {
         console.log(that.auto);
         console.log('empty');
-        // $http.post(baseUrl + 'autos', that.auto)
-        // .then((res) => {
-        //   console.log('POSTING THE AUTO');
-        //   console.log(res);
-        // });
         return;
       } else {
         var value = arr.pop();
+        console.log(that.serviceRequests);
         that.serviceRequests.work_request = JSON.stringify(value.name);
 
         $http.post(url, that.serviceRequests)
             .then((res) => {
               console.log('posting');
               console.log(res.data);
-              that.auto.service_request_id = res.data.id++;
-              console.log(that.auto);
+            //   that.auto.service_request_id = res.data.id++;
+            //   console.log(that.auto);
+            //   return recursivePost(arr, url);
+              return recursivePost(arr, url);
+            });
 
-            })
-
-        .then(() => {
-          $http.post(baseUrl + 'autos', that.auto)
-                .then((res) => {
-                  console.log('POSTING THE AUTO');
-                  console.log(res);
-                  return recursivePost(arr, url);
-                });
-        });
-
-
+        // return recursivePost(arr, url);
       }
     }
 
