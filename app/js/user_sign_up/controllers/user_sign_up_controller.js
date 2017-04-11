@@ -141,7 +141,6 @@ module.exports = function(app) {
 
 
     this.altCreateUser = function(resource) {
-
       this.requests = [];
       this.newRay = [];
       if (localStorage.getItem('describeIssue')) {
@@ -211,8 +210,6 @@ module.exports = function(app) {
               console.log(that.serviceRequests);
             })
         // })
-
-
                 .then(() => {
                   console.log('begining recursivePost');
                   var newArr = JSON.parse(localStorage.getItem('chosen'));
@@ -243,114 +240,6 @@ module.exports = function(app) {
         );
     }.bind(this);
 
-    this.createUser = function(resource) {
-      console.log(this.auto);
-
-      this.requests = [];
-      this.newRay = [];
-      if (localStorage.getItem('describeIssue')) {
-        this.requests.push(localStorage.getItem('describeIssue'));
-      }
-      if (localStorage.getItem('chosen')) {
-        console.log(localStorage.getItem('chosen')[0]);
-        var newArr = JSON.parse(localStorage.getItem('chosen'));
-        console.log(newArr[0]);
-        for (var i = 0; i < newArr.length; i++) {
-          this.newRay.push(newArr[i].name);
-        }
-        this.requests.push(this.newRay);
-      }
-
-      this.serviceRequests.work_request = JSON.stringify(this.requests);
-      window.localStorage.service_requests = JSON.stringify(this.requests);
-
-      this.x = {
-        user: resource
-      };
-      $http.post(baseUrl + 'users', this.x)
-      .catch((error) => {
-        console.log(error);
-        console.log('the eror');
-        modalService.message = error.data.user_email[0];
-      })
-      .then((res) => {
-        console.log(res);
-
-        console.log('1. posting to users');
-        console.log(this.x);
-        this.auto.user_id = res.data.id;
-        this.serviceRequests.user_id = res.data.id;
-        window.localStorage.user_id = res.data.id;
-      })
-
-      .then(() => {
-        console.log(resource);
-        $http.post(baseUrl + 'authenticate', resource)
-        .then((res) => {
-          console.log('2. posting to authenticate');
-          console.log(res);
-          res.config.headers.Authorization = res.data.auth_token;
-          this.token = res.data.auth_token;
-          window.localStorage.token = this.token;
-          $http.defaults.headers.common.Authorization = localStorage.getItem('token');
-        })
-
-         .catch((error) => {
-           console.log('error');
-           console.log(error);
-           modalService.message = 'TAKEN';
-           this.data.error = { message: error, status: status };
-         })
-        .then(() => {
-
-            // .then(() => {
-          console.log(this.auto);
-          $http.post(baseUrl + 'autos', this.auto)
-              .then((res) => {
-
-                console.log(res);
-                // this.srthing = JSON.parse(localStorage.getItem('service_requests'));
-                this.serviceRequests.auto_id = res.data.id;
-                console.log(this.serviceRequests);
-
-              })
-             .then(() => {
-               $http.post(baseUrl + 'service_requests', this.serviceRequests)
-                .then((res) => {
-                  console.log(res);
-                  window.localStorage.service_requests = JSON.stringify(res.data.work_request);
-            // this.auto.service_request_id = res.data.id;
-
-                  window.localStorage.service_request_id = res.data.id;
-                });
-             })
-
-          .then(() => {
-            console.log('after autos');
-            this.message = 'Thank you for signing up!';
-            console.log(JSON.parse(localStorage.getItem('service_requests')));
-            $state.go('user_dashboard');
-          })
-
-          .then(() => {
-            console.log('closing');
-            console.log(modalService.thing);
-            if (modalService.thing === 2) {
-              that.closeModal();
-
-            } else {
-              that.closeDropDown();
-            }
-
-          });
-
-
-        });
-
-      });
-
-
-    }.bind(this);
 
 // /////new login begins
 
@@ -456,51 +345,20 @@ module.exports = function(app) {
 
 
 // new login ends
-    // this.gotVehicle = function(resource) {
-    //   console.log(resource);
-    //   console.log('got a vehicle');
-    // };
+
 
     this.testFunc = function(resource) {
       console.log(resource);
     };
 
 
-    function recursivePost(arr, url) {
-      console.log('recursivePost');
-      if (arr.length == 0) {
-        console.log(that.auto);
-        console.log('empty');
-        return;
-      } else {
-        var value = arr.pop();
-        console.log(that.serviceRequests);
-        that.serviceRequests.work_request = JSON.stringify(value.name);
-
-        $http.post(url, that.serviceRequests)
-            .then((res) => {
-              console.log('posting');
-              console.log(res.data);
-            //   that.auto.service_request_id = res.data.id++;
-            //   console.log(that.auto);
-            //   return recursivePost(arr, url);
-              return recursivePost(arr, url);
-            });
-
-        // return recursivePost(arr, url);
-      }
-    }
-
     this.replace = function(email, password) {
       this.logInObject = {};
-
+// privatize this later/
       this.logInObject.user_email = email;
       this.logInObject.password = password;
-
       this.requests = [];
       this.newRay = [];
-
-
       if (localStorage.getItem('describeIssue')) {
         this.requests.push(localStorage.getItem('describeIssue'));
       }
@@ -516,51 +374,60 @@ module.exports = function(app) {
       console.log(this.logInObject);
       var resource = this.logInObject;
       $http.post(baseUrl + 'authenticate', resource)
-     .then((res) => {
-       console.log(res);
-       res.headers.Authorization = res.data.auth_token;
-       this.token = res.data.auth_token;
-       $http.defaults.headers.common.Authorization = this.token.toString();
+       .then((res) => {
+         console.log(res);
+         res.headers.Authorization = res.data.auth_token;
+         this.token = res.data.auth_token;
+         $http.defaults.headers.common.Authorization = this.token.toString();
+         window.localStorage.token = this.token;
+         window.localStorage.user_id = res.data.user_id;
+         this.user_id = res.data.user_id;
 
-
-       console.log($http.defaults.headers.common.Authorization);
-       window.localStorage.token = this.token;
-       window.localStorage.user_id = res.data.user_id;
-       this.user_id = res.data.user_id;
-
-       $http.get(baseUrl + 'users/' + this.user_id )
+         $http.get(baseUrl + 'users/' + this.user_id )
        .then((res) => {
          that.serviceRequests.user_id = res.data.id;
          console.log(res);
          window.localStorage.user_name = res.data.user_name;
          console.log(that.storedVehicle);
 
-         that.auto.user_id = res.data.id;
+        //  that.auto.user_id = res.data.id;
+         this.auto.user_id = res.data.id;
          console.log(that.auto);
          console.log(that.serviceRequests);
+    //    })
+       })
+// replace with recpost begins
 
-         $http.post(baseUrl + 'service_requests' + '/', that.serviceRequests)
-         .then((res) => {
-           console.log(res);
+.then(() => {
+  $http.post(baseUrl + 'autos', that.auto)
+    .then((res) => {
+      console.log('POSTING THE AUTO');
+      console.log(res);
+      that.serviceRequests.auto_id = res.data.id;
+      this.serviceRequests.auto_id = res.data.id;
+      console.log(this.serviceRequests);
+      console.log(that.serviceRequests);
+    })
+// })
+        .then(() => {
+          console.log('begining recursivePost');
+          var newArr = JSON.parse(localStorage.getItem('chosen'));
+          recursivePost(newArr, baseUrl + 'service_requests');
 
-           that.auto.service_request_id = res.data.id;
+        });
 
-           $http.post(baseUrl + 'autos' + '/', that.auto)
-             .then((res) => {
-               console.log(res);
-             });
-
-         })
+})
 
 
+// replace with recpost ends
            .then(() => {
              $state.go('user_dashboard');
              console.log('reloading');
              $window.location.reload();
            });
-       });
+       })
 
-     })
+    //  })
      .catch((res) => {
        this.message = 'Sorry, either your email or your password was wrong. Try again.';
      })
@@ -579,7 +446,8 @@ module.exports = function(app) {
        }
      });
       return;
-    };
+    }
+    .bind(this);
 // ////replace ends///
 
 // //////////old login begins
@@ -687,7 +555,30 @@ module.exports = function(app) {
       });
 
     };
+// ///recursivePost
+    function recursivePost(arr, url) {
+      console.log('recursivePost');
+      if (arr.length == 0) {
+        console.log(that.auto);
+        console.log('empty');
+        return;
+      } else {
+        var value = arr.pop();
+        console.log(that.serviceRequests);
+        that.serviceRequests.work_request = JSON.stringify(value.name);
 
+        $http.post(url, that.serviceRequests)
+        .then((res) => {
+          console.log('posting');
+          console.log(res.data);
+        //   that.auto.service_request_id = res.data.id++;
+        //   console.log(that.auto);
+        //   return recursivePost(arr, url);
+          return recursivePost(arr, url);
+        });
+      }
+    }
+// /recursivePost
     this.logout = function() {
       console.log('logging out');
       $http.defaults.headers.common.Authorization = '';
