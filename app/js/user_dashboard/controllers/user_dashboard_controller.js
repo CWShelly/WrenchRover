@@ -106,7 +106,6 @@ module.exports = exports = function(app) {
       console.log(value);
       console.log(time);
 
-
       window.localStorage.confirmedAppt = JSON.stringify(value);
       if (time == undefined) {
         console.log('time undefined');
@@ -176,7 +175,6 @@ module.exports = exports = function(app) {
            for (var i = 0; i <= arr.length; i++) {
              if (arr[i].auto_id == key) {
                console.log(arr[i].auto_id);
-            //    return findDupes(quicksorted, arr[i].auto_id);
                console.log(vm.q);
                return vm.findDupes(vm.q, arr[i].auto_id);
              }
@@ -339,20 +337,17 @@ module.exports = exports = function(app) {
       return this.quicksortBasic(lesser).concat(array[0], this.quicksortBasic(greater));
     };
 
-    // var quicksorted = quicksortBasic(ray);
+
     this.findDupes = function(arr, item) {
       this.results = [];
       console.log(arr);
       for (var i = 0; i < arr.length; i++) {
         if (arr[i].auto_id == item) {
-        //   this.results.push(arr[i].work_request);
           this.results.push(JSON.parse(arr[i].work_request));
         }
       }
       return this.results;
     };
-
-
 // /sort and dupe ends
   }
 
