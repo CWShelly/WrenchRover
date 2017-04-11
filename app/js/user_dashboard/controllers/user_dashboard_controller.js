@@ -11,13 +11,14 @@ module.exports = exports = function(app) {
     this.url = 'https://wrenchroverapi.herokuapp.com/';
     this.count = 0;
     this.all = [];
+    // this.carRequests = [];
 
     this.appointment = {};
     this.acceptedObject = {};
     this.service_requests_count = 0;
     this.modalService = modalService;
     this.message = 'We are currently digging for offers';
-    console.log('USHER DASH BOARDS');
+    // console.log('USHER DASH BOARDS');
     this.localCorrection = 'Seattle, WA';
     this.local = 'current-location';
 
@@ -39,8 +40,8 @@ module.exports = exports = function(app) {
       this.li = 'My Dash';
     }
 
-    console.log(this.heading);
-    console.log(this.li);
+    // console.log(this.heading);
+    // console.log(this.li);
 
 
     this.closeDropDown = function() {
@@ -89,15 +90,6 @@ module.exports = exports = function(app) {
       this.user_id = JSON.parse(localStorage.getItem('user_id'));
       this.user_id_mini = null;
       $http.defaults.headers.common.Authorization = localStorage.getItem('token');
-    }
-
-    if (localStorage.getItem('service_requests')) {
-
-      this.service_requests = JSON.parse(localStorage.getItem('service_requests'));
-      this.service_request_id = this.service_requests.id;
-    //   console.log(this.service_request_id);
-      console.log(this.service_requests.id);
-
     }
 
 
@@ -150,92 +142,51 @@ module.exports = exports = function(app) {
 
     };
 
- // three functions begin
-    function one(str, arr) {
-      for (var i = 0; i < str.length; i++) {
-
-        if (str.charAt(i) != '"') {
-          arr.push(str.charAt(i));
-        }
-      }
-      return arr;
-    }
-    function two(arr) {
-      for (var i = 0; i < arr.length; i++) {
-        if (arr[i] == ',') {
-          arr[i] = ' | ';
-        }
-      }
-      return arr.join();
-    }
-
-    function three(str, empty) {
-      for (var i = 0; i < str.length; i++) {
-        if (str.charAt(i) != ',') {
-          empty += str.charAt(i);
-
-        }
-      }
-      return empty;
-    }
-
- // three functions end
 
     this.getUserInfo = function() {
       if (!localStorage.getItem('token')) {
         $state.go('vehicle_dropdown_selection');
       }
-
-      var newString = '';
-      var newArr = [];
       console.log('getting user info');
 
       $http.get(this.url + 'users/' + this.user_id)
        .then((res) => {
+           // fallback in case GPS doesn't work.
          console.log(res.data);
          vm.localCorrection = JSON.stringify(res.data.user_zip);
-
          if (this.local[0] == 0 && this.local[1] == 0 && res.data.user_zip == null) {
-           console.log("you're in the middle of the ocean");
+           console.log("GPS issue, using user's zip");
            vm.local = vm.localCorrection;
          }
-
-
-         console.log(vm.localCorrection);
-         console.log(res);
-         if (localStorage.getItem('service_requests')) {
-           vm.service_request_id = res.data.service_requests[0].id;
-           console.log(vm.service_request_id);
-         }
-         console.log(res.data.autos);
-
-         window.localStorage.user_autos = JSON.stringify(res.data.autos);
-
-         window.localStorage.user_requests = JSON.stringify(res.data.service_requests);
+         console.log('get user autos and requests');
+         this.q = this.quicksortBasic(res.data.service_requests);
+        //  console.log(this.quicksorted);
+         console.log(this.q);
 
          for (var i = 0; i < res.data.autos.length; i++) {
-           this.all.push({ id: i.toString(), make: res.data.autos[i].make, request: res.data.service_requests[i].work_request });
+           this.all.push(
+             { id: i.toString(), make: res.data.autos[i].make, model: res.data.autos[i].model, requests: matchReq(res.data.service_requests, res.data.autos[i].id).join() }
+            );
          }
 
          this.demo = 0;
          console.log(this.all);
+         function matchReq(arr, key) {
 
-         if (res.data.autos.length > 0) {
-           console.log(res.data.autos);
-           this.storedVehicle = {
-             make: { name: res.data.autos[0].make },
-             model: { name: res.data.autos[0].model },
-             trim: { name: res.data.autos[0].trim },
-             mileage: res.data.autos[0].mileage,
-             id: res.data.autos[0].id,
-             user_id: res.data.autos[0].user_id,
-             year: res.data.autos[0].year
-           };
-           window.localStorage.vehicle = JSON.stringify(this.storedVehicle);
-           window.localStorage.auto_id = this.storedVehicle.id;
-         } else {
-           console.log('No car entered.');
+           for (var i = 0; i <= arr.length; i++) {
+             if (arr[i].auto_id == key) {
+               console.log(arr[i].auto_id);
+            //    return findDupes(quicksorted, arr[i].auto_id);
+               console.log(vm.q);
+               return vm.findDupes(vm.q, arr[i].auto_id);
+             }
+           }
+           return -1;
          }
+
+        //  var quicksorted = quicksortBasic(res.data.service_requests);
+        //  console.log(quicksorted);
+
        //  get user's date of signup:
          var month = parseInt(res.data.created_at.slice(5, 7), 10);
          var year = res.data.created_at.slice(0, 4);
@@ -251,149 +202,7 @@ module.exports = exports = function(app) {
          this.userObject.memberSince = memberDate;
          this.user_id_mini = this.userObject.user_name;
 
-
-         console.log(this.userObject);
-         if (res.data.service_requests.length > 0) {
-           var reqs = this.userObject.service_requests[0].work_request.slice(1);
-
-           console.log(reqs.indexOf('['));
-
-           if (reqs.indexOf('[') != 0) {
-             var di = reqs.slice(0, reqs.indexOf('[') - 1);
-             console.log(di);
-           } else {
-             var sliced = reqs.slice(0);
-             var di = '';
-           }
-
-           var x = reqs.slice(reqs.indexOf('[') + 1, reqs.indexOf(']'));
-           console.log(x);
-           console.log(typeof x);
-
-           var one1 = one(x, newArr);
-           var two2 = two(one1);
-           var three3 = three(two2, newString);
-           console.log(three3);
-
-
-           if (di != '') {
-             console.log(di);
-             this.userObject.pipedRequests = three3 + ' | ' + di;
-           } else {
-             console.log(di);
-             this.userObject.pipedRequests = three3;
-           }
-        //
-           this.userObject.autos = res.data.autos;
-           this.service_requests_count = res.data.service_requests.length;
-           console.log(this.service_requests_count);
-           console.log(this.userObject);
-
-         } else {
-           console.log('no service requests entered.');
-         }
-
-       })
-
-     .catch((res) => {
-       console.log(res);
-       console.log('error');
-     })
-     .then(() => {
-       if (this.service_requests_count > 0 ) {
-
-         console.log(this.service_request_id);
-
-         $http.get(this.url + 'service_requests/' + this.service_request_id)
-        .then((res) => {
-          console.log(res);
-          console.log(res.data.service_quotes);
-
-          if (res.data.service_quotes.length >= 1) {
-            console.log(res.data.service_quotes[0].id);
-            this.service_quotes = res.data.service_quotes;
-            $http.get(this.url + 'service_quotes')
-           .then((res) => {
-
-
-             this.service_quotes_table.splice(0);
-             console.log(this.service_request_id);
-             for (var i = 0; i < res.data.length; i++) {
-               if (res.data[i].service_request_id == this.service_request_id && res.data[i].accepted == null) {
-                 console.log(res.data[i].service_request_id);
-                 console.log('THERE ARE BIDS');
-                 vm.tab = 'New';
-                 console.log(res.data[i]);
-                 window.localStorage.appointment_service_center_name = res.data[i].service_center.service_name;
-
-
-                 var loc_obj = {
-                   id: res.data[i].service_center.service_name,
-                   cost: res.data[i].quote_cost,
-                   notes: res.data[i].quote_text,
-                   accepted: res.data[i].accepted,
-                   available_date_1: res.data[i].available_date_1, available_date_2: res.data[i].available_date_2, available_date_3: res.data[i].available_date_3,
-                   pos:
-                    res.data[i].service_center.service_address + ', ' + res.data[i].service_center.service_city + ',' + res.data[i].service_center.service_state + ',' + res.data[i].service_center.service_zip, num: 'things',
-                   quote_id: res.data[i].id,
-                   cost: res.data[i].quote_cost,
-                   notes: res.data[i].quote_text,
-                   position: res.data[i].service_center.service_address + ', ' + res.data[i].service_center.service_city + ',' + res.data[i].service_center.service_state + ',' + res.data[i].service_center.service_zip,
-                   dates: [ res.data[i].available_date_1, res.data[i].available_date_2, res.data[i].available_date_3]
-                 };
-                 vm.positions.push(loc_obj);
-                 this.service_quotes_table.push(res.data[i]);
-               }
-
-
-               if (res.data[i].accepted != null) {
-                 console.log(res.data[i]);
-                 console.log('YOU HAVE ACCEPTED BIDS ');
-
-               }
-             } // for loop ends
-             console.log(loc_obj);
-             for (var j = 0; j < vm.positions.length; j++) {
-               vm.positions[j].map_icon_pics = map_icons[j];
-               vm.positions[j].item_number = j + 1;
-             }
-
-             console.log(vm.positions);
-             console.log(vm.positions.length);
-             vm.count = vm.positions.length;
-             vm.shop = vm.positions[0];
-             console.log(vm.shop);
-             vm.showDetail = function(e, shop) {
-               console.log(shop);
-               vm.shop = shop;
-               vm.map.showInfoWindow('foo-iw', shop.id);
-               console.log(vm.map);
-             };
-
-             vm.hideDetail = function() {
-               vm.map.hideInfoWindow('foo-iw');
-             };
-             vm.value = '';
-             vm.newValue = function(value, x) {};
-
-
-             this.available_date = 1;
-           });
-
-          } else {
-            console.log('nope');
-          }
-        });
-
-
-       // if statement on service requets length ends
-       } else {
-
-         console.log('No service requests have been entered yet. part 2');
-       }
-
-     });
-    };
+       });}.bind(this);
 
 
     this.getAppointments = function() {
@@ -409,17 +218,11 @@ module.exports = exports = function(app) {
         for (var i = 0; i < res.data.length; i++) {
 
           if (res.data[i].accepted != null && res.data[i].service_request_id == this.service_request_id && res.data.length >= 1) {
-            console.log('THERE IS AN ACCEPTED BID');
-            console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
-            // i = res.data.length;
-            // console.log();
-
             vm.message = 'Your upcoming appointment';
             vm.appointment.appointment_date_time = res.data[i].accepted;
             vm.appointment.service_center = res.data[i].service_center.service_name;
             vm.pending_message = 'Your upcoming appointment';
 
-            // vm.tab = 'Appointments';
             vm.tab = 'New';
 
             console.log(res.data[i]);
@@ -516,6 +319,41 @@ module.exports = exports = function(app) {
     };
 
 
+// //sort and dupe begins///
+
+
+    this.quicksortBasic = function(array) {
+      if (array.length < 2) {
+        return array;
+      }
+      var pivot = array[0].auto_id;
+      var lesser = [];
+      var greater = [];
+      for (var i = 1; i < array.length; i++) {
+        if (array[i].auto_id < pivot) {
+          lesser.push(array[i]);
+        } else {
+          greater.push(array[i]);
+        }
+      }
+      return this.quicksortBasic(lesser).concat(array[0], this.quicksortBasic(greater));
+    };
+
+    // var quicksorted = quicksortBasic(ray);
+    this.findDupes = function(arr, item) {
+      this.results = [];
+      console.log(arr);
+      for (var i = 0; i < arr.length; i++) {
+        if (arr[i].auto_id == item) {
+        //   this.results.push(arr[i].work_request);
+          this.results.push(JSON.parse(arr[i].work_request));
+        }
+      }
+      return this.results;
+    };
+
+
+// /sort and dupe ends
   }
 
 
