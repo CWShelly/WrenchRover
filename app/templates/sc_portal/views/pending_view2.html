@@ -1,48 +1,171 @@
 
-<section ng-init = "portal.getAll()">
 
-<div class="container" ng-repeat="sample in portal.workrequests">
-	<div class="row" >
-		<div class="col-md-12 col-sm-12">
-      <b>{{sample.convertedToString}}. {{sample.work_request}}</b>
-		</div>
-    <div class="col-md-12 col-sm-12">
-      Vehicle: {{sample.auto.year}} {{sample.auto.make}} {{sample.auto.model}} {{sample.auto.engine}} {{sample.auto.mileage}} miles
+
+<div ng-init="portal.getRequests()">
+<uib-tabset active="active">
+  <h2 style="float:right;">{{portal.welcome}}</h2>
+
+
+  <uib-tab  index="0" heading="New Bids" >
+    <div class="tab-content" style="border:solid 2px #ff6600;">
+      <div id="mainPending" class="tab-pane fade in active">
+    <section ng-init = "portal.getAll()">
+
+
+    <div class="container" ng-repeat="sample in portal.workrequests track by $index">
+
+    <div class="container" ng-repeat="sample in portal.workrequests | orderBy:'user_id'">
+    	<div class="row" >
+    		<div class="col-md-12 col-sm-12">
+            <b>{{sample.convertedToString}} -- {{sample.parsed_requests}}</b>
+
+    		</div>
+        <div class="col-md-12 col-sm-12">
+          {{sample.user_id}}
+
+          Vehicle: {{sample.auto.year}} {{sample.auto.make}} {{sample.auto.model}} {{sample.auto.engine}} engine {{sample.auto.mileage}} miles
+        </div>
+    		<div class="col-md-12 col-sm-12">
+          <!-- note: replace this with new obj property -->
+          <!-- {{sample.parstring}} -->
+    			Customer notes: {{sample.describe_issue}}
+    		</div>
+    	</div>
+    	<div class="row" style="margin:10px 0 10px 0;">
+    		<div class="col-md-12 col-sm-12">
+    			Add appointment dates <button ng-controller="dateOpenController as vm" ng-click= "vm.openCalendar()" class="btn btn-default"><i class="fa fa-calendar"></i></button>
+    		</div>
+    	</div>
+    	<div class="row">
+    		<div class="col-md-5 col-xs-12 inline" style="margin-bottom:10px;width:350px;">
+    			<textarea class="form-control" name= "Mechanic's Notes" data-ng-model="scquote.quote_text" placeholder="Send customer Notes"> </textarea>
+    		</div>
+    		<div class="col-md-7 col-xs-12 inline" style="width:270px;">
+    						<!-- <button ng-click="portal.removeDone(sample)">index of </button> -->
+          <form name = "authform" data-ng-submit="save(scquote)">
+    			<div class="input-group">
+    				<span class="input-group-addon">$</span>
+
+    				<input type="text" class="form-control" aria-label="Bid amount" name="{{sample.user_id}}" data-ng-model="scquote.quote_cost" required>
+
+    				<span class="input-group-btn">
+
+    					<button class="btn btn-default" type="submit" ng-click=" portal.createQuote(sample.user_id, scquote, sample.id, portal.modalService.apptArr); portal.removeDone(sample);"><i class="fa fa-check-circle"></i> Place Bid</button>
+    				</span>
+    			</div>
+          <form>
+
+    		</div>
+    	</div>
+      <hr>
     </div>
-		<div class="col-md-12 col-sm-12">
-      <!-- note: replace this with new obj property -->
-			Customer notes: FILL THIS IN LATER
+
+    </section>
+  </div></div>
+
+  </uib-tab>
+
+    <uib-tab index = "1" heading="Past Bids"   ng-init="portal.getPastBids()">
+
+      <div class="tab-content" style="border:solid 2px #ff6600;">
+        <div id="mainPending" class="tab-pane fade in active"  >
+
+      <!-- past bids will show up here -->
+{{sample}}
+
+<!-- new styling -->
+<div class="container" ng-repeat="sample in portal.pastbids">
+	<div class="row">
+    <!-- {{sample}} -->
+		<div class="col-md-6 col-sm-12">
+			Request Date: <b>{{sample.convertedToString}}</b>
+		</div>
+		<div class="col-md-6 col-sm-12">
+			Maintenance: <b>TBD</b>
+		</div>
+		<div class="col-md-6 col-sm-12">
+			Vehicle: <b>TBD</b>
+		</div>
+		<div class="col-md-6 col-sm-12">
+			Customer notes: <i>"TBD"</i>
 		</div>
 	</div>
 	<div class="row" style="margin:10px 0 10px 0;">
-		<div class="col-md-12 col-sm-12">
-			Add appointment dates <button ng-controller="dateOpenController as vm" ng-click= "vm.openCalendar()" class="btn btn-default">Open<i class="fa fa-calendar"></i></button>
+		<div class="col-md-12 col-sm-12" style="background:#ddd;padding:5px;">
+			Proposed Dates: <b>{{sample.available_date_1}} | {{sample.available_date_2}} | {{sample.available_date_3}}</b>
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-5 col-xs-12 inline" style="margin-bottom:10px;width:350px;">
-			<textarea class="form-control" name= "Mechanic's Notes" data-ng-model="scquote.quote_text" placeholder="Send customer Notes"> </textarea>
+		<div class="col-md-7 col-xs-12 inline" style="margin-bottom:10px;">
+			Your Notes: <i>{{sample.quote_text}}</i>
 		</div>
-		<div class="col-md-7 col-xs-12 inline" style="width:270px;">
-						<button ng-click="portal.removeDone(sample)">index of </button>
-
-      <form name = "authform" data-ng-submit="save(scquote)">
+		<div class="col-md-5 col-xs-12 inline">
 			<div class="input-group">
-				<span class="input-group-addon">$</span>
-
-				<input type="text" class="form-control" aria-label="Bid amount" name="{{sample.user_id}}" data-ng-model="scquote.quote_cost" required>
-
+				Bid Amount: <span class="WRorange">{{sample.quote_cost}}</span>
 				<span class="input-group-btn">
-
-					<button class="btn btn-default" type="submit" ng-click=" portal.createQuote(sample.user_id, scquote, sample.id, portal.modalService.apptArr); portal.removeDone(sample);"><i class="fa fa-check-circle"></i> Place Bid</button>
+					<button class="btn btn-default"><i class="fa fa-x"></i> Delete</button>
 				</span>
 			</div>
-      <form>
-
 		</div>
 	</div>
-  <hr>
+   <hr>
 </div>
 
+ </div>
+ </div>
 
-</section>
+<!-- new styling -->
+    </uib-tab>
+
+
+  <uib-tab index="2" heading="Appointments" >
+    <div class="tab-content" style="border:solid 2px #ff6600;" >
+      <div id="mainPending" class="tab-pane fade in active" ng-repeat="appt in portal.your_appointments">
+    <!-- <p>appointments view</p>
+ <h2>{{appt.accepted}}</h2>
+ <h2> {{appt.quote_text}}</h2> -->
+
+<hr>
+<!-- ////new styling -->
+<div class="container">
+	<div class="row">
+		<div class="col-md-6 col-sm-12">
+			Request Date: <b>3/8/17</b>
+		</div>
+		<div class="col-md-6 col-sm-12">
+			Maintenance: <b>TBD</b>
+		</div>
+		<div class="col-md-6 col-sm-12">
+			Vehicle: <b>TBD</b>
+		</div>
+		<div class="col-md-6 col-sm-12">
+			Customer notes: <i>TBD</i>
+		</div>
+	</div>
+	<div class="row" style="margin:10px 0 10px 0;">
+		<div class="col-md-12 col-sm-12" style="background:#ddd;padding:5px;">
+			Appointment Date: <b>{{appt.accepted}}</b>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-7 col-xs-12 inline" style="margin-bottom:10px;">
+			Your Notes: <i>"{{appt.quote_text}}"</i>
+		</div>
+		<div class="col-md-5 col-xs-12 inline">
+			<div class="input-group">
+				Bid Amount: <span class="WRorange">$125.00</span>
+				<span class="input-group-btn">
+					<button class="btn btn-default"><i class="fa fa-x"></i> Service Complete</button>
+				</span>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- ////new styling ends -->
+  </uib-tab>
+
+</uib-tabset>
+
+
+
+    </div>
