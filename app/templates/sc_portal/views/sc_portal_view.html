@@ -19,13 +19,11 @@
 
               <div uib-accordion-group class="panel-default" heading="Vehicle# {{sample.id}} {{sample.year}} {{sample.make}} {{sample.model}}" ng-repeat="sample in portal.workrequests">
               <p> Vehicle: {{sample.year}} {{sample.make}} {{sample.model}} {{sample.engine}} engine {{sample.mileage}} miles</p>
-                <p ng-repeat="x in sample.service_requests">{{x.parsed}}</p>
+                <!-- <p ng-repeat="x in sample.service_requests">{{x.parsed}}</p> -->
 
 
      <uib-accordion close-others="portal.oneAtATime">
-       <div uib-accordion-group heading="nesting">
-
-         stuff here
+       <div uib-accordion-group heading="{{x.parsed}}" ng-repeat="x in sample.service_requests">{{x.parsed}}
        </div>
      </uib-accordion>
 
