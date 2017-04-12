@@ -94,20 +94,21 @@ module.exports = function(app) {
 
       });};
     this.oneAtATime = true;
-
-    this.status = {
-      isCustomHeaderOpen: false,
-      isFirstOpen: true,
-      isFirstDisabled: false
-    };
-
-    this.innerStatus = {
-      isCustomHeaderOpen: false,
-      isFirstOpen: true,
-      isFirstDisabled: false
-
-
-    };
+    this.oneAtATime2 = false;
+    //
+    // this.status = {
+    //   isCustomHeaderOpen: false,
+    //   isFirstOpen: true,
+    //   isFirstDisabled: false
+    // };
+    //
+    // this.innerStatus = {
+    //   isCustomHeaderOpen: false,
+    //   isFirstOpen: true,
+    //   isFirstDisabled: false
+    //
+    //
+    // };
 
 
   }]);};
