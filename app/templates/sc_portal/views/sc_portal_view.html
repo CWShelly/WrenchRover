@@ -1,65 +1,33 @@
 
 
 
-<div ng-init="portal.getRequests()">
+<!-- <div ng-init="portal.getRequests()"> -->
+
+<div ng-init="portal.altGetRequests()"></div>
+
+
+      <!-- <h1 ng-repeat="x in portal.workrequests track by $index"> {{x}}</h1> -->
 <uib-tabset active="active">
-  <h2 style="float:right;">{{portal.welcome}}</h2>
+  <h2 style="float:right;">{{portal.service.welcome}}</h2>
 
 
   <uib-tab  index="0" heading="New Bids" >
     <div class="tab-content" style="border:solid 2px #ff6600;">
       <div id="mainPending" class="tab-pane fade in active">
-    <section ng-init = "portal.getAll()">
 
+              <uib-accordion close-others="portal.oneAtATime">
 
-    <div class="container" ng-repeat="sample in portal.workrequests track by $index">
+              <div uib-accordion-group class="panel-default" heading="{{sample.id}} {{sample.year}} {{sample.make}} {{sample.model}}" ng-repeat="sample in portal.workrequests">
+              <p> Vehicle: {{sample.year}} {{sample.make}} {{sample.model}} {{sample.engine}} engine {{sample.mileage}} miles</p>
+                <p ng-repeat="x in sample.service_requests">{{x.parsed}}</p>
 
-    <div class="container" ng-repeat="sample in portal.workrequests | orderBy:'user_id'">
-    	<div class="row" >
-    		<div class="col-md-12 col-sm-12">
-            <b>{{sample.convertedToString}} -- {{sample.parsed_requests}}</b>
+              <div class="container">
 
-    		</div>
-        <div class="col-md-12 col-sm-12">
-          {{sample.user_id}}
+              <hr>
 
-          Vehicle: {{sample.auto.year}} {{sample.auto.make}} {{sample.auto.model}} {{sample.auto.engine}} engine {{sample.auto.mileage}} miles
-        </div>
-    		<div class="col-md-12 col-sm-12">
-          <!-- note: replace this with new obj property -->
-          <!-- {{sample.parstring}} -->
-    			Customer notes: {{sample.describe_issue}}
-    		</div>
-    	</div>
-    	<!-- <div class="row" style="margin:10px 0 10px 0;">
-    		<div class="col-md-12 col-sm-12">
-    			Add appointment dates <button ng-controller="dateOpenController as vm" ng-click= "vm.openCalendar()" class="btn btn-default"><i class="fa fa-calendar"></i></button>
-    		</div>
-    	</div> -->
-    	<div class="row">
-    		<div class="col-md-5 col-xs-12 inline" style="margin-bottom:10px;width:350px;">
-    			<textarea class="form-control" name= "Mechanic's Notes" data-ng-model="scquote.quote_text" placeholder="Send customer Notes"> </textarea>
-    		</div>
-    		<div class="col-md-7 col-xs-12 inline" style="width:270px;">
+              </div>
 
-          <form name = "authform" data-ng-submit="save(scquote)">
-    			<div class="input-group">
-    				<span class="input-group-addon">$</span>
-
-    				<input type="text" class="form-control" aria-label="Bid amount" name="{{sample.user_id}}" data-ng-model="scquote.quote_cost" required>
-
-    				<span class="input-group-btn">
-
-    					<button class="btn btn-default" type="submit" ng-click=" portal.createQuote(sample.user_id, scquote, sample.id, portal.modalService.apptArr); portal.removeDone(sample);"><i class="fa fa-check-circle"></i> Place Bid</button>
-    				</span>
-    			</div>
-          <form>
-    		</div>
-    	</div>
-      <hr>
-    </div>
-
-    </section>
+        </uib-accordion>
   </div></div>
 
   </uib-tab>
@@ -71,50 +39,20 @@
 
     <uib-tab index="2" heading="Appointments" >
       <div class="tab-content" style="border:solid 2px #ff6600;" >
-
+<!--
       <uib-accordion close-others="portal.oneAtATime">
 
-      <div uib-accordion-group class="panel-default" heading="Static Header, initially expanded" is-open="portal.status.isFirstOpen" is-disabled="portal.status.isFirstDisabled">
-        This content is straight in the template.
-      </div>
+      <div uib-accordion-group class="panel-default" heading="{{sample.id}} {{sample.year}} {{sample.make}} {{sample.model}}" ng-repeat="sample in portal.workrequests">
+      <p> Vehicle: {{sample.year}} {{sample.make}} {{sample.model}} {{sample.engine}} engine {{sample.mileage}} miles</p>
+        <p ng-repeat="x in sample.service_requests">{{x.parsed}}</p>
 
-      <div uib-accordion-group class="panel-default" heading=" {{sample.date_sliced}} -- Vehicle #{{sample.auto.id}}. {{sample.auto.make}} {{sample.auto.model}} {{sample.parsed_requests}}" ng-repeat="sample in portal.workrequests | orderBy: 'auto.id'">
-      Vehicle: {{sample.auto.year}} {{sample.auto.make}} {{sample.auto.model}} {{sample.auto.engine}} engine {{sample.auto.mileage}} miles
       <div class="container">
-
-        <div class="row">
-      		<div class="col-md-5 col-xs-12 inline" style="margin-bottom:10px;width:350px;">
-      			<textarea class="form-control" name= "Mechanic's Notes" data-ng-model="scquote.quote_text" placeholder="Send customer Notes"> </textarea>
-      		</div>
-      		<div class="col-md-7 col-xs-12 inline" style="width:270px;">
-
-            <form name = "authform" data-ng-submit="save(scquote)">
-      			<div class="input-group">
-      				<span class="input-group-addon">$</span>
-
-
-      				<input type="text" class="form-control" aria-label="Bid amount" name="{{sample.user_id}}" data-ng-model="scquote.quote_cost" required>
-              <div uib-accordion-group heading="calendar" is-open="portal.innx.open" >
-               a calendar will be here
-              </uib-accordion>
-
-      				<span class="input-group-btn">
-
-      					<button class="btn btn-default" type="submit" ng-click=" portal.createQuote(sample.user_id, scquote, sample.id, portal.modalService.apptArr); portal.removeDone(sample);"><i class="fa fa-check-circle"></i> Place Bid</button>
-      				</span>
-      			</div>
-            <form>
-      		</div>
-      	</div>
-      </div>
-
-
 
       <hr>
 
       </div>
 
-</uib-accordion>
+</uib-accordion> -->
         </div>
       </uib-tab>
 
