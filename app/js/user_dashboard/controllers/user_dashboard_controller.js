@@ -171,7 +171,6 @@ module.exports = exports = function(app) {
          this.demo = 0;
          console.log(this.all);
          function matchReq(arr, key) {
-
            for (var i = 0; i <= arr.length; i++) {
              if (arr[i].auto_id == key) {
                console.log(arr[i].auto_id);
