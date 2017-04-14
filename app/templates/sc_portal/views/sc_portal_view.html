@@ -5,8 +5,6 @@
 
 <div ng-init="portal.altGetRequests()"></div>
 
-
-      <!-- <h1 ng-repeat="x in portal.workrequests track by $index"> {{x}}</h1> -->
 <uib-tabset active="active">
   <h2 style="float:right;">{{portal.service.welcome}}</h2>
 
@@ -14,16 +12,38 @@
   <uib-tab  index="0" heading="New Bids" >
     <div class="tab-content" style="border:solid 2px #ff6600;">
       <div id="mainPending" class="tab-pane fade in active">
+        <uib-accordion close-others="portal.oneAtATime">
+          <div uib-accordion-group class="panel-default" heading="Vehicle# {{sample.id}} {{sample.year}} {{sample.make}} {{sample.model}}" ng-repeat="sample in portal.workrequests">
+          <p> Vehicle: {{sample.year}} {{sample.make}} {{sample.model}} {{sample.engine}} engine {{sample.mileage}} miles</p>
 
-              <uib-accordion close-others="portal.oneAtATime">
+         <uib-accordion close-others="portal.oneAtATime">
+         <div uib-accordion-group heading="{{x.parsed}}" ng-repeat="x in sample.service_requests">{{x.parsed}}
+           <form name = "authform" class = "form-horizontal" data-ng-submit = "portal.testFunc(scquote, x)" >
 
-              <div uib-accordion-group class="panel-default" heading="Vehicle# {{sample.id}} {{sample.year}} {{sample.make}} {{sample.model}}" ng-repeat="sample in portal.workrequests">
-              <p> Vehicle: {{sample.year}} {{sample.make}} {{sample.model}} {{sample.engine}} engine {{sample.mileage}} miles</p>
-                <!-- <p ng-repeat="x in sample.service_requests">{{x.parsed}}</p> -->
+    {{x}}
+               <p><label for="x" class="col-lg-2 control-label"> Quote</label>
+               <input type="text" placeholder = "price" name = "{{sample.user_id}}"   data-ng-model="scquote.quote_cost"></p>
+                 <div class="col-md-5 col-xs-12 inline" style="margin-bottom:10px;width:350px;">
 
 
-     <uib-accordion close-others="portal.oneAtATime">
-       <div uib-accordion-group heading="{{x.parsed}}" ng-repeat="x in sample.service_requests">{{x.parsed}}
+                   <label for="x" class="col-lg-2 control-label"> Notes</label>
+                 <textarea class="form-control" name= "Mechanic's Notes" data-ng-model="scquote.quote_text" placeholder="Send customer Notes"> </textarea>
+                 </div>
+                 <!-- <button type = "submit">{{buttonText}}</button> -->
+<button type="submit"> Submit</button>
+
+               </form>
+
+
+            <!-- <sq-form
+              data-button-text = "Place Bid"
+                data-action = "create"
+                data-scquote="scquote"></sq-form> -->
+
+
+      		</div>
+      	</div>
+
        </div>
      </uib-accordion>
 

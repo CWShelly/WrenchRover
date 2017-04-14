@@ -1,59 +1,19 @@
-<form data-ng-submit = "save(scquote)">
 
-    <button ng-click="showme=!showme">Show Calendar</button>
 
-    <table ng-show="showme">
-      <tr>
-        <td>
-          <div
-          uib-datepicker
-          ng-model='portal.activeDate'
-          multi-select='portal.selectedDates'
-          select-range='{{portal.type=="range"}}'
-          datepicker-options='portal.options'
-          ng-disabled="portal.selectedDates.length >= 3"
-          ></div>
-        </td>
-        <td style='width:50px'>
-        </td>
-        <td>
-          <div ng-if='portal.type=="individual"'>
-            Selected Dates:
-            <div class='well well-sm'>
-                      <div ng-repeat='d in portal.selectedDates | orderBy'>
-                {{d | date : 'fullDate'}}
 
-                <button class='btn btn-xs btn-warning' style='margin:5px' ng-click='portal.removeFromSelected(d)'>Remove</button>
+        <form name = "authform" class = "form-horizontal" data-ng-submit = "save(scquote)" >
+
+
+            <p><label for="x" class="col-lg-2 control-label"> Quote</label>
+            <input type="text" placeholder = "price" name = "{{sample.user_id}}"   data-ng-model="scquote.quote_cost"></p>
+              <div class="col-md-5 col-xs-12 inline" style="margin-bottom:10px;width:350px;">
+
+
+                <label for="x" class="col-lg-2 control-label"> Notes</label>
+              <textarea class="form-control" name= "Mechanic's Notes" data-ng-model="scquote.quote_text" placeholder="Send customer Notes"> </textarea>
               </div>
-              <p ng-if="portal.selectedDates.length >= 3"> Thank you for choosing three dates.</p>
-            </div>
-          </div>
-        </td>
-      </tr>
-    </table>
+              <button type = "submit">{{buttonText}}</button>
 
 
-    <button type = "submit" ng-click="portal.addDates(portal.selectedDates)"
-    >{{buttonText}}</button>
-
-
-
-    <!-- <form name = "authform" class = "form-horizontal" data-ng-submit = "save(scquote)" >
-
-      <div ng-repeat='d in portal.selectedDates | orderBy'>
-{{d | date : 'fullDate'}}
-
-<button class='btn btn-xs btn-warning' style='margin:5px' ng-click='portal.removeFromSelected(d)'>Remove</button>
-</div>
-
-        <p><label for="x" class="col-lg-2 control-label"> Quote</label>
-          <input type="text" placeholder = "price" name = "{{sample.user_id}}"   data-ng-model="scquote.quote_cost"></p>
-
-
-            <p><label for="x" class="col-lg-2 control-label"> Mechanic's Notes</label>
-              <input type="text" placeholder = "Notes" name = "Mechanic's Notes"   data-ng-model="scquote.quote_text"></p>
-
-        </form> -->
-</form>
-
-<ng-transclude></ng-transclude>
+            </form>
+          <ng-transclude></ng-transclude>

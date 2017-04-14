@@ -29,23 +29,46 @@
 			</div>
 
 			<span ng-repeat="car in UserDashCtrl.all" style="display:inline; color: white;">
-             <a ng-class="{myColor: UserDashCtrl.demo == $index}" ng-click="UserDashCtrl.demo = $index" style="color:white;" >{{car.make}} {{ car.model}}</a>
+             <a ng-class="{myColor: UserDashCtrl.demo == $index}" ng-click="UserDashCtrl.demo = $index" style="color:white;" >{{car.make}} {{car.model}}</a>
       </span>
-
 
 
 
 		</div>
 		<div class="col-md-3 col-sm-12" style="padding:0;">
-			<div class="apptHead">Services</div>
+			<div class="apptHead">Services <span style="float: right;">			<a ng-click="UserDashCtrl.addRequest()" style="color: white;">Add a request</a></span></div>
 
-			<div class="apptText" ng-repeat="car in UserDashCtrl.all">  <span  ng-if="UserDashCtrl.userObject.service_requests.length ==0">  <a style="color: white;" ng-click ="UserDashCtrl.addRequest()">Submit a request</a></span> <span ng-hide = "UserDashCtrl.demo != $index">{{car.requests}}</span>
+			<div class="apptText" ng-repeat="car in UserDashCtrl.all">  <span  ng-if="UserDashCtrl.userObject.service_requests.length ==0">  <a style="color: white;" ng-click ="UserDashCtrl.addRequest()">Submit a request</a></span> <span ng-hide = "UserDashCtrl.demo != $index">
+
+
+  <a  ng-class="{myColor: UserDashCtrl.demo2 == $index}" ng-click="UserDashCtrl.demo2 = $index; UserDashCtrl.testFunc(request)" ng-repeat="request in car.requests track by $index"   style="color:white;">{{request.parsed}}</a>
+
+	<!-- <button ng-click="UserDashCtrl.testFunc('ssafa')">click</button> -->
+
+	<!-- <p ng-repeat="request in car.requests">		{{request.parsed}}</p> -->
+				<!-- <a ng-class="{myColor: UserDashCtrl.demo2 == $index}" ng-click="UserDashCtrl.demo2 = $index" >{{car.requests}}</a></span> -->
 
 			</div>
-			<a ng-click="UserDashCtrl.addRequest()" style="color: white;">Add a request</a>
+
 				<div class="apptText">  <span  ng-if="UserDashCtrl.userObject.service_requests.length ==0">  <a style="color: white;" ng-click ="UserDashCtrl.addRequest()">Submit a request</a></span>
 			</div>
 		</div>
+	</div>
+<!-- <h1>{{UserDashCtrl.result2}}</h1>
+<h1>{{UserDashCtrl.result3}}</h1>
+
+<h1>{{UserDashCtrl.quotes}}</h1> -->
+
+	<div ng-repeat="car in UserDashCtrl.all">
+<p ng-repeat="request in car.requests">
+{{request}}
+	<!-- <span ng-repeat = "quote in request.arrayness">{{quote}}QUOTE</span> -->
+		<!-- <span ng-repeat = "quote in request.quotes track by $index">{{quote}}QUOTE</span> -->
+</p>
+		<div></div>
+	</div>
+
+
 	</div>
 <!--/////////////////// START MAINTENANCE LISTINGS COLUMN /////////////////////-->
 

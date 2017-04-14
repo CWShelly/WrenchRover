@@ -1,6 +1,7 @@
+var baseUrl = require('../../config').baseUrl;
 module.exports = function(app) {
-  app.factory('modalService', () => {
-
+  app.factory('modalService', ['$http', '$q', ($http, $q) => {
+    this.url = 'https://wrenchroverapi.herokuapp.com/';
 
     console.log('modal service used');
 
@@ -18,6 +19,7 @@ module.exports = function(app) {
     console.log(this.status);
     // this.hasVehicle = false;
     return {
+      url: this.url,
     //   indexNumberA: 5,
       user_name: 'Sign in',
       hasVehicle: false,
@@ -33,6 +35,20 @@ module.exports = function(app) {
       d: new Date(),
       status: {
         isopen: false
+      },
+
+      getQuotes: function(x) {
+        console.log(this.url);
+
+        return $q((resolve, reject) => {
+          $http.get(this.url + 'service_requests/' + x.id)
+ .then((res) => {
+   console.log(res.data);
+   // this.quotes = res.data.service_quotes;
+   resolve(res.data.service_quotes);
+ }, reject);
+        });
+
       },
       closeDropDown: function() {
         console.log('closing from the ms');
@@ -82,6 +98,6 @@ module.exports = function(app) {
 
 
     };
-  });
+  }]);
 
 };
