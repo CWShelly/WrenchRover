@@ -43,11 +43,7 @@
 
   <a  ng-class="{myColor: UserDashCtrl.demo2 == $index}" ng-click="UserDashCtrl.demo2 = $index; UserDashCtrl.testFunc(request)" ng-repeat="request in car.requests track by $index"   style="color:white;">{{request.parsed}}</a>
 
-	<!-- <button ng-click="UserDashCtrl.testFunc('ssafa')">click</button> -->
-
-	<!-- <p ng-repeat="request in car.requests">		{{request.parsed}}</p> -->
-				<!-- <a ng-class="{myColor: UserDashCtrl.demo2 == $index}" ng-click="UserDashCtrl.demo2 = $index" >{{car.requests}}</a></span> -->
-
+{{UserDashCtrl.the_quotes.quote_text}}
 			</div>
 
 				<div class="apptText">  <span  ng-if="UserDashCtrl.userObject.service_requests.length ==0">  <a style="color: white;" ng-click ="UserDashCtrl.addRequest()">Submit a request</a></span>
@@ -59,14 +55,16 @@
 
 <h1>{{UserDashCtrl.quotes}}</h1> -->
 
-	<div ng-repeat="car in UserDashCtrl.all">
+<!-- <h2>{{UserDashCtrl.sq_array}}</h2> -->
+<h2 ng-repeat = "quo in UserDashCtrl.sq_array">{{quo}}</h2>
+	<!-- <div ng-repeat="car in UserDashCtrl.all">
 <p ng-repeat="request in car.requests">
 {{request}}
-	<!-- <span ng-repeat = "quote in request.arrayness">{{quote}}QUOTE</span> -->
-		<!-- <span ng-repeat = "quote in request.quotes track by $index">{{quote}}QUOTE</span> -->
+	<span ng-repeat = "quote in request.arrayness">{{quote}}QUOTE</span>
+ <span ng-repeat = "quote in request.quotes track by $index">{{quote}}QUOTE</span>
 </p>
 		<div></div>
-	</div>
+	</div> -->
 
 
 	</div>

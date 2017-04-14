@@ -189,8 +189,6 @@ module.exports = exports = function(app) {
              }
            }
 
-        //    matchQuotes(arr2);
-
 
          }
 
@@ -234,7 +232,62 @@ module.exports = exports = function(app) {
       console.log('GETTING THE APPOINTMENTS!');
 
     };
+// ////
 
+
+    this.testFunc = function(value) {
+      this.service_quotes_array = [];
+      console.log(value);
+      $http.get(baseUrl + 'service_quotes')
+      .then((res) => {
+        console.log(res);
+        // console.log(res.data.service_request_id);
+        for (var i = 0; i < res.data.length; i++) {
+          if (res.data[i].service_request_id == value.id) {
+            this.service_quotes_array.push(res.data[i]);
+            this.sq_array = this.service_quotes_array;
+          }
+        }
+        console.log(this.service_quotes_array);
+        return this.service_quotes_array;
+      });
+    };
+    this.testFuncOG = function(value) {
+      console.log(value);
+
+      $http.get(baseUrl + 'service_requests/' + value.id)
+      .then((res) => {
+
+        vm.the_quotes = res.data.service_quotes;
+
+        if (res.data.service_quotes.length > 0) {
+          var arr = res.data.service_quotes;
+          for (var i = 0; i < arr.length; i++) {
+            console.log(arr[i]);
+
+          }
+        } else {
+          console.log('not long enough');
+        }
+
+      })
+
+      .then(() => {
+
+        $http.get(baseUrl + '/service_quotes/' + 248)
+        .then((res) => {
+
+          console.log(res.data);
+
+        });
+
+      });
+
+
+    };
+
+
+// ///
 
     this.addRequest = function() {
     //   console.log();
