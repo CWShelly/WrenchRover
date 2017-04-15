@@ -1,8 +1,11 @@
 var baseUrl = require('../../config').baseUrl;
 module.exports = function(app) {
-  app.factory('modalService', ['$http', '$q', ($http, $q) => {
+  app.factory('modalService', ['$http', '$q', 'string', ($http, $q, string) => {
     this.url = 'https://wrenchroverapi.herokuapp.com/';
 
+
+    this.key = string;
+    console.log(string);
     console.log('modal service used');
 
     this.instance = 'instance';

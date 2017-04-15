@@ -7,7 +7,7 @@ const gulpNgConfig = require('gulp-ng-config');
 var b2v = require('buffer-to-vinyl');
 // const KarmaServer = require('karma').Server;
 
-
+console.log(process.env.GMAP);
 var files = {
   server: ['server/**/*.js', 'index.js', 'gulpfile.js'],
   app: ['app/**/*.js'],

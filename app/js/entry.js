@@ -31,6 +31,14 @@ require('./newcal')(wrApp);
 require('./componentCtrl')(wrApp);
 require('./mega')(wrApp);
 
+wrApp.run(function($rootScope) {
+  $rootScope.$on('mapInitialized', function(evt, map) {
+    console.log('yay!!!!');
+    $rootScope.mymap = map;
+    $rootScope.$apply();
+  });
+});
+
 
 wrApp.config( function($stateProvider, $urlRouterProvider) {
   $stateProvider
