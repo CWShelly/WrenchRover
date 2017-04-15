@@ -2,7 +2,7 @@
 
 var baseUrl = require('../../config').baseUrl;
 module.exports = exports = function(app) {
-  app.controller('UserDashboardController', ['$http', 'NgMap', 'string', '$state', '$window', 'modalService', '$location', '$q', '$timeout', function($http, NgMap, string, $state, $window, modalService, $location, $q, $timeout) {
+  app.controller('UserDashboardController', ['$http', 'NgMap', 'string', '$state', '$window', 'modalService', '$location', '$compile', '$interpolate', '$sce', function($http, NgMap, string, $state, $window, modalService, $location, $compile, $interpolate, $sce) {
 
     this.key = string;
     var vm = this;
@@ -12,7 +12,10 @@ module.exports = exports = function(app) {
     this.url = 'https://wrenchroverapi.herokuapp.com/';
     this.count = 0;
     this.all = [];
-    // this.carRequests = [];
+    this.static_index_tabs = [
+        { title: 'Appointments', content: 'appointmetns heres' },
+        { title: 'History', content: 'historys here' }
+    ];
 
     this.appointment = {};
     this.acceptedObject = {};
@@ -155,37 +158,25 @@ module.exports = exports = function(app) {
          }
          this.q = this.quicksortBasic(res.data.service_requests);
          console.log(this.q);
-        //  this.quotes = '3';
          for (var i = 0; i < res.data.autos.length; i++) {
            this.all.push(
-             { id: i.toString(), make: res.data.autos[i].make, model: res.data.autos[i].model, requests: matchReq(res.data.service_requests, res.data.autos[i].id).results, service_request_ids: matchReq(res.data.service_requests, res.data.autos[i].id).service_request_ids.join()
+             { id: i.toString(), make: res.data.autos[i].make, model: res.data.autos[i].model, requests: matchReq(res.data.service_requests, res.data.autos[i].id).results, service_request_ids: matchReq(res.data.service_requests, res.data.autos[i].id).service_request_ids
              }
 
-
             );
+
+
            matchQuotes(matchReq(res.data.service_requests, res.data.autos[i].id).results);
 
            var arr2 = matchReq(res.data.service_requests, res.data.autos[i].id).results;
 
            function matchQuotes(arr) {
-             console.log(arr);
-            //  this.quotes_array = [];
              for (var j = 0; j <= arr.length; j++) {
-               console.log(arr);
-               console.log(arr[j]);
                $http.get(baseUrl + 'service_requests/' + arr[j].id)
                   .then((res) => {
-                    console.log(arr);
-                    console.log(arr[j]);
-                    console.log(typeof arr[j]);
-
                     arr[j].quotes = [{ id: j.toString(), quotes: res.data.service_quotes }];
-
                   });
-
-
                return arr[j].quotes;
-
              }
            }
 
@@ -198,21 +189,21 @@ module.exports = exports = function(app) {
          function matchReq(arr, key) {
            for (var i = 0; i <= arr.length; i++) {
              if (arr[i].auto_id == key) {
-               console.log(arr[i].auto_id);
-               console.log(vm.q);
+            //    console.log(arr[i].auto_id);
+            //    console.log(vm.q);
                return vm.findDupes(vm.q, arr[i].auto_id);
              }
            }
            return -1;
          }
 
-
-         console.log('y');
-         console.log(this.all);
+         //
+        //  console.log('y');
+        //  console.log(this.all);
        //  get user's date of signup:
          var month = parseInt(res.data.created_at.slice(5, 7), 10);
          var year = res.data.created_at.slice(0, 4);
-         console.log(year);
+        //  console.log(year);
          // 4/8/17 --join year shows at 2016?? I mean, that would be cool if we got to do 2016 over.
 
          var monthsArray = ['January', 'February', 'March', 'April', 'May',
@@ -228,20 +219,12 @@ module.exports = exports = function(app) {
        });}.bind(this);
 
 
-    this.getAppointments = function() {
-      console.log('GETTING THE APPOINTMENTS!');
-
-    };
-// ////
-
-
-    this.testFunc = function(value) {
+    this.getQuotesByRequest = function(value) {
       this.service_quotes_array = [];
-      console.log(value);
+    //   console.log(value);
       $http.get(baseUrl + 'service_quotes')
       .then((res) => {
         console.log(res);
-        // console.log(res.data.service_request_id);
         for (var i = 0; i < res.data.length; i++) {
           if (res.data[i].service_request_id == value.id) {
             this.service_quotes_array.push(res.data[i]);
@@ -252,48 +235,12 @@ module.exports = exports = function(app) {
         return this.service_quotes_array;
       });
     };
-    this.testFuncOG = function(value) {
-      console.log(value);
-
-      $http.get(baseUrl + 'service_requests/' + value.id)
-      .then((res) => {
-
-        vm.the_quotes = res.data.service_quotes;
-
-        if (res.data.service_quotes.length > 0) {
-          var arr = res.data.service_quotes;
-          for (var i = 0; i < arr.length; i++) {
-            console.log(arr[i]);
-
-          }
-        } else {
-          console.log('not long enough');
-        }
-
-      })
-
-      .then(() => {
-
-        $http.get(baseUrl + '/service_quotes/' + 248)
-        .then((res) => {
-
-          console.log(res.data);
-
-        });
-
-      });
 
 
-    };
+    this.addRequest = function(vehicle) {
+      console.log(vehicle);
+      // put vehicle in storage
 
-
-// ///
-
-    this.addRequest = function() {
-    //   console.log();
-      console.log('adding request');
-
-      console.log(localStorage.getItem('vehicle'));
       $state.go('common_repairs_view.get_started');
     };
 
@@ -304,8 +251,57 @@ module.exports = exports = function(app) {
       $state.go('vehicle_dropdown_selection');
     };
 
+// ====test template ======
+    this.doTheThing = function() {
+      console.log('disintigrating');
+    };
 
-// //sort and dupe begins///
+    console.log($compile);
+
+
+    this.toBeRendered = 'TEST TEMPLATE HTML RENDERED';
+
+    // var stuff = $interpolate('<p style="color: blue;">{{this.toBeRendered}}</p>')(this);
+    var stuff = $interpolate('<time-dir></time-dir>')(this);
+
+    this.template3 = $sce.trustAsHtml(stuff);
+
+
+// ====== testfunc ======
+
+    this.testfunc = function(value) {
+      console.log(value);
+      console.log(value.service_request_ids);
+
+      var arr = value.service_request_ids;
+
+
+      $http.get(baseUrl + 'service_quotes')
+      .then((res) => {
+        console.log(res.data);
+        var testfuncarray = [];
+
+
+        for (var i = 0; i < res.data.length; i++) {
+          if (arr.indexOf(res.data[i].service_request_id) != -1) {
+            // testfuncarray.push(res.data[i]);
+
+
+            testfuncarray.push(res.data[i]);
+
+          }
+        }
+        console.log(testfuncarray);
+
+
+        this.quotes_by_car = testfuncarray;
+
+      });
+
+    };
+
+
+// ====== sort and reduce duplicates functions ======
 
 
     this.quicksortBasic = function(array) {
@@ -331,10 +327,10 @@ module.exports = exports = function(app) {
       this.service_request_ids = [];
       for (var i = 0; i < arr.length; i++) {
         if (arr[i].auto_id == item) {
-          console.log(arr[i]);
+        //   console.log(arr[i]);
           arr[i].parsed = JSON.parse(arr[i].work_request);
           this.service_request_ids.push(arr[i].id);
-          console.log(arr[i]);
+        //   console.log(arr[i]);
           this.results.push(arr[i]);
         }
       }
@@ -345,12 +341,6 @@ module.exports = exports = function(app) {
       return this.dupeObj;
 
     };
-
-
-    this.ex = {
-      id: 588
-    };
-// //
 
 
   }

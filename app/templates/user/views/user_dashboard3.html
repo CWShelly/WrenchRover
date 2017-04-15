@@ -41,7 +41,7 @@
 			<div class="apptText" ng-repeat="car in UserDashCtrl.all">  <span  ng-if="UserDashCtrl.userObject.service_requests.length ==0">  <a style="color: white;" ng-click ="UserDashCtrl.addRequest()">Submit a request</a></span> <span ng-hide = "UserDashCtrl.demo != $index">
 
 
-  <a  ng-class="{myColor: UserDashCtrl.demo2 == $index}" ng-click="UserDashCtrl.demo2 = $index; UserDashCtrl.testFunc(request)" ng-repeat="request in car.requests track by $index"   style="color:white;">{{request.parsed}}</a>
+  <a  ng-class="{myColor: UserDashCtrl.demo2 == $index}" ng-click="UserDashCtrl.demo2 = $index; UserDashCtrl.getQuotesByRequest(request)" ng-repeat="request in car.requests track by $index"   style="color:white;">{{request.parsed}}</a>
 
 {{UserDashCtrl.the_quotes.quote_text}}
 			</div>
@@ -50,208 +50,74 @@
 			</div>
 		</div>
 	</div>
-<!-- <h1>{{UserDashCtrl.result2}}</h1>
-<h1>{{UserDashCtrl.result3}}</h1>
 
-<h1>{{UserDashCtrl.quotes}}</h1> -->
-
-<!-- <h2>{{UserDashCtrl.sq_array}}</h2> -->
-<h2 ng-repeat = "quo in UserDashCtrl.sq_array">{{quo}}</h2>
-	<!-- <div ng-repeat="car in UserDashCtrl.all">
-<p ng-repeat="request in car.requests">
-{{request}}
-	<span ng-repeat = "quote in request.arrayness">{{quote}}QUOTE</span>
- <span ng-repeat = "quote in request.quotes track by $index">{{quote}}QUOTE</span>
-</p>
-		<div></div>
-	</div> -->
-
+<!-- <h2 ng-repeat = "quo in UserDashCtrl.sq_array">{{quo}}</h2> -->
 
 	</div>
 <!--/////////////////// START MAINTENANCE LISTINGS COLUMN /////////////////////-->
 
+
+<div>
+
+	<!-- <p ng-repeat="c in UserDashCtrl.all" style="color: green;">{{c}}</p> -->
+</div>
 <!-- ==========NEW BIDS TAB ============ -->
 	<div class="row" id="user_dash">
 		<div class="col-md-12 col-sm-12 col-xs-12">
 			<h3 >Your Maintenance</h3>
 
-			<uib-tabset active="active">
+	 <uib-tabset active="active">
 
-				<uib-tab index="0" heading="New({{UserDashCtrl.count}})">
-					<div class="row" >
-						  	<div class="col-md-6 col-sm-6" id="mapDiv">
-										<span  map-lazy-load="https://maps.googleapis.com/maps/api/js?key={{UserDashCtrl.key}}" id = "map_canvas">
-										 		<ng-map  default-style="true" zoom="15" center="{{UserDashCtrl.local}}">
-												<marker position = "{{UserDashCtrl.local}}" animation="Animation.BOUNCE"  centered="true"> </marker>
-												<marker id='{{p.id}}' position="{{p.pos}}"
-												 ng-repeat="p in UserDashCtrl.positions"
-												 on-click="UserDashCtrl.showDetail(p)"
-												 icon="{{p.map_icon_pics}}"
-												 title="pos: {{p.pos}}"
-												 on-mouseover="UserDashCtrl.showDetail(p);"
-												 on-mouseout="UserDashCtrl.hideDetail()">
-												</marker>
-												<info-window id="foo-iw">
-												 <div ng-non-bindable="">
-												 {{UserDashCtrl.shop.id}}<br/>
-												 {{UserDashCtrl.shop.pos}}<br/>
-												 <br/>
-												 </div>
-											 </info-window>
-										 </ng-map>
-									 </span>
-				</div>
+		 <uib-tab index="$index + 1" ng-repeat="car in UserDashCtrl.all" heading="{{car.make}} {{car.model}}">
 
-				<div class="col-md-4 col-sm-4" style="margin-top:15px;" >
+	<a ng-click="UserDashCtrl.testfunc(car)">
+	{{car.make}}</a>
 
-				  <ol style="list-style-type:decimal;">
-
-					<li  class="mapListNumber" style="list-style-type:none;" ng-repeat="sample in UserDashCtrl.service_quotes_table">
-
-							<div class="row" style="margin:-27px 0 0 0;">
-
-									<div class="col-md-7 col-sm-7 col-xs-10 inline mapListCompany" style="padding-left:12%;" >
-										{{sample.service_center.service_name}}
-								</div>
-
-								<div class="col-md-3 col-sm-3 col-xs-3 mapListBidPrice">
-									${{sample.quote_cost}}
-
-								</div>
+	 <p ng-repeat="quotes in UserDashCtrl.quotes_by_car">{{quotes}}</p>
 
 
-						</div>
-				<div class="row" >
+	 <!-- /////re-inserting map begins -->
+	 <div class="row" >
 
-						<div  class="col-md-7 col-sm-7 col-xs-7  col-xs-offset-0 col-md-offset-0 col-sm-offset-0 form-group">
+		 <!-- {{UserDashCtrl.testTemplate.template}} -->
+<!-- <div ng-bind-html="UserDashCtrl.testTemplate.template"></div> -->
+<!-- <div ng-bind-html="UserDashCtrl.template2"></div> -->
 
-								 <select name="apptDate" id="apptSelect" ng-model="UserDashCtrl.selectedTime" size="1" class="input-sm form-control pull-left;" style="height:37px; width: auto; margin-left: -10px;">
-									<option value="">Pick Appointment</option>
-									<option value="{{sample.available_date_1}}">{{sample.available_date_1}}</option>
-									<option value="{{sample.available_date_2}}">{{sample.available_date_2}}</option>
-									<option value="{{sample.available_date_3}}">{{sample.available_date_3}}</option>
-								 </select>
-
-					</div>
-
-
-			 <div class="col-md-4 col-sm-4 col-xs-4" id="acceptDiv" >
-
-					<button class="btn btn-default " style="padding-left: 5%;"; id="accept"
-					ng-click="UserDashCtrl.confirm(sample, UserDashCtrl.selectedTime)"><i class="fa fa-check-circle"></i> ACCEPT</button>
-
-				</div>
-
-						<div class="row">
-									<div class="col-md-10 col-xs-10 col-xs-offset-2 col-md-offset-2 mapListAppt">
-										<b>Comments:</b> {{sample.quote_text}}
-								</div>
-
-				     </div>
-		       </li></ol>
-				</div>
-				</div>
-
-				</uib-tab>
-
-
-				<!-- ==========NEW BIDS TAB ENDS============ -->
-
-		    <!-- <uib-tab index="1" heading="Pending" ng-init="UserDashCtrl.getAppointments()"> -->
-
-					<!-- <uib-tab index="1" heading="Pending" ng-init="UserDashCtrl.getAppointments()" > -->
-
-						<uib-tab index="1" heading="Pending"   >
-        {{UserDashCtrl.pending_message}}
-<!-- ng-init="UserDashCtrl.getAppointments()" -->
-					<div class="row" ng-repeat="sample in UserDashCtrl.appointments_table">
-					<div class="col-md-8 col-sm-8">
-					<div class="row">
-							<div  map-lazy-load="https://maps.googleapis.com/maps/api/js?key={{UserDashCtrl.key}}" id = "map_canvas">
-								<ng-map  default-style="true" zoom="15" center="current-location">
-
-								<marker position = "current-location" animation="Animation.BOUNCE"  centered="true"> </marker>
-								<marker id='{{p.id}}' position="{{p.pos}}"
-								 ng-repeat="p in UserDashCtrl.positions2"
-								 on-click="UserDashCtrl.showDetail(p)"
-								 icon="{{p.map_icon_pics}}"
-								 title="pos: {{p.pos}}"
-								 on-mouseover="UserDashCtrl.showDetail(p);"
-								 on-mouseout="UserDashCtrl.hideDetail()">
-								</marker>
-								<info-window id="foo-iw">
-								 <div ng-non-bindable="">
-								 {{UserDashCtrl.shop.id}}<br/>
-								 {{UserDashCtrl.shop.pos}}<br/>
-								 <br/>
-								 </div>
-							 </info-window>
-						 </ng-map>
-					</div>
-
-					</div>
-					</div>
-
-					<div class="col-md-4 col-sm-4" style="margin-top:15px;" >
-					<div class="row">
-						<div class="col-md-2 col-sm-2 inline">
-							<span class="badge mapListNumber">1</span>
-						</div>
-						<div class="col-md-7 col-sm-7 inline mapListCompany">
-							<!-- Dru's Auto -->
-								{{sample.service_center.service_name}}
-						</div>
-						<div class="col-md-3 col-sm-3 mapListBidPrice">
-
-							${{sample.quote_cost}}
-						</div>
-
-					</div>
-					<div class="row">
-						<div class="col-md-6 col-xs-6 col-xs-offset-2 col-md-offset-2 form-group">
-							{{sample.accepted}}
-
-						</div>
-
-					</div>
-
-					</div>
-					</div>
-
-</uib-tab>
-		     <uib-tab index="2" heading="Your History">
-					  		<div class="tab-content"  >
-				   				<div class="row">
-				   						<div class="col-md-12 col-sm-12">
-				   						<b>7/15/16 - Tire Rotation</b><br>
-				   						Service Notes: <i>"We can also look at wear and tear on your tires"</i>
-				   						</div>
-				   					</div>
-				   					<div class="row">
-				   						<div class="col-md-6 col-sm-12">
-				   						Service Center: <b>Joe's Auto</b>
-				   						</div>
-				   						<div class="col-md-6 col-sm-12">
-				   						Bid Amount: <b>$27.00</b>
-				   						</div>
-				   					</div>
-				   					<div class="row">
-				   						<div class="col-md-12 col-sm-12">
-				   						<span style="color:#ff6600; font-weight:bold;">COMPLETE</span>
-				   						</div>
-				   					</div>
-				   			</div>
-      </uib-tab>
+<div ng-bind-html="UserDashCtrl.template3"></div>
+		 <!-- <div class="col-md-6 col-sm-6" id="mapDiv">
+ 				<span  map-lazy-load="https://maps.googleapis.com/maps/api/js?key={{UserDashCtrl.key}}" id = "map_canvas">
+ 						<ng-map  default-style="true" zoom="15" center="{{UserDashCtrl.local}}">
+ 						<marker position = "{{UserDashCtrl.local}}" animation="Animation.BOUNCE"  centered="true"> </marker>
+ 						<marker id='{{p.id}}' position="{{p.pos}}"
+ 						 ng-repeat="p in UserDashCtrl.positions"
+ 						 on-click="UserDashCtrl.showDetail(p)"
+ 						 icon="{{p.map_icon_pics}}"
+ 						 title="pos: {{p.pos}}"
+ 						 on-mouseover="UserDashCtrl.showDetail(p);"
+ 						 on-mouseout="UserDashCtrl.hideDetail()">
+ 						</marker>
+ 						<info-window id="foo-iw">
+ 						 <div ng-non-bindable="">
+ 						 {{UserDashCtrl.shop.id}}<br/>
+ 						 {{UserDashCtrl.shop.pos}}<br/>
+ 						 <br/>
+ 						 </div>
+ 					 </info-window>
+ 				 </ng-map>
+ 			</span>
+ 	</div> -->
 
 
 
-		  </uib-tabset>
+
+	 </div>
+
+	 <!-- ////reinserting map ends  -->
+ 		 </uib-tab>
+	 </uib-tabset>
 
 		</div>
 	</div>
-    <ui-view></ui-view>
+
 </div>
 </main>
-
-
-<!-- ////// -->
