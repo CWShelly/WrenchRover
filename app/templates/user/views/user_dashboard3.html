@@ -55,11 +55,11 @@
 
 	</div>
 <!--/////////////////// START MAINTENANCE LISTINGS COLUMN /////////////////////-->
-<input type="text" ng-model="UserDashCtrl.val">
+<!-- <input type="text" ng-model="UserDashCtrl.val">
 <button ng-click="UserDashCtrl.add()">Add Directive Button</button>
 <div id="container">
 </div>
-<div>
+<div> -->
 
 	<!-- <p ng-repeat="c in UserDashCtrl.all" style="color: green;">{{c}}</p> -->
 </div>
@@ -80,43 +80,28 @@
 
 	 <!-- /////re-inserting map begins -->
 	 <div class="row" >
-<dash-dir></dash-dir>
+
+ 
+<!-- ========MAP======== -->
+
+<!-- <dash-dir></dash-dir> -->
+ <div class="col-md-6 col-sm-6" id="mapDiv" ng-init="UserDashCtrl.initIt()">
 
 
-<!-- <dir id="dir" content="UserDashCtrl.myVal"></dir> -->
+	    <map  center="{{UserDashCtrl.local}}">
+				<marker position = "{{UserDashCtrl.local}}" animation="Animation.BOUNCE"  centered="true"> </marker>
 
+				<marker id='{{p.id}}' position="{{p.pos}}"
+					 ng-repeat="p in UserDashCtrl.positions"
+					 on-click="UserDashCtrl.showDetail(p)"
+					 icon="{{p.map_icon_pics}}"
+					 title="pos: {{p.pos}}"
+					 on-mouseover="UserDashCtrl.showDetail(p);"
+					 on-mouseout="UserDashCtrl.hideDetail()">
+					</marker>
+     </map>
 
-		 <!-- {{UserDashCtrl.testTemplate.template}} -->
-<!-- <div ng-bind-html="UserDashCtrl.testTemplate.template"></div> -->
-<!-- <div ng-bind-html="UserDashCtrl.template2"></div> -->
-
-<div ng-bind-html="UserDashCtrl.template3"></div>
-		 <!-- <div class="col-md-6 col-sm-6" id="mapDiv">
- 				<span  map-lazy-load="https://maps.googleapis.com/maps/api/js?key={{UserDashCtrl.key}}" id = "map_canvas">
- 						<ng-map  default-style="true" zoom="15" center="{{UserDashCtrl.local}}">
- 						<marker position = "{{UserDashCtrl.local}}" animation="Animation.BOUNCE"  centered="true"> </marker>
- 						<marker id='{{p.id}}' position="{{p.pos}}"
- 						 ng-repeat="p in UserDashCtrl.positions"
- 						 on-click="UserDashCtrl.showDetail(p)"
- 						 icon="{{p.map_icon_pics}}"
- 						 title="pos: {{p.pos}}"
- 						 on-mouseover="UserDashCtrl.showDetail(p);"
- 						 on-mouseout="UserDashCtrl.hideDetail()">
- 						</marker>
- 						<info-window id="foo-iw">
- 						 <div ng-non-bindable="">
- 						 {{UserDashCtrl.shop.id}}<br/>
- 						 {{UserDashCtrl.shop.pos}}<br/>
- 						 <br/>
- 						 </div>
- 					 </info-window>
- 				 </ng-map>
- 			</span>
- 	</div> -->
-
-
-
-
+<!-- <ng-map></ng-map> -->
 	 </div>
 
 	 <!-- ////reinserting map ends  -->
@@ -127,4 +112,11 @@
 	</div>
 
 </div>
+
+<!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=&PROCESS.ENV.GMAP"
+ type="text/javascript"></script> -->
+
+     <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=&AIzaSyCLzT4Bs5J76J12Xbn6ewEsbwNgsQ-eHHw"
+		  type="text/javascript"></script> -->
+
 </main>

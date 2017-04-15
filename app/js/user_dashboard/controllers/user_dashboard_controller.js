@@ -44,6 +44,23 @@ module.exports = exports = function(app) {
       this.li = 'My Dash';
     }
 
+    // console.log(NgMap);
+    // NgMap.getMap().then(function(map) {
+    //   console.log(map.getCenter());
+    //   console.log('got the map');
+    // });
+
+    this.theMap = NgMap;
+    console.log(this.theMap);
+
+
+    this.initIt = function() {
+      console.log('init the map');
+      NgMap.getMap().then(function(map) {
+        console.log(map);
+        console.log('got the map');
+      });
+    };
 
     this.closeDropDown = function() {
       console.log('closing the drop down');
@@ -197,9 +214,7 @@ module.exports = exports = function(app) {
            return -1;
          }
 
-         //
-        //  console.log('y');
-        //  console.log(this.all);
+
        //  get user's date of signup:
          var month = parseInt(res.data.created_at.slice(5, 7), 10);
          var year = res.data.created_at.slice(0, 4);
@@ -252,37 +267,6 @@ module.exports = exports = function(app) {
     };
 
 // ====test template ======
-    var doTheThing = function() {
-      console.log('disintigrating');
-    };
-
-
-    this.val = 'things here';
-
-    this.add = function() {
-
-    //   var container = angular.element(document.getElementById('container')),
-    //     btn = $compile('<btn val=' + this.val + '></btn>')(this);
-
-    //   angular.element(document.getElementById('container')),
-    //   btn = $compile('<btn val=' + this.val + '></btn>')(this);
-
-      angular.element(document.getElementById('container')),
-    btn = $compile('<time-dir></time-dir>')(this);
-      container.append(time - dir);
-    //   container.append(btn);
-
-    };
-
-    this.toBeRendered = 'TEST TEMPLATE HTML RENDERED';
-
-
-    var stuff = $interpolate('<p style="color: blue;">{{this.toBeRendered}}</p>')(this);
-
-
-    // var stuff = $interpolate('<time-dir></time-dir>')(this);
-
-    this.template3 = $sce.trustAsHtml(stuff);
 
 
 // ====== testfunc ======
@@ -307,8 +291,34 @@ module.exports = exports = function(app) {
 
             testfuncarray.push(res.data[i]);
 
+            var loc_obj = {
+              id: res.data[i].service_center.service_name,
+              cost: res.data[i].quote_cost,
+              notes: res.data[i].quote_text,
+              accepted: res.data[i].accepted,
+              available_date_1: res.data[i].available_date_1, available_date_2: res.data[i].available_date_2, available_date_3: res.data[i].available_date_3,
+              pos:
+                      res.data[i].service_center.service_address + ', ' + res.data[i].service_center.service_city + ',' + res.data[i].service_center.service_state + ',' + res.data[i].service_center.service_zip, num: 'things',
+              quote_id: res.data[i].id,
+              cost: res.data[i].quote_cost,
+              notes: res.data[i].quote_text,
+              position: res.data[i].service_center.service_address + ', ' + res.data[i].service_center.service_city + ',' + res.data[i].service_center.service_state + ',' + res.data[i].service_center.service_zip,
+              dates: [ res.data[i].available_date_1, res.data[i].available_date_2, res.data[i].available_date_3]
+            };
+            vm.positions.push(loc_obj);
+
+
           }
         }
+
+        console.log(loc_obj);
+        for (var j = 0; j < vm.positions.length; j++) {
+          vm.positions[j].map_icon_pics = map_icons[j];
+          vm.positions[j].item_number = j + 1;
+        }
+        console.log(vm.positions);
+
+
         console.log(testfuncarray);
 
 
