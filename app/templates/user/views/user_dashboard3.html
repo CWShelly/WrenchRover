@@ -55,8 +55,10 @@
 
 	</div>
 <!--/////////////////// START MAINTENANCE LISTINGS COLUMN /////////////////////-->
-
-
+<input type="text" ng-model="UserDashCtrl.val">
+<button ng-click="UserDashCtrl.add()">Add Directive Button</button>
+<div id="container">
+</div>
 <div>
 
 	<!-- <p ng-repeat="c in UserDashCtrl.all" style="color: green;">{{c}}</p> -->
@@ -78,6 +80,11 @@
 
 	 <!-- /////re-inserting map begins -->
 	 <div class="row" >
+<dash-dir></dash-dir>
+
+
+<!-- <dir id="dir" content="UserDashCtrl.myVal"></dir> -->
+
 
 		 <!-- {{UserDashCtrl.testTemplate.template}} -->
 <!-- <div ng-bind-html="UserDashCtrl.testTemplate.template"></div> -->

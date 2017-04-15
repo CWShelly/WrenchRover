@@ -252,17 +252,35 @@ module.exports = exports = function(app) {
     };
 
 // ====test template ======
-    this.doTheThing = function() {
+    var doTheThing = function() {
       console.log('disintigrating');
     };
 
-    console.log($compile);
 
+    this.val = 'things here';
+
+    this.add = function() {
+
+    //   var container = angular.element(document.getElementById('container')),
+    //     btn = $compile('<btn val=' + this.val + '></btn>')(this);
+
+    //   angular.element(document.getElementById('container')),
+    //   btn = $compile('<btn val=' + this.val + '></btn>')(this);
+
+      angular.element(document.getElementById('container')),
+    btn = $compile('<time-dir></time-dir>')(this);
+      container.append(time - dir);
+    //   container.append(btn);
+
+    };
 
     this.toBeRendered = 'TEST TEMPLATE HTML RENDERED';
 
-    // var stuff = $interpolate('<p style="color: blue;">{{this.toBeRendered}}</p>')(this);
-    var stuff = $interpolate('<time-dir></time-dir>')(this);
+
+    var stuff = $interpolate('<p style="color: blue;">{{this.toBeRendered}}</p>')(this);
+
+
+    // var stuff = $interpolate('<time-dir></time-dir>')(this);
 
     this.template3 = $sce.trustAsHtml(stuff);
 
