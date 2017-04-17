@@ -75,19 +75,18 @@
 	<a ng-click="UserDashCtrl.testfunc(car)">
 	{{car.make}}</a>
 
-	 <p ng-repeat="quotes in UserDashCtrl.quotes_by_car">{{quotes}}</p>
+	 <!-- <p ng-repeat="quotes in UserDashCtrl.quotes_by_car">{{quotes}}</p> -->
 
+<!-- <div ng-repeat="quotes in UserDashCtrl.quotes_by_car"> -->
 
+	<!-- {{quotes.service_center.service_center_name}}
+		{{quotes.quote_cost}}
+			{{quotes.quote_text}} -->
 	 <!-- /////re-inserting map begins -->
 	 <div class="row" >
-
- 
 <!-- ========MAP======== -->
 
-<!-- <dash-dir></dash-dir> -->
- <div class="col-md-6 col-sm-6" id="mapDiv" ng-init="UserDashCtrl.initIt()">
-
-
+  <div class="col-md-6 col-sm-6" id="mapDiv">
 	    <map  center="{{UserDashCtrl.local}}">
 				<marker position = "{{UserDashCtrl.local}}" animation="Animation.BOUNCE"  centered="true"> </marker>
 
@@ -101,8 +100,46 @@
 					</marker>
      </map>
 
-<!-- <ng-map></ng-map> -->
+
 	 </div>
+
+	 <!-- <div ng-repeat="quotes in UserDashCtrl.quotes_by_car">
+		 {{quotes}} -->
+
+<!-- map side bar begins ============== -->
+<div class="col-md-4 col-sm-4" style="margin-top:15px;color: #FF6600">
+	<!-- {{quotes}} -->
+				<ol style="list-style-type:decimal;">
+				<li  class="mapListNumber" style="list-style-type:none;" ng-repeat="quotes in UserDashCtrl.quotes_by_car">
+						<div class="row" style="margin:-27px 0 0 0;">
+								<div class="col-md-7 col-sm-7 col-xs-10 inline mapListCompany" style="padding-left:12%;" >
+
+									<!-- {{quotes}} -->
+									{{quotes.service_center.service_name}}
+							</div>
+							<div class="col-md-3 col-sm-3 col-xs-3 mapListBidPrice">
+								${{quotes.quote_cost}}
+							</div>
+					</div>
+			<div class="row">
+							<div  class="col-md-7 col-sm-7 col-xs-7  col-xs-offset-0 col-md-offset-0 col-sm-offset-0 form-group">
+							 <select name="apptDate" id="apptSelect" ng-model="UserDashCtrl.selectedTime" size="1" class="input-sm form-control pull-left;" style="height:37px; width: auto; margin-left: -10px;">
+								<option value="">Pick Appointment</option>
+								<option value="{{quotes.available_date_1}}">{{quotes.available_date_1}}</option>
+								<option value="{{quotes.available_date_2}}">{{quotes.available_date_2}}</option>
+								<option value="{{quotes.available_date_3}}">{{quotes.available_date_3}}</option>
+							 </select>
+				</div>
+
+
+		 <div class="col-md-4 col-sm-4 col-xs-4" id="acceptDiv" >
+
+				<button class="btn btn-default " style="padding-left: 5%;"; id="accept"
+				ng-click="UserDashCtrl.confirm(quotes, UserDashCtrl.selectedTime)"><i class="fa fa-check-circle"></i> ACCEPT</button>
+			</div>
+		<!-- </div> -->
+
+<!-- map side bar ends ====== -->
 
 	 <!-- ////reinserting map ends  -->
  		 </uib-tab>
@@ -113,10 +150,6 @@
 
 </div>
 
-<!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=&PROCESS.ENV.GMAP"
- type="text/javascript"></script> -->
 
-     <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=&AIzaSyCLzT4Bs5J76J12Xbn6ewEsbwNgsQ-eHHw"
-		  type="text/javascript"></script> -->
 
 </main>

@@ -44,22 +44,22 @@ module.exports = exports = function(app) {
       this.li = 'My Dash';
     }
 
-    // console.log(NgMap);
-    // NgMap.getMap().then(function(map) {
-    //   console.log(map.getCenter());
-    //   console.log('got the map');
-    // });
 
-    this.theMap = NgMap;
-    console.log(this.theMap);
+    NgMap.getMap().then(function(map) {
+      vm.map = map;
+    });
 
+    vm.showDetail = function(e, shop) {
 
-    this.initIt = function() {
-      console.log('init the map');
-      NgMap.getMap().then(function(map) {
-        console.log(map);
-        console.log('got the map');
-      });
+      console.log('show the etail');
+    //   console.log(shop);
+    //   vm.shop = shop;
+    //   vm.map.showInfoWindow('foo-iw', shop.id);
+    //   console.log(vm.map);
+    };
+
+    vm.hideDetail = function() {
+      console.log('hide hte detail');
     };
 
     this.closeDropDown = function() {
@@ -117,7 +117,6 @@ module.exports = exports = function(app) {
 
     this.userObject = {};
     this.service_quotes = [];
-    this.service_quotes_table = [];
     this.appointments_table = [];
 
     this.confirm = function(value, time) {
@@ -280,17 +279,19 @@ module.exports = exports = function(app) {
 
       $http.get(baseUrl + 'service_quotes')
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         var testfuncarray = [];
 
 
         for (var i = 0; i < res.data.length; i++) {
           if (arr.indexOf(res.data[i].service_request_id) != -1) {
+            console.log(res.data[i]);
+
             // testfuncarray.push(res.data[i]);
+            console.log(testfuncarray);
 
 
             testfuncarray.push(res.data[i]);
-
             var loc_obj = {
               id: res.data[i].service_center.service_name,
               cost: res.data[i].quote_cost,
@@ -316,8 +317,32 @@ module.exports = exports = function(app) {
           vm.positions[j].map_icon_pics = map_icons[j];
           vm.positions[j].item_number = j + 1;
         }
-        console.log(vm.positions);
 
+        // for (var j = 0; j < testfuncarray.length; j++) {
+        //   $http.get(baseUrl + 'service_requests/' + testfuncarray[j].service_request_id)
+        //      .then((res) => {
+        //        console.log(res.data);
+        //        console.log(res.data.work_request);
+        //      });
+        // }
+
+        console.log(testfuncarray);
+        console.log(vm.positions);
+        vm.shop = vm.positions[0];
+        console.log(vm.shop);
+
+        // vm.showDetail = function(e, shop) {
+        //   console.log(shop);
+        //   vm.shop = shop;
+        //   vm.map.showInfoWindow('foo-iw', shop.id);
+        //   console.log(vm.map);
+        // };
+
+        vm.hideDetail = function() {
+          vm.map.hideInfoWindow('foo-iw');
+        };
+        vm.value = '';
+        vm.newValue = function(value, x) {};
 
         console.log(testfuncarray);
 

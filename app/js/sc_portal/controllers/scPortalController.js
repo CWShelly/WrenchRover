@@ -47,7 +47,7 @@ module.exports = function(app) {
           res.data[i].converted = new Date(res.data[i].created_at);
           res.data[i].convertedToString = res.data[i].converted.toString();
           res.data[i].date_sliced = res.data[i].convertedToString.slice(0, 10);
-          if (res.data[i].convertedToString.indexOf('Apr 11') != -1) {
+          if (res.data[i].convertedToString.indexOf('Apr 17') != -1) {
             // console.log(res.data);
             this.all_autos.push(res.data[i].auto_id);
           }
