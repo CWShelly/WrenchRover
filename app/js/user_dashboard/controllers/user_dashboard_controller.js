@@ -178,9 +178,7 @@ module.exports = exports = function(app) {
            this.all.push(
              { id: i.toString(), make: res.data.autos[i].make, model: res.data.autos[i].model, requests: matchReq(res.data.service_requests, res.data.autos[i].id).results, service_request_ids: matchReq(res.data.service_requests, res.data.autos[i].id).service_request_ids
              }
-
             );
-
 
            matchQuotes(matchReq(res.data.service_requests, res.data.autos[i].id).results);
 
@@ -198,7 +196,7 @@ module.exports = exports = function(app) {
 
 
          }
-
+         console.log(this.all);
          this.demo = 0;
          this.demo2 = 0;
 
@@ -271,6 +269,7 @@ module.exports = exports = function(app) {
 // ====== testfunc ======
 
     this.testfunc = function(value) {
+      console.log('something');
       console.log(value);
       console.log(value.service_request_ids);
 
@@ -285,13 +284,29 @@ module.exports = exports = function(app) {
 
         for (var i = 0; i < res.data.length; i++) {
           if (arr.indexOf(res.data[i].service_request_id) != -1) {
+            console.log(res.data);
             console.log(res.data[i]);
 
-            // testfuncarray.push(res.data[i]);
+
+            getWorkRequest(res.data[i]);
+            testfuncarray.push(res.data[i]);
+
+
+            function getWorkRequest(value) {
+              console.log(value);
+
+              $http.get(baseUrl + 'service_requests/' + value.service_request_id)
+                .then((res) => {
+                //   value.work_request = res.data.work_request;
+                  value.work_request = JSON.parse(res.data.work_request);
+                });
+
+
+            }
+
             console.log(testfuncarray);
 
-
-            testfuncarray.push(res.data[i]);
+            // testfuncarray.push(res.data[i]);
             var loc_obj = {
               id: res.data[i].service_center.service_name,
               cost: res.data[i].quote_cost,
@@ -318,15 +333,7 @@ module.exports = exports = function(app) {
           vm.positions[j].item_number = j + 1;
         }
 
-        // for (var j = 0; j < testfuncarray.length; j++) {
-        //   $http.get(baseUrl + 'service_requests/' + testfuncarray[j].service_request_id)
-        //      .then((res) => {
-        //        console.log(res.data);
-        //        console.log(res.data.work_request);
-        //      });
-        // }
 
-        console.log(testfuncarray);
         console.log(vm.positions);
         vm.shop = vm.positions[0];
         console.log(vm.shop);
@@ -383,7 +390,6 @@ module.exports = exports = function(app) {
         //   console.log(arr[i]);
           arr[i].parsed = JSON.parse(arr[i].work_request);
           this.service_request_ids.push(arr[i].id);
-        //   console.log(arr[i]);
           this.results.push(arr[i]);
         }
       }
