@@ -40,7 +40,6 @@ module.exports = function(app) {
 
 
     this.altGetRequests = function() {
-      console.log('xxx');
       $http.get(baseUrl + '/service_requests')
       .then((res) => {
         for (var i = 0; i < res.data.length; i++) {
@@ -62,7 +61,6 @@ module.exports = function(app) {
           $http.get(baseUrl + 'autos/' + this.unique_auto_ids[i])
             .then((res) => {
               console.log(res.data);
-            //   console.log(res.data.service_requests);
               for (var j = 0; j < res.data.service_requests.length; j++) {
                 console.log(res.data.service_requests[j].work_request);
 

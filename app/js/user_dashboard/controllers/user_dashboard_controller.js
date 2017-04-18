@@ -172,7 +172,7 @@ module.exports = exports = function(app) {
            console.log("GPS issue, using user's zip");
            vm.local = vm.localCorrection;
          }
-         this.q = this.quicksortBasic(res.data.service_requests);
+         this.q = this.quicksortBasic(res.data.service_requests, 'auto_id');
          console.log(this.q);
          for (var i = 0; i < res.data.autos.length; i++) {
            this.all.push(
@@ -196,7 +196,9 @@ module.exports = exports = function(app) {
 
 
          }
+         console.log('zz');
          console.log(this.all);
+         console.log(this.all.length);
          this.demo = 0;
          this.demo2 = 0;
 
@@ -263,7 +265,28 @@ module.exports = exports = function(app) {
       $state.go('vehicle_dropdown_selection');
     };
 
-// ====test template ======
+// ====testfunc2======
+    this.testfunc2 = function(value) {
+      var testfuncarray = [];
+      var arr = value.service_request_ids;
+      this.sc_ids_all = [];
+
+      $http.get(baseUrl + 'service_quotes')
+    .then((res) => {
+
+      for (var i = 0; i < res.data.length; i++) {
+        if (arr.indexOf(res.data[i].service_request_id) != -1) {
+          this.sc_ids_all.push(res.data[i].service_center.id);
+        }
+      }
+      this.unique_sc_ids = this.sc_ids_all.filter(function(el, i, arr) {
+        return arr.indexOf(el) === i;
+      });
+
+      console.log(this.unique_sc_ids);
+    });
+
+    };
 
 
 // ====== testfunc ======
@@ -271,6 +294,8 @@ module.exports = exports = function(app) {
     this.testfunc = function(value) {
       console.log('something');
       console.log(value);
+
+      this.all_service_centers_id = [];
       console.log(value.service_request_ids);
 
       var arr = value.service_request_ids;
@@ -278,23 +303,31 @@ module.exports = exports = function(app) {
 
       $http.get(baseUrl + 'service_quotes')
       .then((res) => {
-        // console.log(res.data);
         var testfuncarray = [];
 
 
         for (var i = 0; i < res.data.length; i++) {
           if (arr.indexOf(res.data[i].service_request_id) != -1) {
-            console.log(res.data);
             console.log(res.data[i]);
 
+
+            this.all_service_centers_id.push(res.data[i].service_center.id);
+
+            this.unique_service_centers_ids = this. all_service_centers_id.filter(function(el, i, arr) {
+              return arr.indexOf(el) === i;
+            });
+
+            res.data[i].bidArray = [];
+            // ///////
+
+
+            // ///////
 
             getWorkRequest(res.data[i]);
             testfuncarray.push(res.data[i]);
 
 
             function getWorkRequest(value) {
-              console.log(value);
-
               $http.get(baseUrl + 'service_requests/' + value.service_request_id)
                 .then((res) => {
                 //   value.work_request = res.data.work_request;
@@ -303,6 +336,9 @@ module.exports = exports = function(app) {
 
 
             }
+
+            console.log(this.unique_service_centers_ids);
+
 
             console.log(testfuncarray);
 
@@ -335,26 +371,13 @@ module.exports = exports = function(app) {
 
 
         console.log(vm.positions);
-        vm.shop = vm.positions[0];
-        console.log(vm.shop);
 
-        // vm.showDetail = function(e, shop) {
-        //   console.log(shop);
-        //   vm.shop = shop;
-        //   vm.map.showInfoWindow('foo-iw', shop.id);
-        //   console.log(vm.map);
-        // };
-
-        vm.hideDetail = function() {
-          vm.map.hideInfoWindow('foo-iw');
-        };
-        vm.value = '';
-        vm.newValue = function(value, x) {};
 
         console.log(testfuncarray);
 
 
         this.quotes_by_car = testfuncarray;
+        // this.quotes_by_service_center =
 
       });
 
@@ -364,15 +387,17 @@ module.exports = exports = function(app) {
 // ====== sort and reduce duplicates functions ======
 
 
-    this.quicksortBasic = function(array) {
+    this.quicksortBasic = function(array, theProp) {
       if (array.length < 2) {
         return array;
       }
-      var pivot = array[0].auto_id;
+
+      var pivot = array[0][theProp];
+    //   var pivot = theProp;
       var lesser = [];
       var greater = [];
       for (var i = 1; i < array.length; i++) {
-        if (array[i].auto_id < pivot) {
+        if (array[i][theProp] < pivot) {
           lesser.push(array[i]);
         } else {
           greater.push(array[i]);
