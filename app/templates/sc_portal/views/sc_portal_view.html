@@ -16,6 +16,7 @@
           <div uib-accordion-group class="panel-default" heading="Vehicle# {{sample.id}} {{sample.year}} {{sample.make}} {{sample.model}}" ng-repeat="sample in portal.workrequests">
           <p> Vehicle: {{sample.year}} {{sample.make}} {{sample.model}} {{sample.engine}} engine {{sample.mileage}} miles</p>
 
+
          <uib-accordion close-others="portal.oneAtATime">
          <div uib-accordion-group heading="{{x.parsed}}" ng-repeat="x in sample.service_requests">{{x.parsed}}
            <form name = "authform" class = "form-horizontal" data-ng-submit = "portal.testFunc(scquote, x)" >

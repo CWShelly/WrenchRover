@@ -96,8 +96,14 @@
 
 
 <!-- ALT MAP SIDE BAR BEGINS ========================= -->
-<div ng-repeat="x in UserDashCtrl.quotes_by_car">{{x}}</div>
+<!-- <div ng-repeat="x in UserDashCtrl.quotes_by_car">{{x}}</div> -->
+<!-- <div ng-repeat = "x in UserDashCtrl.everything">{{x[0].service_request_id}}
+<hr>
+{{x[1].service_request_id}}
+</div> -->
 
+<!-- <div ng-repeat = "x in UserDashCtrl.everything">{{x[1].work_request}} -->
+<!-- </div> -->
 <!-- ALT MAP SIDE BAR ENDS ========================== -->
 
 <!-- map side bar begins ============== -->
@@ -121,9 +127,9 @@
 								<option value="{{quotes.available_date_2}}">{{quotes.available_date_2}}</option>
 								<option value="{{quotes.available_date_3}}">{{quotes.available_date_3}}</option>
 							 </select>
-				</div>
+				</div> -->
 
-		 <div class="col-md-4 col-sm-4 col-xs-4" id="acceptDiv" >
+		 <!-- <div class="col-md-4 col-sm-4 col-xs-4" id="acceptDiv" >
 
 				<button class="btn btn-default " style="padding-left: 5%;"; id="accept"
 				ng-click="UserDashCtrl.confirm(quotes, UserDashCtrl.selectedTime)"><i class="fa fa-check-circle"></i> ACCEPT</button>
