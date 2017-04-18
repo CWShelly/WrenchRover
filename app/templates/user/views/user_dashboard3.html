@@ -70,11 +70,11 @@
 
 	 <uib-tabset active="active" >
 
-		 <uib-tab index="$index + 1" ng-repeat="car in UserDashCtrl.all" heading="{{car.make}} {{car.model}}"  ng-click="UserDashCtrl.testfunc(car)" >
+		 <uib-tab index="$index + 1" ng-repeat="car in UserDashCtrl.all" heading="{{car.make}} {{car.model}}"  ng-click="UserDashCtrl.testfunc2(car)" >
 
 
 	 <!-- /////re-inserting map begins -->
-	 <div class="row" ng-init="UserDashCtrl.testfunc(car)" >
+	 <div class="row" ng-init="UserDashCtrl.testfunc2(car)" >
 <!-- ========MAP======== -->
 
   <div class="col-md-6 col-sm-6" id="mapDiv">
@@ -95,9 +95,13 @@
 	 </div>
 
 
-<!-- map side bar begins ============== -->
-<div class="col-md-4 col-sm-4" style="margin-top:15px;color: #FF6600">
+<!-- ALT MAP SIDE BAR BEGINS ========================= -->
+<div ng-repeat="x in UserDashCtrl.quotes_by_car">{{x}}</div>
 
+<!-- ALT MAP SIDE BAR ENDS ========================== -->
+
+<!-- map side bar begins ============== -->
+<!-- <div class="col-md-4 col-sm-4" style="margin-top:15px;color: #FF6600">
 				<ol style="list-style-type:decimal;">
 				<li  class="mapListNumber" style="list-style-type:none;" ng-repeat="quotes in UserDashCtrl.quotes_by_car">
 						<div class="row" style="margin:-27px 0 0 0;">
@@ -119,18 +123,18 @@
 							 </select>
 				</div>
 
-
 		 <div class="col-md-4 col-sm-4 col-xs-4" id="acceptDiv" >
 
 				<button class="btn btn-default " style="padding-left: 5%;"; id="accept"
 				ng-click="UserDashCtrl.confirm(quotes, UserDashCtrl.selectedTime)"><i class="fa fa-check-circle"></i> ACCEPT</button>
 			</div>
+		</div>
+	</div> -->
 
  		 </uib-tab>
 	 </uib-tabset>
 
-		</div>
-	</div>
+
 
 </div>
 
