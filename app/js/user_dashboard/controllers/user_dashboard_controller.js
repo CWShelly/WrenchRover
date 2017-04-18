@@ -173,7 +173,7 @@ module.exports = exports = function(app) {
            vm.local = vm.localCorrection;
          }
          this.q = this.quicksortBasic(res.data.service_requests, 'auto_id');
-         console.log(this.q);
+        //  console.log(this.q);
          for (var i = 0; i < res.data.autos.length; i++) {
            this.all.push(
              { id: i.toString(), make: res.data.autos[i].make, model: res.data.autos[i].model, requests: matchReq(res.data.service_requests, res.data.autos[i].id).results, service_request_ids: matchReq(res.data.service_requests, res.data.autos[i].id).service_request_ids
@@ -196,7 +196,7 @@ module.exports = exports = function(app) {
 
 
          }
-         console.log('zz');
+
          console.log(this.all);
          console.log(this.all.length);
          this.demo = 0;
@@ -267,27 +267,48 @@ module.exports = exports = function(app) {
 
 // ====testfunc2======
     this.testfunc2 = function(value) {
-      var testfuncarray = [];
-      var arr = value.service_request_ids;
-      this.sc_ids_all = [];
+      console.log(value);
+      this.all_array = [];
+      this.all_sc = [];
+      var val_sri_arr = value.service_request_ids;
 
       $http.get(baseUrl + 'service_quotes')
-    .then((res) => {
-
-      for (var i = 0; i < res.data.length; i++) {
-        if (arr.indexOf(res.data[i].service_request_id) != -1) {
-          this.sc_ids_all.push(res.data[i].service_center.id);
+      .then((res) => {
+        for (var i = 0; i < res.data.length; i++) {
+          if (val_sri_arr.indexOf(res.data[i].service_request_id) != -1) {
+            this.all_array.push(res.data[i]);
+            this.all_sc.push(res.data[i].service_center.id);
+          }
         }
-      }
-      this.unique_sc_ids = this.sc_ids_all.filter(function(el, i, arr) {
-        return arr.indexOf(el) === i;
+        this.unique = this.all_sc.filter(function(el, i, arr) {
+          return arr.indexOf(el) === i;
+        });
+        console.log(this.unique);
+
+        function x(arr, item) {
+          ray3 = [];
+          for (var i = 0; i < arr.length; i++) {
+            console.log(arr);
+                // console.log(arr[i]);
+            if (arr[i].service_center.id === item) {
+              ray3.push(arr[i]);
+            }
+          }
+          return ray3;
+        }
+
+        function three(arr) {
+          var newArr = [];
+          for (var i = 0; i < arr.length; i++) {
+            newArr.push(x(vm.all_array, arr[i]));
+          }
+          return newArr;
+
+        }
+        console.log(three(this.unique));
+
       });
-
-      console.log(this.unique_sc_ids);
-    });
-
     };
-
 
 // ====== testfunc ======
 
@@ -309,24 +330,19 @@ module.exports = exports = function(app) {
         for (var i = 0; i < res.data.length; i++) {
           if (arr.indexOf(res.data[i].service_request_id) != -1) {
             console.log(res.data[i]);
-
-
             this.all_service_centers_id.push(res.data[i].service_center.id);
 
             this.unique_service_centers_ids = this. all_service_centers_id.filter(function(el, i, arr) {
               return arr.indexOf(el) === i;
             });
 
-            res.data[i].bidArray = [];
+            console.log(this.unique_service_centers_ids);
             // ///////
 
 
             // ///////
-
-            getWorkRequest(res.data[i]);
             testfuncarray.push(res.data[i]);
-
-
+            getWorkRequest(res.data[i]);
             function getWorkRequest(value) {
               $http.get(baseUrl + 'service_requests/' + value.service_request_id)
                 .then((res) => {
@@ -391,9 +407,7 @@ module.exports = exports = function(app) {
       if (array.length < 2) {
         return array;
       }
-
       var pivot = array[0][theProp];
-    //   var pivot = theProp;
       var lesser = [];
       var greater = [];
       for (var i = 1; i < array.length; i++) {
@@ -405,27 +419,42 @@ module.exports = exports = function(app) {
       }
       return this.quicksortBasic(lesser).concat(array[0], this.quicksortBasic(greater));
     };
-
-
     this.findDupes = function(arr, item) {
       this.results = [];
       this.service_request_ids = [];
       for (var i = 0; i < arr.length; i++) {
         if (arr[i].auto_id == item) {
-        //   console.log(arr[i]);
           arr[i].parsed = JSON.parse(arr[i].work_request);
           this.service_request_ids.push(arr[i].id);
           this.results.push(arr[i]);
+
         }
       }
-
-
       this.dupeObj = { results: this.results, service_request_ids: this.service_request_ids };
-      console.log(this.dupeObj);
+    //   console.log(this.dupeObj);
       return this.dupeObj;
-
     };
 
+
+// ///
+    this.findDupes2 = function(arr, item, theProp) {
+      this.results = [];
+      this.new_array = [];
+      for (var i = 0; i < arr.length; i++) {
+        if (arr[i].service_center.id == item) {
+          this.new_array.push(arr[i].id);
+          this.results.push(arr[i]);
+        }
+      }
+    //   this.dupeObj = { results: this.results, service_request_ids: this.service_request_ids };
+
+
+      console.log(this.dupeObj);
+      return this.dupeObj;
+    };
+
+
+// ///
 
   }
   ]);
