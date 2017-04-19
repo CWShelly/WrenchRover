@@ -57,7 +57,23 @@
 <!--/////////////////// START MAINTENANCE LISTINGS COLUMN /////////////////////-->
 
  <!-- TEST AREA ======= -->
-<div ng-repeat="h in UserDashCtrl.bySCArr">{{h}}</div>
+<!-- <div ng-repeat="h in UserDashCtrl.bySCArr track by $index">{{h}}
+
+<p ng-repeat = "i in h">{{i}}</p>
+</div> -->
+
+
+<div ng-repeat="thing in UserDashCtrl.finallyMaybe track by $index"> {{thing.name}}
+
+	<div ng-repeat="stuff in thing.theArray"> {{stuff.work_request}}
+
+<!-- <p ng-repeat="f in stuff track by $index">{{f}}</p> -->
+	</div>
+</div>
+<!-- <div ng-repeat="j in UserDashCtrl.testArray"> -->
+
+<!-- <p ng-repeat="k in j">{{k}}</p> -->
+<!-- </div> -->
 
 
 <!-- <div ng-repeat="h in UserDashCtrl.try">{{h}}</div> -->
@@ -106,6 +122,8 @@
 
 <!-- <div ng-repeat = "x in UserDashCtrl.everything">{{x[1].work_request}} -->
 <!-- </div> -->
+
+
 <!-- ALT MAP SIDE BAR ENDS ========================== -->
 
 <!-- map side bar begins ============== -->
