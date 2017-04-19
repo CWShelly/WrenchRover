@@ -55,14 +55,14 @@
 
 	</div>
 <!--/////////////////// START MAINTENANCE LISTINGS COLUMN /////////////////////-->
-<!-- <input type="text" ng-model="UserDashCtrl.val">
-<button ng-click="UserDashCtrl.add()">Add Directive Button</button>
-<div id="container">
-</div>
-<div> -->
 
-	<!-- <p ng-repeat="c in UserDashCtrl.all" style="color: green;">{{c}}</p> -->
-</div>
+ <!-- TEST AREA ======= -->
+<div ng-repeat="h in UserDashCtrl.bySCArr">{{h}}</div>
+
+
+<!-- <div ng-repeat="h in UserDashCtrl.try">{{h}}</div> -->
+
+ <!-- TEST AREA ENDS ===== -->
 <!-- ==========NEW BIDS TAB ============ -->
 	<div class="row" id="user_dash">
 		<div class="col-md-12 col-sm-12 col-xs-12">
@@ -70,11 +70,13 @@
 
 	 <uib-tabset active="active" >
 
-		 <uib-tab index="$index + 1" ng-repeat="car in UserDashCtrl.all" heading="{{car.make}} {{car.model}}"  ng-click="UserDashCtrl.testfunc2(car)" >
+		 <uib-tab index="$index + 1" ng-repeat="car in UserDashCtrl.all" heading="{{car.make}} {{car.model}}"  ng-click="UserDashCtrl.testfunc(car)" >
+		 	 <!-- <uib-tab index="$index + 1" ng-repeat="car in UserDashCtrl.all" heading="{{car.make}} {{car.model}}"  > -->
 
 
 	 <!-- /////re-inserting map begins -->
-	 <div class="row" ng-init="UserDashCtrl.testfunc2(car)" >
+	 <div class="row">
+	  <!-- <div class="row" > -->
 <!-- ========MAP======== -->
 
   <div class="col-md-6 col-sm-6" id="mapDiv">
@@ -82,9 +84,9 @@
 				<marker position = "{{UserDashCtrl.local}}" animation="Animation.BOUNCE"  centered="true"> </marker>
 
 				<marker id='{{p.id}}' position="{{p.pos}}"
-					 ng-repeat="p in UserDashCtrl.positions"
+					 ng-repeat="p in UserDashCtrl.positions2"
 					 on-click="UserDashCtrl.showDetail(p)"
-					 icon="{{p.map_icon_pics}}"
+					 icon="{{p.map_icon_pics2}}"
 					 title="pos: {{p.pos}}"
 					 on-mouseover="UserDashCtrl.showDetail(p);"
 					 on-mouseout="UserDashCtrl.hideDetail()">
@@ -107,7 +109,11 @@
 <!-- ALT MAP SIDE BAR ENDS ========================== -->
 
 <!-- map side bar begins ============== -->
-<!-- <div class="col-md-4 col-sm-4" style="margin-top:15px;color: #FF6600">
+
+
+
+
+<div class="col-md-4 col-sm-4" style="margin-top:15px;color: #FF6600">
 				<ol style="list-style-type:decimal;">
 				<li  class="mapListNumber" style="list-style-type:none;" ng-repeat="quotes in UserDashCtrl.quotes_by_car">
 						<div class="row" style="margin:-27px 0 0 0;">
@@ -127,15 +133,15 @@
 								<option value="{{quotes.available_date_2}}">{{quotes.available_date_2}}</option>
 								<option value="{{quotes.available_date_3}}">{{quotes.available_date_3}}</option>
 							 </select>
-				</div> -->
+				</div>
 
-		 <!-- <div class="col-md-4 col-sm-4 col-xs-4" id="acceptDiv" >
+ <div class="col-md-4 col-sm-4 col-xs-4" id="acceptDiv" >
 
 				<button class="btn btn-default " style="padding-left: 5%;"; id="accept"
 				ng-click="UserDashCtrl.confirm(quotes, UserDashCtrl.selectedTime)"><i class="fa fa-check-circle"></i> ACCEPT</button>
 			</div>
 		</div>
-	</div> -->
+	</div>
 
  		 </uib-tab>
 	 </uib-tabset>

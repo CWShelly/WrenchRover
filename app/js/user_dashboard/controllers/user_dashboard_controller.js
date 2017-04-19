@@ -52,7 +52,7 @@ module.exports = exports = function(app) {
     vm.showDetail = function(e, shop) {
 
       console.log('show the etail');
-    //   console.log(shop);
+      console.log(shop);
     //   vm.shop = shop;
     //   vm.map.showInfoWindow('foo-iw', shop.id);
     //   console.log(vm.map);
@@ -267,6 +267,7 @@ module.exports = exports = function(app) {
 
 // ====testfunc2======
     this.testfunc2 = function(value) {
+      this.quoteArray = [];
       console.log(value);
       this.all_array = [];
       this.all_sc = [];
@@ -283,13 +284,11 @@ module.exports = exports = function(app) {
         this.unique = this.all_sc.filter(function(el, i, arr) {
           return arr.indexOf(el) === i;
         });
-        console.log(this.unique);
+        // console.log(this.unique);
 
         function x(arr, item) {
           ray3 = [];
           for (var i = 0; i < arr.length; i++) {
-            console.log(arr);
-                // console.log(arr[i]);
             if (arr[i].service_center.id === item) {
               ray3.push(arr[i]);
             }
@@ -297,15 +296,26 @@ module.exports = exports = function(app) {
           return ray3;
         }
 
+
         function three(arr) {
+          console.log('yes');
           var newArr = [];
           for (var i = 0; i < arr.length; i++) {
             newArr.push(x(vm.all_array, arr[i]));
+            // vm.bySCArr = x(vm.all_array, arr[i]);
+
+            // vm.try = x(vm.all_array, arr[i]);
           }
           return newArr;
-
         }
-        console.log(three(this.unique));
+        this.bySCArr = three(this.unique);
+
+        // vm.bySCArr = three(this.unique);
+        // this.quoteArray.push(this.bySCArr);
+        // this.quoteEg = [1, 3, 5, 6];
+        // for (var i = 0; i < this.bySCArr.length; i++) {
+        //   this.quoteArray.push(this.bySCArr[i]);
+        // }
 
       });
     };
@@ -373,17 +383,15 @@ module.exports = exports = function(app) {
               position: res.data[i].service_center.service_address + ', ' + res.data[i].service_center.service_city + ',' + res.data[i].service_center.service_state + ',' + res.data[i].service_center.service_zip,
               dates: [ res.data[i].available_date_1, res.data[i].available_date_2, res.data[i].available_date_3]
             };
-            vm.positions.push(loc_obj);
-
-
+            // vm.positions.push(loc_obj);
           }
         }
 
         console.log(loc_obj);
-        for (var j = 0; j < vm.positions.length; j++) {
-          vm.positions[j].map_icon_pics = map_icons[j];
-          vm.positions[j].item_number = j + 1;
-        }
+        // for (var j = 0; j < vm.positions.length; j++) {
+        //   vm.positions[j].map_icon_pics = map_icons[j];
+        //   vm.positions[j].item_number = j + 1;
+        // }
 
 
         console.log(vm.positions);
@@ -393,8 +401,88 @@ module.exports = exports = function(app) {
 
 
         this.quotes_by_car = testfuncarray;
-        // this.quotes_by_service_center =
 
+// try by unique service center begins ===========
+        this.all_sc = [];
+        for (var i = 0; i < testfuncarray.length; i++) {
+          this.all_sc.push(testfuncarray[i].service_center_id);
+        }
+
+
+        this.unique = this.all_sc.filter(function(el, i, arr) {
+          return arr.indexOf(el) === i;
+        });
+        console.log(this.unique);
+
+        function x(arr, item) {
+          ray3 = [];
+          for (var i = 0; i < arr.length; i++) {
+            if (arr[i].service_center.id === item) {
+              ray3.push(arr[i]);
+            }
+          }
+          return ray3;
+        }
+
+
+        function three(arr) {
+          var newObj = {};
+          console.log('yes');
+          var newArr = [];
+          for (var i = 0; i < arr.length; i++) {
+            newObj[i] = x(testfuncarray, arr[i]);
+          }
+
+          return newObj;
+        }
+        this.bySCArr = three(this.unique);
+        console.log(this.bySCArr);
+// get new map marker sc only
+
+        function scMarkers(arr) {
+        //   this.unique_markers = {};
+          this.unique_markers = [];
+          for (var i = 0; i < arr.length; i++) {
+            $http.get(baseUrl + 'service_centers/' + arr[i].toString())
+            .then((res) => {
+              console.log(res.data);
+
+            //   return this.unique_markers.push(res.data);
+
+              this.loc_obj2 = {
+                id: res.data.service_name,
+                position: res.data.service_address + ',' + res.data.service_city + ',' + res.data.service_state + ',' + res.data.service_zip,
+                pos: res.data.service_address + ',' + res.data.service_city + ',' + res.data.service_state + ',' + res.data.service_zip
+
+              };
+
+              this.unique_markers.push(res.data);
+              vm.positions2.push(loc_obj2);
+
+
+            });
+
+            // for (var j = 0; j < vm.positions2.length; j++) {
+            //   vm.positions2[j].map_icon_pics2 = map_icons[j];
+            //   vm.positions2[j].item_number = j + 1;
+            // }
+
+          }
+          for (var j = 0; j < vm.positions2.length; j++) {
+            vm.positions2[j].map_icon_pics2 = map_icons[j];
+            vm.positions2[j].item_number = j + 1;
+          }
+          console.log(this.unique_markers);
+          console.log(vm.positions2);
+
+
+        }
+
+        scMarkers(this.unique);
+
+// get new map marker sc only end
+
+// try by unique service ends ===========
       });
 
     };

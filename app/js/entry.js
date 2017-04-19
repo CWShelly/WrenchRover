@@ -33,7 +33,7 @@ require('./mega')(wrApp);
 
 wrApp.run(function($rootScope) {
   $rootScope.$on('mapInitialized', function(evt, map) {
-    console.log('yay!!!!');
+    // console.log('yay!!!!');
     $rootScope.mymap = map;
     $rootScope.$apply();
   });
