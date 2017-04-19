@@ -310,12 +310,6 @@ module.exports = exports = function(app) {
         }
         this.bySCArr = three(this.unique);
 
-        // vm.bySCArr = three(this.unique);
-        // this.quoteArray.push(this.bySCArr);
-        // this.quoteEg = [1, 3, 5, 6];
-        // for (var i = 0; i < this.bySCArr.length; i++) {
-        //   this.quoteArray.push(this.bySCArr[i]);
-        // }
 
       });
     };
@@ -368,33 +362,9 @@ module.exports = exports = function(app) {
 
             console.log(testfuncarray);
 
-            // testfuncarray.push(res.data[i]);
-            var loc_obj = {
-              id: res.data[i].service_center.service_name,
-              cost: res.data[i].quote_cost,
-              notes: res.data[i].quote_text,
-              accepted: res.data[i].accepted,
-              available_date_1: res.data[i].available_date_1, available_date_2: res.data[i].available_date_2, available_date_3: res.data[i].available_date_3,
-              pos:
-                      res.data[i].service_center.service_address + ', ' + res.data[i].service_center.service_city + ',' + res.data[i].service_center.service_state + ',' + res.data[i].service_center.service_zip, num: 'things',
-              quote_id: res.data[i].id,
-              cost: res.data[i].quote_cost,
-              notes: res.data[i].quote_text,
-              position: res.data[i].service_center.service_address + ', ' + res.data[i].service_center.service_city + ',' + res.data[i].service_center.service_state + ',' + res.data[i].service_center.service_zip,
-              dates: [ res.data[i].available_date_1, res.data[i].available_date_2, res.data[i].available_date_3]
-            };
-            // vm.positions.push(loc_obj);
+
           }
         }
-
-        console.log(loc_obj);
-        // for (var j = 0; j < vm.positions.length; j++) {
-        //   vm.positions[j].map_icon_pics = map_icons[j];
-        //   vm.positions[j].item_number = j + 1;
-        // }
-
-
-        console.log(vm.positions);
 
 
         console.log(testfuncarray);
@@ -415,28 +385,67 @@ module.exports = exports = function(app) {
         console.log(this.unique);
 
         function x(arr, item) {
-          ray3 = [];
+          this.ray3 = [];
+
           for (var i = 0; i < arr.length; i++) {
             if (arr[i].service_center.id === item) {
-              ray3.push(arr[i]);
+              console.log(arr[i]);
+              this.ray3.push(arr[i]);
             }
           }
+
           return ray3;
         }
 
 
         function three(arr) {
           var newObj = {};
+
+          newArr = [];
           console.log('yes');
           var newArr = [];
           for (var i = 0; i < arr.length; i++) {
-            newObj[i] = x(testfuncarray, arr[i]);
-          }
 
-          return newObj;
+            newArr.push(x(testfuncarray, arr[i]));
+
+            // newObj['prop' + i] = x(testfuncarray, arr[i]);
+            // console.log(x(testfuncarray, arr[i]));
+
+          }
+        //   console.log(newObj);
+
+        //   newArr.push(newObj);
+        //   return newObj;
+          return newArr;
         }
         this.bySCArr = three(this.unique);
-        console.log(this.bySCArr);
+        this.finallyMaybe = four(this.bySCArr);
+        console.log(this.finallyMaybe);
+
+        function four(arr) {
+          console.log(arr.length);
+          this.yObj = {};
+          this.yArr = [];
+          for (var i = 0; i < arr.length; i++) {
+            console.log(arr[i][0].service_center.service_name);
+
+
+            this.yObj = { name: arr[i][0].service_center.service_name, theArray: arr[i] };
+            this.yArr.push(this.yObj);
+
+          }
+
+          console.log(this.yObj);
+
+
+        //   return this.yObj;
+          return this.yArr;
+        }
+        // }
+
+        this.testArray = [ ['one', 'two', 'three'], ['four', 'five', 'six']];
+
+
 // get new map marker sc only
 
         function scMarkers(arr) {
@@ -459,13 +468,7 @@ module.exports = exports = function(app) {
               this.unique_markers.push(res.data);
               vm.positions2.push(loc_obj2);
 
-
             });
-
-            // for (var j = 0; j < vm.positions2.length; j++) {
-            //   vm.positions2[j].map_icon_pics2 = map_icons[j];
-            //   vm.positions2[j].item_number = j + 1;
-            // }
 
           }
           for (var j = 0; j < vm.positions2.length; j++) {
