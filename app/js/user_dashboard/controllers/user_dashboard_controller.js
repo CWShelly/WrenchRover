@@ -195,16 +195,25 @@ module.exports = exports = function(app) {
              { id: i.toString(), make: res.data.autos[i].make, model: res.data.autos[i].model, year: res.data.autos[i].year.toString().slice(2), requests: matchReq(res.data.service_requests, res.data.autos[i].id).results, service_request_ids: matchReq(res.data.service_requests, res.data.autos[i].id).service_request_ids
              }
             );
+           this.quote_first = [];
 
            matchQuotes(matchReq(res.data.service_requests, res.data.autos[i].id).results);
 
            var arr2 = matchReq(res.data.service_requests, res.data.autos[i].id).results;
 
            function matchQuotes(arr) {
-             for (var j = 0; j <= arr.length; j++) {
+             console.log(arr);
+             for (var j = 0; j < arr.length; j++) {
                $http.get(baseUrl + 'service_requests/' + arr[j].id)
                   .then((res) => {
-                    arr[j].quotes = [{ id: j.toString(), quotes: res.data.service_quotes }];
+
+                    console.log(res.data);
+                    if (res.data.length > 0 ) {
+                      arr[j].quotes = [{ id: j.toString(), quotes: res.data.service_quotes }];
+                    } else {
+                      return;
+
+                    }
                   });
                return arr[j].quotes;
              }
@@ -219,7 +228,8 @@ module.exports = exports = function(app) {
          this.demo2 = 0;
 
          function matchReq(arr, key) {
-           for (var i = 0; i <= arr.length; i++) {
+           console.log(arr);
+           for (var i = 0; i < arr.length; i++) {
              if (arr[i].auto_id == key) {
             //    console.log(arr[i].auto_id);
             //    console.log(vm.q);
@@ -288,7 +298,10 @@ module.exports = exports = function(app) {
     };
 
 // ====testfunc2======
+
     this.testfunc2 = function(value) {
+
+
       this.quoteArray = [];
       console.log(value);
       this.all_array = [];
@@ -303,10 +316,12 @@ module.exports = exports = function(app) {
             this.all_sc.push(res.data[i].service_center.id);
           }
         }
+
+        // if(this.all_array.length == 0){
         this.unique = this.all_sc.filter(function(el, i, arr) {
           return arr.indexOf(el) === i;
         });
-        // console.log(this.unique);
+
 
         function x(arr, item) {
           ray3 = [];
@@ -364,117 +379,117 @@ module.exports = exports = function(app) {
 
             console.log(this.unique_service_centers_ids);
             // ///////
-
+            if (this.all_service_centers_id.length > 0) {
 
             // ///////
-            testfuncarray.push(res.data[i]);
-            getWorkRequest(res.data[i]);
-            function getWorkRequest(value) {
-              $http.get(baseUrl + 'service_requests/' + value.service_request_id)
+              testfuncarray.push(res.data[i]);
+              getWorkRequest(res.data[i]);
+              function getWorkRequest(value) {
+                $http.get(baseUrl + 'service_requests/' + value.service_request_id)
                 .then((res) => {
                 //   value.work_request = res.data.work_request;
                   value.work_request = JSON.parse(res.data.work_request);
                 });
 
 
+              }
+
+              console.log(this.unique_service_centers_ids);
+
+
+              console.log(testfuncarray);
+
+
             }
-
-            console.log(this.unique_service_centers_ids);
-
-
-            console.log(testfuncarray);
-
-
           }
-        }
 
 
-        console.log(testfuncarray);
+          console.log(testfuncarray);
 
 
-        this.quotes_by_car = testfuncarray;
+          this.quotes_by_car = testfuncarray;
 
 // try by unique service center begins ===========
-        this.all_sc = [];
-        for (var i = 0; i < testfuncarray.length; i++) {
-          this.all_sc.push(testfuncarray[i].service_center_id);
-        }
-
-
-        this.unique = this.all_sc.filter(function(el, i, arr) {
-          return arr.indexOf(el) === i;
-        });
-        console.log(this.unique);
-
-        function x(arr, item) {
-          this.ray3 = [];
-
-          for (var i = 0; i < arr.length; i++) {
-            if (arr[i].service_center.id === item) {
-              console.log(arr[i]);
-              this.ray3.push(arr[i]);
-            }
+          this.all_sc = [];
+          for (var i = 0; i < testfuncarray.length; i++) {
+            this.all_sc.push(testfuncarray[i].service_center_id);
           }
 
-          return ray3;
-        }
+
+          this.unique = this.all_sc.filter(function(el, i, arr) {
+            return arr.indexOf(el) === i;
+          });
+          console.log(this.unique);
+
+          function x(arr, item) {
+            this.ray3 = [];
+
+            for (var i = 0; i < arr.length; i++) {
+              if (arr[i].service_center.id === item) {
+                console.log(arr[i]);
+                this.ray3.push(arr[i]);
+              }
+            }
+
+            return ray3;
+          }
 
 
-        function three(arr) {
-          var newObj = {};
+          function three(arr) {
+            var newObj = {};
 
-          newArr = [];
-          console.log('yes');
-          var newArr = [];
-          for (var i = 0; i < arr.length; i++) {
+            newArr = [];
+            console.log('yes');
+            var newArr = [];
+            for (var i = 0; i < arr.length; i++) {
 
-            newArr.push(x(testfuncarray, arr[i]));
+              newArr.push(x(testfuncarray, arr[i]));
 
             // newObj['prop' + i] = x(testfuncarray, arr[i]);
             // console.log(x(testfuncarray, arr[i]));
 
-          }
+            }
         //   console.log(newObj);
 
         //   newArr.push(newObj);
         //   return newObj;
-          return newArr;
-        }
-        this.bySCArr = three(this.unique);
-        this.the_quotes_array = four(this.bySCArr);
-        console.log(this.finallyMaybe);
-
-        function four(arr) {
-          console.log(arr.length);
-          this.yObj = {};
-          this.yArr = [];
-          for (var i = 0; i < arr.length; i++) {
-            console.log(arr[i][0].service_center.service_name);
-
-
-            this.yObj = { name: arr[i][0].service_center.service_name, theArray: arr[i] };
-            this.yArr.push(this.yObj);
-
+            return newArr;
           }
+          this.bySCArr = three(this.unique);
+          this.the_quotes_array = four(this.bySCArr);
+          console.log(this.finallyMaybe);
 
-          console.log(this.yObj);
+          function four(arr) {
+            console.log(arr.length);
+            this.yObj = {};
+            this.yArr = [];
+            for (var i = 0; i < arr.length; i++) {
+              console.log(arr[i][0].service_center.service_name);
+
+
+              this.yObj = { name: arr[i][0].service_center.service_name, theArray: arr[i] };
+              this.yArr.push(this.yObj);
+
+            }
+
+            console.log(this.yObj);
 
 
         //   return this.yObj;
-          return this.yArr;
-        }
+            return this.yArr;
+          }
         // }
 
-        this.testArray = [ ['one', 'two', 'three'], ['four', 'five', 'six']];
+          this.testArray = [ ['one', 'two', 'three'], ['four', 'five', 'six']];
 
 
 // get new map marker sc only
 
-        function scMarkers(arr) {
+          function scMarkers(arr) {
         //   this.unique_markers = {};
-          this.unique_markers = [];
-          for (var i = 0; i < arr.length; i++) {
-            $http.get(baseUrl + 'service_centers/' + arr[i].toString())
+            this.unique_markers = [];
+            for (var i = 0; i < arr.length; i++) {
+              $http.get(baseUrl + 'service_centers/' + arr[i].toString())
             .then((res) => {
               console.log(res.data);
 
@@ -492,24 +507,29 @@ module.exports = exports = function(app) {
 
             });
 
+            }
+            for (var j = 0; j < vm.positions2.length; j++) {
+              vm.positions2[j].map_icon_pics2 = map_icons[j];
+              vm.positions2[j].item_number = j + 1;
+            }
+            console.log(this.unique_markers);
+            console.log(vm.positions2);
+
+
           }
-          for (var j = 0; j < vm.positions2.length; j++) {
-            vm.positions2[j].map_icon_pics2 = map_icons[j];
-            vm.positions2[j].item_number = j + 1;
-          }
-          console.log(this.unique_markers);
-          console.log(vm.positions2);
 
-
-        }
-
-        scMarkers(this.unique);
+          scMarkers(this.unique);
 
 // get new map marker sc only end
-
-// try by unique service ends ===========
+        }
+        console.log('noooooooo quooooootes');
       });
 
+    //   console.log('no stuff heres');
+// }
+// else{
+//     console.log('no quotes yet');
+// }
     };
 
 
