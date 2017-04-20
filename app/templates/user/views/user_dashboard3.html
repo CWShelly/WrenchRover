@@ -15,21 +15,23 @@
 <!--/////////////////// START NOTIFICATION ROW /////////////////////-->
 	<div class="row apptRow">
 		<div class="col-md-2 col-sm-12 apptHead" style="line-height:80px;height:80px;text-align:center;">
-			<h4>{{UserDashCtrl.message}}</h4>
+			<h4>Message TBD</h4>
 		</div>
-		<div class="col-md-4 col-sm-12" style="padding:0;"  >
-			<div class="apptHead"><span>Where & When</span></div>
-			<div class="apptText">{{UserDashCtrl.appointment.service_center}}<br>{{UserDashCtrl.appointment.appointment_date_time}}</div>
-		</div>
+
+		<!-- <div class="col-md-3 col-sm-12" style="padding:0;">
+			<div class="apptHead">Services <span style="float: right;">			<a ng-click="UserDashCtrl.addRequest()" style="color: white;">Add a request</a></span></div> -->
+
 		<div class="col-md-3 col-sm-12" style="padding:0;">
-			<div class="apptHead">Your Vehicle(s)</div>
+			<div class="apptHead">Your Vehicle(s) 	 <a ng-click="UserDashCtrl.addVehicle()"  style="color:white; float: right;">Add a vehicle</a></div>
 			<div style="display:inline;" class="apptText"><span  ng-if="UserDashCtrl.userObject.autos.length ==0"> You haven't entered a car.<br><a style="color: white;"  ng-controller="vehicleModalController as $ctrl" ng-click ="$ctrl.open()">Add a vehicle</a></span>
+
 
 
 			</div>
 
 			<span ng-repeat="car in UserDashCtrl.all" style="display:inline; color: white;">
-             <a ng-class="{myColor: UserDashCtrl.demo == $index}" ng-click="UserDashCtrl.demo = $index" style="color:white;" >{{car.make}} {{car.model}}</a>
+             <a ng-class="{myColor: UserDashCtrl.demo == $index}" ng-click="UserDashCtrl.demo = $index" style="color:white;" >{{car.year}} {{car.make}} {{car.model}} &nbsp; &nbsp;</a>
+
       </span>
 
 
@@ -38,12 +40,14 @@
 		<div class="col-md-3 col-sm-12" style="padding:0;">
 			<div class="apptHead">Services <span style="float: right;">			<a ng-click="UserDashCtrl.addRequest()" style="color: white;">Add a request</a></span></div>
 
+
 			<div class="apptText" ng-repeat="car in UserDashCtrl.all">  <span  ng-if="UserDashCtrl.userObject.service_requests.length ==0">  <a style="color: white;" ng-click ="UserDashCtrl.addRequest()">Submit a request</a></span> <span ng-hide = "UserDashCtrl.demo != $index">
 
 
-  <a  ng-class="{myColor: UserDashCtrl.demo2 == $index}" ng-click="UserDashCtrl.demo2 = $index; UserDashCtrl.getQuotesByRequest(request)" ng-repeat="request in car.requests track by $index"   style="color:white;">{{request.parsed}}</a>
 
-{{UserDashCtrl.the_quotes.quote_text}}
+	  <span  ng-repeat="request in car.requests track by $index"   style="color:white;"> {{request.parsed}}  &nbsp; &nbsp;</span>
+
+
 			</div>
 
 				<div class="apptText">  <span  ng-if="UserDashCtrl.userObject.service_requests.length ==0">  <a style="color: white;" ng-click ="UserDashCtrl.addRequest()">Submit a request</a></span>
@@ -51,52 +55,30 @@
 		</div>
 	</div>
 
-<!-- <h2 ng-repeat = "quo in UserDashCtrl.sq_array">{{quo}}</h2> -->
+
 
 	</div>
 <!--/////////////////// START MAINTENANCE LISTINGS COLUMN /////////////////////-->
 
- <!-- TEST AREA ======= -->
-<!-- <div ng-repeat="h in UserDashCtrl.bySCArr track by $index">{{h}}
-
-<p ng-repeat = "i in h">{{i}}</p>
-</div> -->
-
-
-<div ng-repeat="thing in UserDashCtrl.finallyMaybe track by $index"> {{thing.name}}
-
-	<div ng-repeat="stuff in thing.theArray"> {{stuff.work_request}}
-
-<!-- <p ng-repeat="f in stuff track by $index">{{f}}</p> -->
-	</div>
-</div>
-<!-- <div ng-repeat="j in UserDashCtrl.testArray"> -->
-
-<!-- <p ng-repeat="k in j">{{k}}</p> -->
-<!-- </div> -->
-
-
-<!-- <div ng-repeat="h in UserDashCtrl.try">{{h}}</div> -->
-
- <!-- TEST AREA ENDS ===== -->
 <!-- ==========NEW BIDS TAB ============ -->
 	<div class="row" id="user_dash">
 		<div class="col-md-12 col-sm-12 col-xs-12">
 			<h3 >Your Maintenance</h3>
 
+
+<!--/////////////////// START TABS /////////////////////-->
 	 <uib-tabset active="active" >
 
-		 <uib-tab index="$index + 1" ng-repeat="car in UserDashCtrl.all" heading="{{car.make}} {{car.model}}"  ng-click="UserDashCtrl.testfunc(car)" >
-		 	 <!-- <uib-tab index="$index + 1" ng-repeat="car in UserDashCtrl.all" heading="{{car.make}} {{car.model}}"  > -->
+		 <uib-tab index="$index+1" ng-repeat="car in UserDashCtrl.all" heading="{{car.make}} {{car.model}}"  select="UserDashCtrl.testfunc(car)" ng-click="NgMap.initMap('foo')" >
 
 
-	 <!-- /////re-inserting map begins -->
+
 	 <div class="row">
-	  <!-- <div class="row" > -->
+
 <!-- ========MAP======== -->
 
-  <div class="col-md-6 col-sm-6" id="mapDiv">
-	    <map  center="{{UserDashCtrl.local}}">
+  <div class="col-md-6 col-sm-12" id="mapDiv" >
+	    <ng-map  center="{{UserDashCtrl.local}}" id="foo">
 				<marker position = "{{UserDashCtrl.local}}" animation="Animation.BOUNCE"  centered="true"> </marker>
 
 				<marker id='{{p.id}}' position="{{p.pos}}"
@@ -107,66 +89,98 @@
 					 on-mouseover="UserDashCtrl.showDetail(p);"
 					 on-mouseout="UserDashCtrl.hideDetail()">
 					</marker>
-     </map>
+     </ng-map>
 
 
 	 </div>
 
 
-<!-- ALT MAP SIDE BAR BEGINS ========================= -->
-<!-- <div ng-repeat="x in UserDashCtrl.quotes_by_car">{{x}}</div> -->
-<!-- <div ng-repeat = "x in UserDashCtrl.everything">{{x[0].service_request_id}}
-<hr>
-{{x[1].service_request_id}}
-</div> -->
-
-<!-- <div ng-repeat = "x in UserDashCtrl.everything">{{x[1].work_request}} -->
-<!-- </div> -->
-
-
-<!-- ALT MAP SIDE BAR ENDS ========================== -->
 
 <!-- map side bar begins ============== -->
 
-
-
-
-<div class="col-md-4 col-sm-4" style="margin-top:15px;color: #FF6600">
+<div class="col-md-5 col-sm-12" style="margin-top:15px;color: #FF6600;">
 				<ol style="list-style-type:decimal;">
-				<li  class="mapListNumber" style="list-style-type:none;" ng-repeat="quotes in UserDashCtrl.quotes_by_car">
+				<li  class="mapListNumber" style="list-style-type:none;" ng-repeat="quotes in UserDashCtrl.the_quotes_array">
 						<div class="row" style="margin:-27px 0 0 0;">
-								<div class="col-md-7 col-sm-7 col-xs-10 inline mapListCompany" style="padding-left:12%;" >
-									{{quotes.service_center.service_name}}
-										<p style="font-size: 12px;">{{quotes.work_request}}</p>
-							</div>
-							<div class="col-md-3 col-sm-3 col-xs-3 mapListBidPrice">
-								${{quotes.quote_cost}}
-							</div>
-					</div>
-			<div class="row">
-							<div  class="col-md-7 col-sm-7 col-xs-7  col-xs-offset-0 col-md-offset-0 col-sm-offset-0 form-group">
-							 <select name="apptDate" id="apptSelect" ng-model="UserDashCtrl.selectedTime" size="1" class="input-sm form-control pull-left;" style="height:37px; width: auto; margin-left: -10px;">
-								<option value="">Pick Appointment</option>
-								<option value="{{quotes.available_date_1}}">{{quotes.available_date_1}}</option>
-								<option value="{{quotes.available_date_2}}">{{quotes.available_date_2}}</option>
-								<option value="{{quotes.available_date_3}}">{{quotes.available_date_3}}</option>
-							 </select>
+
+								<div class="col-md-12 col-sm-12 col-xs-10 inline mapListCompany" style="padding-left:12%;" >
+
+								<p style="background: #FF6600; color: white;">	{{quotes.name}}</p>
+
+										<div  ng-repeat="subquotes in quotes.theArray" class="row" style="font-size: 16px;">
+
+                      <span class="col-sm-6"> {{subquotes.work_request}}</span>
+											<span class="col-sm-3 pull-right">${{subquotes.quote_cost}}</span>
+
+           <div class="col-md-12 col-sm-12">
+											<select name="apptDate" id="apptSelect" ng-model="UserDashCtrl.selectedTime" size="1" class="input-sm form-control pull-left;" style="height:20px; width: auto; padding-left: 12%">
+							 <option value="">Pick Appointment</option>
+							 <option value="{{quotes.available_date_1}}">{{subquotes.available_date_1}}</option>
+							 <option value="{{quotes.available_date_2}}">{{subquotes.available_date_2}}</option>
+							 <option value="{{quotes.available_date_3}}">{{subquotes.available_date_3}}</option>
+							</select>
+           </div>
+					<br>
+					<br>
+				<div class="col-sm-12 col-md-8">
+         <p style="color: #FF6600; font-size:10px;"><strong>Notes:</strong> <em>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore numquam aliquid dolores dolorum maxime alias ...</em></p>
+
 				</div>
 
- <div class="col-md-4 col-sm-4 col-xs-4" id="acceptDiv" >
 
-				<button class="btn btn-default " style="padding-left: 5%;"; id="accept"
-				ng-click="UserDashCtrl.confirm(quotes, UserDashCtrl.selectedTime)"><i class="fa fa-check-circle"></i> ACCEPT</button>
-			</div>
-		</div>
+					 <br>
+	 				<br>
+			 <div class="col-md-4 col-sm-4 col-xs-4" id="acceptDiv" style="padding-bottom: 5%;">
+
+			 <button class="btn btn-default " style="padding-left: 5%;" id="accept"
+			><i class="fa fa-check-circle"></i> ACCEPT</button>
+
+		 </div>
+		 	<!-- <br>
+		 <br> -->
+										</div>
+										<hr>
+
+							</div>
+
+
+
+					</div>
+        </li>
+				</ol>
+
 	</div>
-
+</div>
  		 </uib-tab>
+
+		 	 <uib-tab index= "'appointments'"  heading="Appointments" >
+<div class= "row">
+				 <div class="col-md-6 col-sm-12" id="mapDiv">
+			 	    <map  center="{{UserDashCtrl.local}}">
+			 				<marker position = "{{UserDashCtrl.local}}" animation="Animation.BOUNCE"  centered="true"> </marker>
+
+			 				<marker id='{{p.id}}' position="{{p.pos}}"
+			 					 ng-repeat="p in UserDashCtrl.positions2"
+			 					 on-click="UserDashCtrl.showDetail(p)"
+			 					 icon="{{p.map_icon_pics2}}"
+			 					 title="pos: {{p.pos}}"
+			 					 on-mouseover="UserDashCtrl.showDetail(p);"
+			 					 on-mouseout="UserDashCtrl.hideDetail()">
+			 					</marker>
+			      </map>
+			 	 </div>
+			 </div>
+		 	 </uib-tab>
+
+			 <uib-tab index= "'history'"  heading="History" >
+
+	history
+			 </uib-tab>
 	 </uib-tabset>
 
 
 
-</div>
+
 
 
 

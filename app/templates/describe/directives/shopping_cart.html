@@ -1,10 +1,10 @@
 <ul id="shoppingCart">
 
-  <li ng-class="{'btn-on': secondsibling.toggled, 'btn-off': !secondsibling.toggled}"
-  ng-repeat="secondsibling in describe.service.chosen track by $index" >{{secondsibling.name}}
+  <li  ng-class="{'btn-on': secondsibling.toggled, 'btn-off': !secondsibling.toggled}"
+  ng-repeat="secondsibling in describe.service.chosen track by $index" style="list-style-position:inside;" >{{secondsibling.name}}
 
 
-   <button ng-class="{'btn-on': secondsibling.toggled, 'btn-off': !secondsibling.toggled}"class="btn btn-primary btn-xs" ng-click="describe.service.remove(secondsibling); describe.toggleBtn(secondsibling)">X</button>
+   <button ng-class="{'btn-on': secondsibling.toggled, 'btn-off': !secondsibling.toggled}"class="btn btn-primary btn-xs" ng-click="describe.service.remove(secondsibling); describe.toggleBtn(secondsibling)" style="color:grey;">X</button>
 
   </li>
    	<ng-transclude></ng-transclude>

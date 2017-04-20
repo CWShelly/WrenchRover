@@ -503,8 +503,19 @@ module.exports = function(app) {
       return;
     };
 
+    if (localStorage.getItem('auto_array')) {
+      this.user_autos = JSON.parse(localStorage.getItem('auto_array'));
+      console.log(this.user_autos);
+
+    }
+
 
     this.addServiceRequests = function(value) {
+      console.log(value);
+
+
+    };
+    this.addServiceRequests2 = function(value) {
 
       this.requests = [];
       this.newRay = [];

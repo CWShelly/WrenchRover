@@ -2,7 +2,7 @@
 
 var baseUrl = require('../../config').baseUrl;
 module.exports = exports = function(app) {
-  app.controller('UserDashboardController', ['$http', 'NgMap', 'string', '$state', '$window', 'modalService', '$location', '$compile', '$interpolate', '$sce', function($http, NgMap, string, $state, $window, modalService, $location, $compile, $interpolate, $sce) {
+  app.controller('UserDashboardController', ['$http', 'NgMap', 'string', '$state', '$window', 'modalService', '$location', '$compile', '$interpolate', '$sce', '$timeout', function($http, NgMap, string, $state, $window, modalService, $location, $compile, $interpolate, $sce, $timeout) {
 
     this.key = string;
     var vm = this;
@@ -25,6 +25,10 @@ module.exports = exports = function(app) {
     // console.log('USHER DASH BOARDS');
     this.localCorrection = 'Seattle, WA';
     this.local = 'current-location';
+    this.dummy = function() {
+      console.log('this is a dummy function');
+    };
+
 
     if (localStorage.getItem('user_name')) {
       modalService.user_name = localStorage.getItem('user_name');
@@ -44,10 +48,17 @@ module.exports = exports = function(app) {
       this.li = 'My Dash';
     }
 
-
-    NgMap.getMap().then(function(map) {
+    console.log(NgMap);
+    NgMap.getMap('map').then(function() {
       vm.map = map;
+    //   vm.map = NgMap.initMap('map');
     });
+
+    vm.initMap = function(mapId) {
+      vm.map = NgMap.initMap(mapId);
+      console.log('vm.map 2', vm.map);
+    };
+
 
     vm.showDetail = function(e, shop) {
 
@@ -174,9 +185,14 @@ module.exports = exports = function(app) {
          }
          this.q = this.quicksortBasic(res.data.service_requests, 'auto_id');
         //  console.log(this.q);
+
+         console.log(res.data.autos);
+
+         window.localStorage.auto_array = JSON.stringify(res.data.autos);
+
          for (var i = 0; i < res.data.autos.length; i++) {
            this.all.push(
-             { id: i.toString(), make: res.data.autos[i].make, model: res.data.autos[i].model, requests: matchReq(res.data.service_requests, res.data.autos[i].id).results, service_request_ids: matchReq(res.data.service_requests, res.data.autos[i].id).service_request_ids
+             { id: i.toString(), make: res.data.autos[i].make, model: res.data.autos[i].model, year: res.data.autos[i].year.toString().slice(2), requests: matchReq(res.data.service_requests, res.data.autos[i].id).results, service_request_ids: matchReq(res.data.service_requests, res.data.autos[i].id).service_request_ids
              }
             );
 
@@ -251,18 +267,24 @@ module.exports = exports = function(app) {
     };
 
 
-    this.addRequest = function(vehicle) {
-      console.log(vehicle);
-      // put vehicle in storage
+    this.addRequest = function() {
 
+// remove anything stored in local storage
       $state.go('common_repairs_view.get_started');
+
     };
 
 
-    this.addVehicle = function(value) {
-      console.log('adding vehicle');
-      console.log(value);
-      $state.go('vehicle_dropdown_selection');
+    this.addVehicle = function() {
+      if (localStorage.getItem('auto_array')) {
+        this.user_autos = JSON.parse(localStorage.getItem('auto_array'));
+        console.log(this.user_autos);
+
+      }
+
+
+      localStorage.removeItem('service_requests');
+    //   $state.go('vehicle_dropdown_selection');
     };
 
 // ====testfunc2======
@@ -419,7 +441,7 @@ module.exports = exports = function(app) {
           return newArr;
         }
         this.bySCArr = three(this.unique);
-        this.finallyMaybe = four(this.bySCArr);
+        this.the_quotes_array = four(this.bySCArr);
         console.log(this.finallyMaybe);
 
         function four(arr) {
