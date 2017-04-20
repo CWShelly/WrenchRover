@@ -33,7 +33,7 @@
           <br>Mileage:  {{describe.service.storedVehicle.miles}}
 
 
-                <a style="color: red;"  ng-click ="describe.open()">Edit</a>
+                <a style="color: red;"  ng-click ="describe.open()">Edit Vehicle</a>
         </div>
 
         <!-- displays chosen list of services -->
@@ -63,7 +63,9 @@
 >Next Step<span class="glyphicon glyphicon-play"></span></button>
 
 
-<button ng-if = "describe.token != undefined || this.token != null" ng-controller="userSignUpController as $ctrl" ng-click="$ctrl.addServiceRequests()" class="btn btn-primary">Add New Request</button>
+<!-- <button ng-if = "describe.token != undefined || this.token != null" ng-controller="userSignUpController as $ctrl" ng-click="$ctrl.addServiceRequests()" class="btn btn-primary">Add New Request</button> -->
+<!-- <button ng-if = "describe.token != undefined || this.token != null" ng-controller="userSignUpController as $ctrl" ng-click="$ctrl.addServiceRequests('auto')" class="btn btn-primary">Add New Request</button> -->
+
 
 <span ng-if = "describe.token != undefined || this.token != null" ng-controller="userSignUpController as $ctrl">
 

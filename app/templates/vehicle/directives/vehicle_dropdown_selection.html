@@ -80,7 +80,7 @@
                    id="Vmileage1"
                    placeholder="{{VehicleInfoController.mileage}}"
                    data-ng-model="VehicleInfoController.vehicleObject.miles"
-                   disabled>
+                 >
           </div>
         </div>
         <div class="row">
@@ -102,7 +102,7 @@
                 <button class="btn btn-primary"
                         type="submit"
                           ng-show="VehicleInfoController.commService.editVehicle != true"
-                       
+
                         ng-click="VehicleInfoController.saveToLocalStorage()"
 >
                         {{buttonText}}

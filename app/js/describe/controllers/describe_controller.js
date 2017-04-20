@@ -4,6 +4,11 @@ var baseUrl = require('../../config').baseUrl;
 module.exports = function(app) {
   app.controller('describeController', ['cmService', '$http', '$anchorScroll', '$location', '$state', '$uibModal', 'modalService', function( cmService, $http, $anchorScroll, $location, $state, $uibModal, modalService) {
 
+    // if (!localStorage.getItem('token')) {
+    //   $state.go('vehicle_dropdown_selection');
+    // }
+
+
     if (!localStorage.getItem('vehicle')) {
       $state.go('vehicle_dropdown_selection');
     }
