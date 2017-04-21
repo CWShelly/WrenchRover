@@ -4,7 +4,10 @@ var baseUrl = require('../../config').baseUrl;
 var modalObj = require('../../modalObject').modalObj;
 
 module.exports = function(app) {
-  app.controller('userSignUpController', ['wrResource', '$http', '$state', 'wrHandleError', 'modalService', '$uibModal', '$window', function(Resource, $http, $state, wrError, modalService, $uibModal, $window) {
+  app.controller('userSignUpController', ['wrResource', '$http', '$state', 'wrHandleError', 'modalService', '$uibModal', '$window', '$location', function(Resource, $http, $state, wrError, modalService, $uibModal, $window, $location) {
+    console.log($state.params);
+    // console.log($state);
+    console.log($state);
     var that = this;
     this.service = modalService;
     this.msg = 'Create New Account';
@@ -30,6 +33,39 @@ module.exports = function(app) {
     //   this.heading2 = 'My Profile';
     }
 
+
+    this.captureUrl = function() {
+      console.log('GETTTTING URLS');
+
+    //   console.log($route);
+    //   $route.current.params;
+      console.log($state.params.token);
+    //   console.log($location.url());
+    //   console.log($location.absUrl());
+      this.the_path = $location.url();
+      that.the_path = $location.url();
+
+      this.the_path = $state.params.token;
+      that.the_path = $state.params.token;
+    };
+// ///passwords
+    this.dummy = function(value) {
+      console.log(value);
+
+      this.obj = {
+        user_email: value
+      };
+      console.log(this.obj);
+      console.log('this is a dummy function');
+//   return 5;
+
+      $http.post(baseUrl + '/passwords/forgot', this.obj)
+.then((res) => {
+  console.log(res);
+});
+    };
+
+// /////passwords
     this.user_autos = [];
     this.user_requests = [];
     this.all = [];
