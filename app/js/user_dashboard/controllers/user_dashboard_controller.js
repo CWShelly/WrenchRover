@@ -9,24 +9,25 @@ module.exports = exports = function(app) {
     vm.positions = [];
     vm.positions2 = [];
     var loc_obj = {};
-    this.url = 'https://wrenchroverapi.herokuapp.com/';
-    this.count = 0;
     this.all = [];
-    this.static_index_tabs = [
-        { title: 'Appointments', content: 'appointmetns heres' },
-        { title: 'History', content: 'historys here' }
-    ];
+    this.gps_array = [];
+    this.gps_test = [122, 44.23];
+    this.gps_testlat = 122;
+    this.the_user_zip;
 
+
+    console.log(typeof this.gps_test[0]);
     this.appointment = {};
     this.acceptedObject = {};
     this.service_requests_count = 0;
     this.modalService = modalService;
     this.message = 'We are currently digging for offers';
-    // console.log('USHER DASH BOARDS');
+    console.log('USHER DASH BOARDS');
     this.localCorrection = 'Seattle, WA';
     this.local = 'current-location';
     this.dummy = function() {
       console.log('this is a dummy function');
+    //   return 5;
     };
 
 
@@ -48,11 +49,6 @@ module.exports = exports = function(app) {
       this.li = 'My Dash';
     }
 
-    console.log(NgMap);
-    NgMap.getMap('map').then(function() {
-      vm.map = map;
-    //   vm.map = NgMap.initMap('map');
-    });
 
     vm.initMap = function(mapId) {
       vm.map = NgMap.initMap(mapId);
@@ -109,10 +105,40 @@ module.exports = exports = function(app) {
       '../../../images/map_icons/number_9.png',
       '../../../images/map_icons/number_10.png' ];
 
-
+    // vm.map;
     NgMap.getMap().then(function(map) {
       vm.map = map;
+
+      console.log(navigator);
+
+    //   console.log(navigator.geolocation.getCurrentPosition(function(position) {
+    //     console.log(position);
+    //     var lat = position.coords.latitude;
+    //     var lng = position.coords.longitude;
+      //
+    //   }));
+
+
+      console.log(navigator.geolocation.getCurrentPosition(function(position) {
+        console.log(position);
+      }));
+
+      if (navigator.geolocation.getCurrentPosition(function(position) {
+        console.log(position);
+      }) == undefined) {
+        console.log(vm.the_user_zip);
+        NgMap.getGeoLocation(vm.the_user_zip)
+              .then((latlng) => {
+                console.log(latlng);
+                console.log(latlng.lat());
+                vm.map.setCenter({ lat: latlng.lat(), lng: latlng.lng() });
+              });
+
+      }
+
+
     });
+
 
     if (localStorage.getItem('user_id')) {
 
@@ -175,14 +201,28 @@ module.exports = exports = function(app) {
         $state.go('vehicle_dropdown_selection');
       }
 
-      $http.get(this.url + 'users/' + this.user_id)
+    //   console.log(NgMap);
+    //   NgMap.getMap().then(function(map) {
+    //     vm.map = map;
+    //   });
+
+      $http.get(baseUrl + 'users/' + this.user_id)
        .then((res) => {
+         console.log(vm.map);
+
+         console.log(res.data.user_zip);
+         this.the_user_zip = res.data.user_zip;
+         vm.the_user_zip = res.data.user_zip;
+         this.localCorrection = 'Seattle, WA';
+         this.local = 'current-location';
+
+        //  this.local = 'current-location' || 'Seattle, WA';
+
            // fallback in case GPS doesn't work.
          vm.localCorrection = JSON.stringify(res.data.user_zip);
-         if (this.local[0] == 0 && this.local[1] == 0 && res.data.user_zip == null) {
-           console.log("GPS issue, using user's zip");
-           vm.local = vm.localCorrection;
-         }
+         console.log(vm.localCorrection);
+
+
          this.q = this.quicksortBasic(res.data.service_requests, 'auto_id');
         //  console.log(this.q);
 
@@ -299,62 +339,11 @@ module.exports = exports = function(app) {
 
 // ====testfunc2======
 
-    this.testfunc2 = function(value) {
-
-
-      this.quoteArray = [];
-      console.log(value);
-      this.all_array = [];
-      this.all_sc = [];
-      var val_sri_arr = value.service_request_ids;
-
-      $http.get(baseUrl + 'service_quotes')
-      .then((res) => {
-        for (var i = 0; i < res.data.length; i++) {
-          if (val_sri_arr.indexOf(res.data[i].service_request_id) != -1) {
-            this.all_array.push(res.data[i]);
-            this.all_sc.push(res.data[i].service_center.id);
-          }
-        }
-
-        // if(this.all_array.length == 0){
-        this.unique = this.all_sc.filter(function(el, i, arr) {
-          return arr.indexOf(el) === i;
-        });
-
-
-        function x(arr, item) {
-          ray3 = [];
-          for (var i = 0; i < arr.length; i++) {
-            if (arr[i].service_center.id === item) {
-              ray3.push(arr[i]);
-            }
-          }
-          return ray3;
-        }
-
-
-        function three(arr) {
-          console.log('yes');
-          var newArr = [];
-          for (var i = 0; i < arr.length; i++) {
-            newArr.push(x(vm.all_array, arr[i]));
-            // vm.bySCArr = x(vm.all_array, arr[i]);
-
-            // vm.try = x(vm.all_array, arr[i]);
-          }
-          return newArr;
-        }
-        this.bySCArr = three(this.unique);
-
-
-      });
-    };
 
 // ====== testfunc ======
 
-    this.testfunc = function(value) {
-      console.log('something');
+    this.getBids = function(value) {
+      console.log('getting bids for ' + value);
       console.log(value);
 
       this.all_service_centers_id = [];
@@ -362,26 +351,20 @@ module.exports = exports = function(app) {
 
       var arr = value.service_request_ids;
 
-
       $http.get(baseUrl + 'service_quotes')
       .then((res) => {
         var testfuncarray = [];
-
-
         for (var i = 0; i < res.data.length; i++) {
           if (arr.indexOf(res.data[i].service_request_id) != -1) {
-            console.log(res.data[i]);
             this.all_service_centers_id.push(res.data[i].service_center.id);
-
             this.unique_service_centers_ids = this. all_service_centers_id.filter(function(el, i, arr) {
               return arr.indexOf(el) === i;
             });
 
             console.log(this.unique_service_centers_ids);
-            // ///////
+
             if (this.all_service_centers_id.length > 0) {
 
-            // ///////
               testfuncarray.push(res.data[i]);
               getWorkRequest(res.data[i]);
               function getWorkRequest(value) {
@@ -391,14 +374,9 @@ module.exports = exports = function(app) {
                   value.work_request = JSON.parse(res.data.work_request);
                 });
 
-
               }
 
               console.log(this.unique_service_centers_ids);
-
-
-              console.log(testfuncarray);
-
 
             }
           }
@@ -409,7 +387,6 @@ module.exports = exports = function(app) {
 
           this.quotes_by_car = testfuncarray;
 
-// try by unique service center begins ===========
           this.all_sc = [];
           for (var i = 0; i < testfuncarray.length; i++) {
             this.all_sc.push(testfuncarray[i].service_center_id);
@@ -442,17 +419,9 @@ module.exports = exports = function(app) {
             console.log('yes');
             var newArr = [];
             for (var i = 0; i < arr.length; i++) {
-
               newArr.push(x(testfuncarray, arr[i]));
-
-            // newObj['prop' + i] = x(testfuncarray, arr[i]);
-            // console.log(x(testfuncarray, arr[i]));
-
             }
-        //   console.log(newObj);
 
-        //   newArr.push(newObj);
-        //   return newObj;
             return newArr;
           }
           this.bySCArr = three(this.unique);
@@ -475,12 +444,8 @@ module.exports = exports = function(app) {
             console.log(this.yObj);
 
 
-        //   return this.yObj;
             return this.yArr;
           }
-        // }
-
-          this.testArray = [ ['one', 'two', 'three'], ['four', 'five', 'six']];
 
 
 // get new map marker sc only
@@ -514,22 +479,15 @@ module.exports = exports = function(app) {
             }
             console.log(this.unique_markers);
             console.log(vm.positions2);
-
-
           }
 
           scMarkers(this.unique);
 
-// get new map marker sc only end
         }
         console.log('noooooooo quooooootes');
       });
 
-    //   console.log('no stuff heres');
-// }
-// else{
-//     console.log('no quotes yet');
-// }
+
     };
 
 
@@ -564,30 +522,10 @@ module.exports = exports = function(app) {
         }
       }
       this.dupeObj = { results: this.results, service_request_ids: this.service_request_ids };
-    //   console.log(this.dupeObj);
+
       return this.dupeObj;
     };
 
-
-// ///
-    this.findDupes2 = function(arr, item, theProp) {
-      this.results = [];
-      this.new_array = [];
-      for (var i = 0; i < arr.length; i++) {
-        if (arr[i].service_center.id == item) {
-          this.new_array.push(arr[i].id);
-          this.results.push(arr[i]);
-        }
-      }
-    //   this.dupeObj = { results: this.results, service_request_ids: this.service_request_ids };
-
-
-      console.log(this.dupeObj);
-      return this.dupeObj;
-    };
-
-
-// ///
 
   }
   ]);
