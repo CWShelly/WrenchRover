@@ -25,9 +25,20 @@ module.exports = exports = function(app) {
     console.log('USHER DASH BOARDS');
     this.localCorrection = 'Seattle, WA';
     this.local = 'current-location';
-    this.dummy = function() {
+
+    this.dummy = function(value) {
+      console.log(value);
+
+      this.obj = {
+        user_email: value
+      };
       console.log('this is a dummy function');
     //   return 5;
+
+      $http.post(baseUrl + '/passwords/forgot', value)
+    .then((res) => {
+      console.log(res);
+    });
     };
 
 

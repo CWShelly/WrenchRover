@@ -9,8 +9,10 @@ require('gm.datepicker-multi-select');
 var config = require('../config.js');
 
 
-var wrApp = angular.module('wrApp', ['wrApp.config', require('angular-route'), 'ngAnimate', 'ngSanitize', 'ui.bootstrap', 'gm.datepickerMultiSelect', 'ui.router', 'ngMap']);
+// var wrApp = angular.module('wrApp', ['wrApp.config', require('angular-route'), 'ngAnimate', 'ngSanitize', 'ui.bootstrap', 'gm.datepickerMultiSelect', 'ui.router', 'ngMap']);
 
+
+var wrApp = angular.module('wrApp', ['wrApp.config', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', 'gm.datepickerMultiSelect', 'ui.router', 'ngMap']);
 require('./services')(wrApp);
 require('./maps')(wrApp);
 require('./service_centers')(wrApp);
@@ -162,11 +164,12 @@ wrApp.config( function($stateProvider, $urlRouterProvider) {
   controllerAs: 'UserDashCtrl'
 })
 
+
 .state('pending', {
-  url: '/Password/reset?token=jnsbbwbwbrbbb12nn888b-9292',
+  url: '/password/reset?token',
   templateUrl: 'templates/user/views/pending.html',
-  controller: 'UserDashboardController',
-  controllerAs: 'UserDashboardController'
+  controller: 'userSignUpController',
+  controllerAs: 'userctrl'
 })
 
 .state('contact_us_view', {
