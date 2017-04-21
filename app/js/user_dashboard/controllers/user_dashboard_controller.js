@@ -218,7 +218,6 @@ module.exports = exports = function(app) {
 
         //  this.local = 'current-location' || 'Seattle, WA';
 
-           // fallback in case GPS doesn't work.
          vm.localCorrection = JSON.stringify(res.data.user_zip);
          console.log(vm.localCorrection);
 
