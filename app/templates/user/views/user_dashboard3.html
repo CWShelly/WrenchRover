@@ -69,7 +69,7 @@
 <!--/////////////////// START TABS /////////////////////-->
 	 <uib-tabset active="active" >
 
-		 <uib-tab index="$index+1" ng-repeat="car in UserDashCtrl.all" heading="{{car.make}} {{car.model}}"  select="UserDashCtrl.testfunc(car)" ng-click="NgMap.initMap('foo')" >
+		 <uib-tab index="$index+1" ng-repeat="car in UserDashCtrl.all" heading="{{car.make}} {{car.model}}"  select="UserDashCtrl.getBids(car)" ng-click="NgMap.initMap('foo')" >
 
 
 
@@ -78,7 +78,7 @@
 <!-- ========MAP======== -->
 
   <div class="col-md-6 col-sm-12" id="mapDiv" >
-	    <ng-map  center="{{UserDashCtrl.local}}" id="foo">
+	    <!-- <ng-map  center="{{UserDashCtrl.local}}" id="foo">
 				<marker position = "{{UserDashCtrl.local}}" animation="Animation.BOUNCE"  centered="true"> </marker>
 
 				<marker id='{{p.id}}' position="{{p.pos}}"
@@ -89,8 +89,21 @@
 					 on-mouseover="UserDashCtrl.showDetail(p);"
 					 on-mouseout="UserDashCtrl.hideDetail()">
 					</marker>
-     </ng-map>
+     </ng-map> -->
 
+
+		 <!-- <ng-map  center="[45, 23.22]"    id="foo"> -->
+			 <!-- <marker position = "center-location"   geo-fallback-center="40.74, -74.18" animation="Animation.BOUNCE"  centered="true"> </marker>
+
+			 <marker id='{{p.id}}' position="{{p.pos}}"
+					ng-repeat="p in UserDashCtrl.positions2"
+					on-click="UserDashCtrl.showDetail(p)"
+					icon="{{p.map_icon_pics2}}"
+					title="pos: {{p.pos}}"
+					on-mouseover="UserDashCtrl.showDetail(p);"
+					on-mouseout="UserDashCtrl.hideDetail()">
+				 </marker> -->
+		<!-- </ng-map> -->
 
 	 </div>
 
@@ -155,8 +168,9 @@
 
 		 	 <uib-tab index= "'appointments'"  heading="Appointments" >
 <div class= "row">
-				 <div class="col-md-6 col-sm-12" id="mapDiv">
-			 	    <map  center="{{UserDashCtrl.local}}">
+				<div class="col-md-6 col-sm-12" id="mapDiv">
+
+			 	    <!-- <ng-map  center="{{UserDashCtrl.local}}">
 			 				<marker position = "{{UserDashCtrl.local}}" animation="Animation.BOUNCE"  centered="true"> </marker>
 
 			 				<marker id='{{p.id}}' position="{{p.pos}}"
@@ -167,7 +181,16 @@
 			 					 on-mouseover="UserDashCtrl.showDetail(p);"
 			 					 on-mouseout="UserDashCtrl.hideDetail()">
 			 					</marker>
-			      </map>
+			      </ng-map>  -->
+
+				 <!-- <ng-map center='current-position'
+				geo-fallback-center="[14.58, 121.05]"
+				geo-callback="initLocation()">
+</ng-map> -->
+<ng-map center='"current-location"'
+>
+</ng-map>
+
 			 	 </div>
 			 </div>
 		 	 </uib-tab>
