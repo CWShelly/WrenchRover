@@ -15,7 +15,7 @@ module.exports = exports = function(app) {
     this.gps_testlat = 122;
     this.the_user_zip;
 
-
+    this.song = 'hole in my pocket';
     console.log(typeof this.gps_test[0]);
     this.appointment = {};
     this.acceptedObject = {};
@@ -25,6 +25,15 @@ module.exports = exports = function(app) {
     console.log('USHER DASH BOARDS');
     this.localCorrection = 'Seattle, WA';
     this.local = 'current-location';
+
+    this.selectedTime;
+    this.captureDate = function(value, value2) {
+    //   console.log('get the date');
+      console.log(value);
+      console.log(value2);
+
+      this.selectedTime = value2;
+    };
 
     this.dummy = function(value) {
       console.log(value);
@@ -81,10 +90,6 @@ module.exports = exports = function(app) {
     };
 
 
-    vm.captureDate = function(value) {
-      console.log('get the date');
-      console.log(value);
-    };
     vm.hideDetail = function() {
       console.log('hide hte detail');
     };
