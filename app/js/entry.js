@@ -9,9 +9,6 @@ require('gm.datepicker-multi-select');
 var config = require('../config.js');
 
 
-// var wrApp = angular.module('wrApp', ['wrApp.config', require('angular-route'), 'ngAnimate', 'ngSanitize', 'ui.bootstrap', 'gm.datepickerMultiSelect', 'ui.router', 'ngMap']);
-
-
 var wrApp = angular.module('wrApp', ['wrApp.config', 'ngAnimate', 'ngSanitize', 'ui.bootstrap', 'gm.datepickerMultiSelect', 'ui.router', 'ngMap']);
 require('./services')(wrApp);
 require('./maps')(wrApp);
@@ -36,6 +33,7 @@ require('./mega')(wrApp);
 wrApp.run(function($rootScope) {
   $rootScope.$on('mapInitialized', function(evt, map) {
     // console.log('yay!!!!');
+    console.log(map);
     $rootScope.mymap = map;
     $rootScope.$apply();
   });
