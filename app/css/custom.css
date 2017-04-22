@@ -97,13 +97,11 @@ span.dropt:hover span {margin: 20px 0 0 10px; left: 10px; background: #fff; z-in
   .navbar-brand img {width:90%;height:auto;}
 }
 
-#mapDiv{
-  /*border: 1px solid red;*/
+
+.mapDiv{
   padding-left: 5%;
   padding-right: 5%;
 }
-
-
 
 @media only screen and (max-width: 768px) {
 

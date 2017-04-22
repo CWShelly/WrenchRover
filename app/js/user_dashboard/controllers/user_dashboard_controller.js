@@ -10,28 +10,19 @@ module.exports = exports = function(app) {
     vm.positions2 = [];
     var loc_obj = {};
     this.all = [];
-    this.gps_array = [];
-    this.gps_test = [122, 44.23];
-    this.gps_testlat = 122;
-    this.the_user_zip;
+    this.the_user_zip = '20036';
 
-    this.song = 'hole in my pocket';
-    console.log(typeof this.gps_test[0]);
     this.appointment = {};
     this.acceptedObject = {};
     this.service_requests_count = 0;
     this.modalService = modalService;
     this.message = 'We are currently digging for offers';
-    console.log('USHER DASH BOARDS');
-    this.localCorrection = 'Seattle, WA';
-    this.local = 'current-location';
+
 
     this.selectedTime;
     this.captureDate = function(value, value2) {
-    //   console.log('get the date');
       console.log(value);
       console.log(value2);
-
       this.selectedTime = value2;
     };
 
@@ -49,9 +40,7 @@ module.exports = exports = function(app) {
       console.log(res);
     });
     };
-    this.foo;
 
-    this.dummyList = ['red bull', 'red bull one', 'red bull two'];
 
     if (localStorage.getItem('user_name')) {
       modalService.user_name = localStorage.getItem('user_name');
@@ -71,28 +60,6 @@ module.exports = exports = function(app) {
       this.li = 'My Dash';
     }
 
-
-    vm.initMap = function(mapId) {
-      vm.map = NgMap.initMap(mapId);
-      console.log('vm.map 2', vm.map);
-    };
-
-    vm.joke = 'why did the chicken';
-
-
-    vm.showDetail = function(e, shop) {
-
-      console.log('show the etail');
-      console.log(shop);
-    //   vm.shop = shop;
-    //   vm.map.showInfoWindow('foo-iw', shop.id);
-    //   console.log(vm.map);
-    };
-
-
-    vm.hideDetail = function() {
-      console.log('hide hte detail');
-    };
 
     this.closeDropDown = function() {
       console.log('closing the drop down');
@@ -125,38 +92,6 @@ module.exports = exports = function(app) {
       '../../../images/map_icons/number_10.png' ];
 
     // vm.map;
-    NgMap.getMap().then(function(map) {
-      vm.map = map;
-
-      console.log(navigator);
-
-    //   console.log(navigator.geolocation.getCurrentPosition(function(position) {
-    //     console.log(position);
-    //     var lat = position.coords.latitude;
-    //     var lng = position.coords.longitude;
-      //
-    //   }));
-
-
-      console.log(navigator.geolocation.getCurrentPosition(function(position) {
-        console.log(position);
-      }));
-
-      if (navigator.geolocation.getCurrentPosition(function(position) {
-        console.log(position);
-      }) == undefined) {
-        console.log(vm.the_user_zip);
-        NgMap.getGeoLocation(vm.the_user_zip)
-              .then((latlng) => {
-                console.log(latlng);
-                console.log(latlng.lat());
-                vm.map.setCenter({ lat: latlng.lat(), lng: latlng.lng() });
-              });
-
-      }
-
-
-    });
 
 
     if (localStorage.getItem('user_id')) {
@@ -221,32 +156,17 @@ module.exports = exports = function(app) {
       }
 
 
-      this.joke2 = 'cross hte road';
-    //   console.log(NgMap);
-    //   NgMap.getMap().then(function(map) {
-    //     vm.map = map;
-    //   });
-
       $http.get(baseUrl + 'users/' + this.user_id)
        .then((res) => {
-         console.log(vm.map);
 
          console.log(res.data.user_zip);
+
          this.the_user_zip = res.data.user_zip;
          vm.the_user_zip = res.data.user_zip;
-         this.localCorrection = 'Seattle, WA';
-         this.local = 'current-location';
-
-        //  this.local = 'current-location' || 'Seattle, WA';
-
-         vm.localCorrection = JSON.stringify(res.data.user_zip);
-         console.log(vm.localCorrection);
-
-
+         console.log(this.the_user_zip);
          this.q = this.quicksortBasic(res.data.service_requests, 'auto_id');
-        //  console.log(this.q);
 
-         console.log(res.data.autos);
+        //  console.log(res.data.autos);
 
          window.localStorage.auto_array = JSON.stringify(res.data.autos);
 
@@ -262,37 +182,30 @@ module.exports = exports = function(app) {
            var arr2 = matchReq(res.data.service_requests, res.data.autos[i].id).results;
 
            function matchQuotes(arr) {
-             console.log(arr);
+            //  console.log(arr);
              for (var j = 0; j < arr.length; j++) {
                $http.get(baseUrl + 'service_requests/' + arr[j].id)
                   .then((res) => {
-
                     console.log(res.data);
                     if (res.data.length > 0 ) {
                       arr[j].quotes = [{ id: j.toString(), quotes: res.data.service_quotes }];
                     } else {
                       return;
-
                     }
                   });
                return arr[j].quotes;
              }
            }
-
-
          }
 
-         console.log(this.all);
-         console.log(this.all.length);
+        //  console.log(this.all);
          this.demo = 0;
          this.demo2 = 0;
 
          function matchReq(arr, key) {
-           console.log(arr);
+        //    console.log(arr);
            for (var i = 0; i < arr.length; i++) {
              if (arr[i].auto_id == key) {
-            //    console.log(arr[i].auto_id);
-            //    console.log(vm.q);
                return vm.findDupes(vm.q, arr[i].auto_id);
              }
            }
@@ -303,9 +216,6 @@ module.exports = exports = function(app) {
        //  get user's date of signup:
          var month = parseInt(res.data.created_at.slice(5, 7), 10);
          var year = res.data.created_at.slice(0, 4);
-        //  console.log(year);
-         // 4/8/17 --join year shows at 2016?? I mean, that would be cool if we got to do 2016 over.
-
          var monthsArray = ['January', 'February', 'March', 'April', 'May',
            'June', 'July', 'August', 'September', 'October',
            'November', 'December'];
@@ -314,7 +224,6 @@ module.exports = exports = function(app) {
          this.userObject = res.data;
          this.userObject.memberSince = memberDate;
          this.user_id_mini = this.userObject.user_name;
-
 
        });}.bind(this);
 
@@ -357,17 +266,64 @@ module.exports = exports = function(app) {
     //   $state.go('vehicle_dropdown_selection');
     };
 
-// ====testfunc2======
 
-
-// ====== testfunc ======
+// ==================GETBIDS====================
 
     this.getBids = function(value) {
-      console.log('getting bids for ' + value);
-      console.log(value);
+      console.log(vm.the_user_zip);
+      console.log(this.the_user_zip);
+
+
+      NgMap.getMap().then(function(map) {
+        console.log(map);
+        console.log(map.getCenter().lat());
+        // console.log('markers', map.markers);
+        // console.log('shapes', map.shapes);
+        console.log(navigator);
+
+        // console.log( navigator.geolocation.getCurrentPosition(function(position) {
+        //   console.log(position);
+        //   return 5;
+        // }));
+
+
+        navigator.geolocation.getCurrentPosition(function(position) {
+          console.log(position);
+          return 5;
+        });
+      });
+
+
+    //   NgMap.getMap().then(function(map) {
+    //     console.log('get bids map part');
+      //
+    //     vm.map = map;
+    //     if (navigator.geolocation.getCurrentPosition(function(position) {
+    //       console.log(position);
+    //     }) == undefined) {
+    //       console.log('the gps is off');
+    //       console.log(vm.the_user_zip);
+    //       NgMap.getGeoLocation('85251')
+    //               .then((latlng) => {
+    //                 // console.log(latlng);
+    //                 console.log(latlng.lat());
+    //                 vm.map.setCenter({ lat: latlng.lat(), lng: latlng.lng() });
+    //               });
+    //     } else {
+    //       console.log('not undefined');
+    //       NgMap.getGeoLocation('80525')
+    //                 .then((latlng) => {
+    //                   // console.log(latlng);
+    //                   console.log(latlng.lat());
+    //                   vm.map.setCenter({ lat: latlng.lat(), lng: latlng.lng() });
+    //                 });
+      //
+    //     }
+    //   });
+
 
       this.all_service_centers_id = [];
-      console.log(value.service_request_ids);
+    //   console.log(value.service_request_ids);
 
       var arr = value.service_request_ids;
 
@@ -388,7 +344,7 @@ module.exports = exports = function(app) {
               return arr.indexOf(el) === i;
             });
 
-            console.log(this.unique_service_centers_ids);
+            // console.log(this.unique_service_centers_ids);
 
             // if (this.all_service_centers_id.length > 0) {
 
@@ -403,13 +359,13 @@ module.exports = exports = function(app) {
 
             }
 
-            console.log(this.unique_service_centers_ids);
+            // console.log(this.unique_service_centers_ids);
 
           }
         }
 
 
-        console.log(testfuncarray);
+        // console.log(testfuncarray);
 
 
         this.quotes_by_car = testfuncarray;
@@ -423,14 +379,14 @@ module.exports = exports = function(app) {
         this.unique = this.all_sc.filter(function(el, i, arr) {
           return arr.indexOf(el) === i;
         });
-        console.log(this.unique);
+        // console.log(this.unique);
 
         function x(arr, item) {
           this.ray3 = [];
 
           for (var i = 0; i < arr.length; i++) {
             if (arr[i].service_center.id === item) {
-              console.log(arr[i]);
+            //   console.log(arr[i]);
               this.ray3.push(arr[i]);
             }
           }
@@ -441,26 +397,22 @@ module.exports = exports = function(app) {
 
         function three(arr) {
           var newObj = {};
-
-          newArr = [];
-          console.log('yes');
           var newArr = [];
           for (var i = 0; i < arr.length; i++) {
             newArr.push(x(testfuncarray, arr[i]));
           }
-
           return newArr;
         }
         this.bySCArr = three(this.unique);
         this.the_quotes_array = four(this.bySCArr);
-        console.log(this.finallyMaybe);
+        // console.log(this.finallyMaybe);
 
         function four(arr) {
-          console.log(arr.length);
+        //   console.log(arr.length);
           this.yObj = {};
           this.yArr = [];
           for (var i = 0; i < arr.length; i++) {
-            console.log(arr[i][0].service_center.service_name);
+            // console.log(arr[i][0].service_center.service_name);
 
 
             this.yObj = { name: arr[i][0].service_center.service_name, theArray: arr[i] };
@@ -468,7 +420,7 @@ module.exports = exports = function(app) {
 
           }
 
-          console.log(this.yObj);
+        //   console.log(this.yObj);
 
 
           return this.yArr;
@@ -483,7 +435,7 @@ module.exports = exports = function(app) {
           for (var i = 0; i < arr.length; i++) {
             $http.get(baseUrl + 'service_centers/' + arr[i].toString())
             .then((res) => {
-              console.log(res.data);
+            //   console.log(res.data);
 
             //   return this.unique_markers.push(res.data);
 
@@ -504,8 +456,8 @@ module.exports = exports = function(app) {
             vm.positions2[j].map_icon_pics2 = map_icons[j];
             vm.positions2[j].item_number = j + 1;
           }
-          console.log(this.unique_markers);
-          console.log(vm.positions2);
+        //   console.log(this.unique_markers);
+        //   console.log(vm.positions2);
         }
 
         scMarkers(this.unique);
