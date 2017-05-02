@@ -8,7 +8,7 @@ module.exports = function(app) {
       transclude: true,
       templateUrl: '/templates/user/directives/password.html',
       scope: {
-        login: '=',
+
         buttonText: '@',
         buttonLabel: '@',
         action: '@',

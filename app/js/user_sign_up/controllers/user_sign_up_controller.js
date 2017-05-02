@@ -37,11 +37,8 @@ module.exports = function(app) {
     this.captureUrl = function() {
       console.log('GETTTTING URLS');
 
-    //   console.log($route);
-    //   $route.current.params;
       console.log($state.params.token);
-    //   console.log($location.url());
-    //   console.log($location.absUrl());
+
       this.the_path = $location.url();
       that.the_path = $location.url();
 
@@ -51,6 +48,7 @@ module.exports = function(app) {
 // ///passwords
     this.dummy = function(value) {
       console.log(value);
+      console.log('aflieajeia');
 
       this.obj = {
         user_email: value
@@ -59,9 +57,22 @@ module.exports = function(app) {
       console.log('this is a dummy function');
 //   return 5;
 
-      $http.post(baseUrl + '/passwords/forgot', this.obj)
+      $http.post(baseUrl + 'passwords/forgot', value)
 .then((res) => {
   console.log(res);
+  console.log(res.data.token);
+  var token = res.data.token;
+
+  $http.post(baseUrl + 'passwords/reset' + '?token=' + token)
+  .then((res) => {
+    console.log(res);
+    console.log($state.params.token);
+
+  });
+})
+.catch((error) => {
+  console.log(error);
+  console.log('errorrrorr');
 });
     };
 
