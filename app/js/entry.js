@@ -170,6 +170,14 @@ wrApp.config( function($stateProvider, $urlRouterProvider) {
   controllerAs: 'userctrl'
 })
 
+
+.state('reset', {
+  url: '/reset',
+  templateUrl: 'templates/user/directives/password.html',
+  controller: 'userSignUpController',
+  controllerAs: 'userctrl'
+})
+
 .state('contact_us_view', {
   url: '/contact',
   templateUrl: 'templates/user/views/contact_us_view.html',

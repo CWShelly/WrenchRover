@@ -1,0 +1,57 @@
+
+
+  <div class="col-md-5 col-sm-12" style="margin-top:15px;color: #FF6600; color: blue"   >
+
+
+				<ol style="list-style-type:decimal;">
+				<li  class="mapListNumber" style="list-style-type:none;" ng-repeat="quotes in UserDashCtrl.the_quotes_array">
+						<div class="row" style="margin:-27px 0 0 0;">
+
+
+								<div class="col-md-12 col-sm-12 col-xs-10 inline mapListCompany" style="padding-left:12%;" >
+
+								<p style="background: #FF6600; color: white;">	{{quotes.name}}</p>
+
+										<div  ng-repeat="subquotes in quotes.theArray" class="row" style="font-size: 16px;">
+                      <span class="col-sm-6"> {{subquotes.work_request}}</span>
+											<span class="col-sm-3 pull-right">${{subquotes.quote_cost}}</span>
+
+           <div class="col-md-12 col-sm-12">
+
+             <avails></avails>
+
+
+             <button class="btn btn-default " style="padding-left: 5%;" id="accept"
+            ng-click="UserDashCtrl.captureDate(subquotes, UserDashCtrl.selectedTime)"><i class="fa fa-check-circle" ></i> ACCEPT</button>
+
+
+           </div>
+					<br>
+					<br>
+				<div class="col-sm-12 col-md-8">
+         <p style="color: #FF6600; font-size:10px;"><strong>Notes:</strong> <em>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore numquam aliquid dolores dolorum maxime alias ...</em></p>
+
+				</div>
+
+
+					 <br>
+	 				<br>
+			 <div class="col-md-4 col-sm-4 col-xs-4" id="acceptDiv" style="padding-bottom: 5%;">
+
+			 <!-- <button class="btn btn-default " style="padding-left: 5%;" id="accept"
+			><i class="fa fa-check-circle" ng-click="UserDashCtrl.captureDate(UserDashCtrl.selectedTime)"></i> ACCEPT</button> -->
+
+		 </div>
+
+										</div>
+										<hr>
+
+							</div>
+
+
+
+					</div>
+        </li>
+				</ol>
+
+	</div>

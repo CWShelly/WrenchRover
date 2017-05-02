@@ -3,4 +3,5 @@ module.exports = exports = function(app) {
   require('./dash_dir.js')(app);
   require('./quotes.js')(app);
   require('./avails.js')(app);
+  require('./dash_slug.js')(app);
 };

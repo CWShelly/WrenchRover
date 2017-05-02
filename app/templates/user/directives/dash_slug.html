@@ -1,0 +1,22 @@
+<div class="row apptRow">
+  <div class="col-md-2 col-sm-12 apptHead" style="line-height:80px;height:80px;text-align:center;">
+    <h4>Message TBD</h4>
+  </div>
+  <div class="col-md-3 col-sm-12" style="padding:0;">
+    <div class="apptHead">Your Vehicle(s) 	 <a ng-click="UserDashCtrl.addVehicle()"  style="color:white; float: right;">Add a vehicle</a></div>
+    <div style="display:inline;" class="apptText"><span  ng-if="UserDashCtrl.userObject.autos.length ==0"> You haven't entered a car.<br><a style="color: white;"  ng-controller="vehicleModalController as $ctrl" ng-click ="$ctrl.open()">Add a vehicle</a></span>
+    </div>
+    <span ng-repeat="car in UserDashCtrl.all" style="display:inline; color: white;"> 
+           <a ng-class="{myColor: UserDashCtrl.demo == $index}" ng-click="UserDashCtrl.demo = $index" style="color:white;" >{{car.year}} {{car.make}} {{car.model}} &nbsp; &nbsp;</a>
+    </span>
+  </div>
+  <div class="col-md-3 col-sm-12" style="padding:0;">
+    <div class="apptHead">Services <span style="float: right;">			<a ng-click="UserDashCtrl.addRequest()" style="color: white;">Add a request</a></span></div>
+
+    <div class="apptText" ng-repeat="car in UserDashCtrl.all">  <span  ng-if="UserDashCtrl.userObject.service_requests.length ==0">  <a style="color: white;" ng-click ="UserDashCtrl.addRequest()">Submit a request</a></span> <span ng-hide = "UserDashCtrl.demo != $index">
+  <span  ng-repeat="request in car.requests track by $index"   style="color:white;"> {{request.parsed}}  &nbsp; &nbsp;</span>
+    </div>
+      <div class="apptText">  <span  ng-if="UserDashCtrl.userObject.service_requests.length ==0">  <a style="color: white;" ng-click ="UserDashCtrl.addRequest()">Submit a request</a></span>
+    </div>
+  </div>
+</div>
